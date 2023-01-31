@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 314ffdcb5b66ef944b096d00db4cb745, type: 3}
-  m_Name: SimpleSettings
+  m_Name: MediumSettings
   m_EditorClassIdentifier: 
   numberOfTrees: 25
   forestScale: 5

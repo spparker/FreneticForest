@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ForestSetup : MonoBehaviour
 {
@@ -19,6 +20,19 @@ public class ForestSetup : MonoBehaviour
             Instantiate(Tree_Prefab, spawn_pos, Quaternion.identity);
         }
 
-        Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, -max_pos - 5);
+        RebuildNavMesh();
+
+        //Plane Cut Position
+        //Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, -max_pos - 5);
+
+        //Overhead Position
+        Camera.main.transform.position = new Vector3(0, max_pos + 5, 0);
+        Camera.main.transform.rotation = Quaternion.Euler(90,0,0);
+    }
+
+    private void RebuildNavMesh()
+    {
+        var navSurface = GetComponent<NavMeshSurface>();
+        navSurface.BuildNavMesh();
     }
 }

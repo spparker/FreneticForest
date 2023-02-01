@@ -4,15 +4,7 @@ using UnityEngine;
 
 public class CritterManager : MonoBehaviour
 {
-
     private CritterCommandControl curSelected;
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -62,12 +54,17 @@ public class CritterManager : MonoBehaviour
         if(curSelected == null)
             return;
 
-        // Left Shift maintains a command queue
-        if(!Input.GetKey(KeyCode.LeftShift))
+        if(Input.GetKey(KeyCode.LeftControl))
+            curSelected.SetToPatrol(hitInfo.point);
+        else
         {
-            curSelected.ClearCommands();
-        }
+            // Left Shift maintains a command queue
+            if(!Input.GetKey(KeyCode.LeftShift))
+            {
+                curSelected.ClearCommands();
+            }
 
-        curSelected.QueueCommand(hitInfo.point);
+            curSelected.QueueMoveCommand(hitInfo.point);
+        }
     }
 }

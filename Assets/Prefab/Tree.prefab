@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7038558997519420013}
   - component: {fileID: 1003498717270623225}
   - component: {fileID: 8284773814055024454}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TreeSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}

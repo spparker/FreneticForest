@@ -9,7 +9,19 @@ public class ForestSetup : MonoBehaviour
     public GameObject Tree_Prefab;
     public GameObject Critter_Prefab;
 
-    private GameObject _homeTree; 
+    public GameObject HomeTree{ get; private set; }
+
+    public float ArenaSize => ForestSettings.forestScale * 5f;
+
+    public static ForestSetup Instance{ get; private set; }
+
+    void Awake()
+    {
+        if(Instance != null && Instance != this)
+            Destroy(this);
+        else
+            Instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -17,16 +29,13 @@ public class ForestSetup : MonoBehaviour
         transform.localScale = new Vector3(ForestSettings.forestScale,
                                          1f, ForestSettings.forestScale);
 
-        float max_pos = (ForestSettings.forestScale * 5f) - ForestSettings.edgeBufferSize;
-        _homeTree = Instantiate(Tree_Prefab, Vector3.zero, Quaternion.identity);
+        float max_pos = ArenaSize - ForestSettings.edgeBufferSize;
+        HomeTree = Instantiate(Tree_Prefab, Vector3.zero, Quaternion.identity);
 
         SpawnTrees(max_pos);
         RebuildNavMesh();
 
         SpawnCritters(max_pos);
-
-        PositionMainCamera(max_pos);
-        PositionMinimapCamera();
     }
 
     private void SpawnTrees(float max_pos)
@@ -60,28 +69,6 @@ public class ForestSetup : MonoBehaviour
     {
         var navSurface = GetComponent<NavMeshSurface>();
         navSurface.BuildNavMesh();
-    }
-
-    private void PositionMainCamera(float max_pos)
-    {
-        //Plane Cut Position
-        // Camera.main.transform.position = new Vector3(Camera.main.transform.position.x,
-        //                                  Camera.main.transform.position.y, -max_pos - 5);
-
-        //Overhead Position
-        //Camera.main.transform.position = new Vector3(0, max_pos + 5, 0);
-        //Camera.main.transform.rotation = Quaternion.Euler(90,0,0);
-
-        //Isometric Position
-        Camera.main.transform.position = new Vector3(0, max_pos, -max_pos - 5);
-        Camera.main.transform.LookAt(_homeTree.transform);
-
-    }
-
-    private void PositionMinimapCamera()
-    {
-        var minimapCam = GameObject.Find("Minimap Camera").GetComponent<Camera>();
-        minimapCam.orthographicSize = 5 * ForestSettings.forestScale;
     }
 
     public struct TreeNode

@@ -19,8 +19,8 @@ public class CameraControl : MonoBehaviour
     public float IsoBuffer => ForestSetup.Instance.ArenaSize * 0.6f;
     public float IsoCamHeight => ForestSetup.Instance.ArenaSize * 0.6f;
 
-    Transform mainCamPos;
-    Transform miniMapCamPos;
+    Transform mainCamTransform;
+    Transform miniMapCamTransform;
 
     void Awake()
     {
@@ -30,7 +30,7 @@ public class CameraControl : MonoBehaviour
 
     void Start()
     {
-        mainCamPos = Camera.main.transform;
+        mainCamTransform = Camera.main.transform;
         currentDir = directionCycle.First; // Start at South
         SetupMainCamera( ForestSetup.Instance.ForestSettings.forestScale * 5f);
         SetupMinimapCamera();
@@ -47,7 +47,7 @@ public class CameraControl : MonoBehaviour
 
     public void RotateLeft()
     {
-        miniMapCamPos.Rotate(Vector3.forward, 90);
+        miniMapCamTransform.Rotate(Vector3.forward, 90);
         if(currentDir.Next == null)
             currentDir = directionCycle.First;
         else
@@ -57,7 +57,7 @@ public class CameraControl : MonoBehaviour
 
     public void RotateRight()
     {
-        miniMapCamPos.Rotate(Vector3.forward, -90);
+        miniMapCamTransform.Rotate(Vector3.forward, -90);
         if(currentDir.Previous == null)
             currentDir = directionCycle.Last;
         else
@@ -83,34 +83,34 @@ public class CameraControl : MonoBehaviour
     {
         if(dir == CardinalDir.NORTH)
         {
-            mainCamPos.position = new Vector3(0, IsoCamHeight,
+            mainCamTransform.position = new Vector3(0, IsoCamHeight,
                                     ForestSetup.Instance.ArenaSize + IsoBuffer);
-            mainCamPos.LookAt(ForestSetup.Instance.HomeTree.transform);
+            mainCamTransform.LookAt(ForestSetup.Instance.HomeTree.transform);
         }
         else if(dir == CardinalDir.SOUTH)
         {
-            mainCamPos.position = new Vector3(0, IsoCamHeight,
+            mainCamTransform.position = new Vector3(0, IsoCamHeight,
                                     -ForestSetup.Instance.ArenaSize - IsoBuffer);
-            mainCamPos.LookAt(ForestSetup.Instance.HomeTree.transform);
+            mainCamTransform.LookAt(ForestSetup.Instance.HomeTree.transform);
         }
         else if(dir == CardinalDir.EAST)
         {
-            mainCamPos.position = new Vector3(ForestSetup.Instance.ArenaSize + IsoBuffer,
+            mainCamTransform.position = new Vector3(ForestSetup.Instance.ArenaSize + IsoBuffer,
                                                 IsoCamHeight, 0);
-            mainCamPos.LookAt(ForestSetup.Instance.HomeTree.transform);
+            mainCamTransform.LookAt(ForestSetup.Instance.HomeTree.transform);
         }
         else if(dir == CardinalDir.WEST)
         {
-            mainCamPos.position = new Vector3(-ForestSetup.Instance.ArenaSize - IsoBuffer,
+            mainCamTransform.position = new Vector3(-ForestSetup.Instance.ArenaSize - IsoBuffer,
                                                 IsoCamHeight, 0);
-            mainCamPos.LookAt(ForestSetup.Instance.HomeTree.transform);
+            mainCamTransform.LookAt(ForestSetup.Instance.HomeTree.transform);
         }
     }
 
     private void SetupMinimapCamera()
     {
         var minimap_cam = GameObject.Find("Minimap Camera");
-        miniMapCamPos = minimap_cam.transform; //Starts Facing South
+        miniMapCamTransform = minimap_cam.transform; //Starts Facing South
         minimap_cam.GetComponent<Camera>().orthographicSize = 5 * ForestSetup.Instance.ForestSettings.forestScale;
     }
 }

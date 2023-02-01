@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: SmallSettings
   m_EditorClassIdentifier: 
   numberOfTrees: 10
+  numberOfCritters: 3
   forestScale: 2
   edgeBufferSize: 2

@@ -30,6 +30,5 @@ public class RootsGrowth : MonoBehaviour
     private void StopGrowth()
     {
         treeObject.SignalStopGrowth();
-
     }
 }

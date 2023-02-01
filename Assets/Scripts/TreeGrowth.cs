@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TreeGrowth : MonoBehaviour
 {
-    public const float GROW_RATE = 0.2f;
+    public const float GROW_RATE = 0.05f;
     private float _currentAge;
     private float _currentSize;
     public bool CanGrow {get; private set;}

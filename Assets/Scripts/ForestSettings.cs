@@ -8,6 +8,9 @@ public class ForestSettings : ScriptableObject
     // Number of trees to start
     public int numberOfTrees;
 
+    // Number of assisting critter groups
+    public int numberOfCritters;
+
     // X,Z dimension x5
     public float forestScale; 
 

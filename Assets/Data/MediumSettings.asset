@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: MediumSettings
   m_EditorClassIdentifier: 
   numberOfTrees: 25
+  numberOfCritters: 6
   forestScale: 5
   edgeBufferSize: 2

@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class CritterCommandControl : MonoBehaviour
 {
-    private NavMeshAgent _agent; // TODO: add this at runtime after NavMeshBake?
+    private NavMeshAgent _agent;
 
     private Queue<CritterCommand> _commands = new Queue<CritterCommand>();
     private CritterCommand _currentCommand;

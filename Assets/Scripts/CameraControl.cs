@@ -17,7 +17,7 @@ public class CameraControl : MonoBehaviour
 
 
     public float IsoBuffer => ForestSetup.Instance.ArenaSize * 0.6f;
-    public float IsoCamHeight => ForestSetup.Instance.ArenaSize * 0.6f;
+    public float IsoCamHeight => ForestSetup.Instance.ArenaSize * 1f;
 
     Transform mainCamTransform;
     Transform miniMapCamTransform;

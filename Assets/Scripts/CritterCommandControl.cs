@@ -10,32 +10,24 @@ public class CritterCommandControl : MonoBehaviour
     private Queue<CritterCommand> _commands = new Queue<CritterCommand>();
     private CritterCommand _currentCommand;
 
+    public bool IsSelected;
 
     private void Start() => _agent = GetComponent<NavMeshAgent>();
 
     void Update()
     {
-        ListenForCommands();
         ProcessCommandQueue();
     }
 
-    private void ListenForCommands()
+    public void ClearCommands()
     {
-        if(Input.GetMouseButtonDown(0))
-        {
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if(Physics.Raycast(ray, out var hitInfo))
-            {
-                // Left Shift maintains a command queue
-                if(!Input.GetKey(KeyCode.LeftShift))
-                {
-                    _currentCommand = null;
-                    _commands.Clear();
-                }
+        _currentCommand = null;
+        _commands.Clear();
+    }
 
-                _commands.Enqueue(item: new CritterMoveCommand(hitInfo.point, _agent));
-            }
-        }
+    public void QueueCommand(Vector3 position)
+    {
+        _commands.Enqueue(item: new CritterMoveCommand(position, _agent));
     }
 
     private void ProcessCommandQueue()

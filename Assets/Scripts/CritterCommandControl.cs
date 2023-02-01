@@ -36,15 +36,14 @@ public class CritterCommandControl : MonoBehaviour
         _commands.Enqueue(item: new CritterMoveCommand(position, _agent));
     }
 
+    // Loop move commands between two positions
     public void SetToPatrol(Vector3 end_position)
     {
         ClearCommands();
-        //_currentCommand = new CritterPatrolCommand(end_position, _agent);
         _patrolMode = true;
         _patrolStartPosition = _agent.transform.position;
         _patrolEndPosition = end_position;
         SetNextPatrolDestination();
-        //QueueMoveCommand(_patrolEndPosition);
     }
 
     private void SetNextPatrolDestination()

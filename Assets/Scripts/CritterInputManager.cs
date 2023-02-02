@@ -4,12 +4,34 @@ using UnityEngine;
 
 public class CritterInputManager : MonoBehaviour
 {
+
     private CritterCommandControl curSelected;
+
 
     // Update is called once per frame
     void Update()
     {
+        ListenForKeys();
         ListenForClick();
+    }
+    
+    private void ListenForKeys()
+    {
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            HandleNewSelection(CritterManager.Instance.GetNextOfType(CritterManager.CritterType.CHOPCHOP));
+            CameraControl.Instance.LookAtPosition(curSelected.transform.position);
+        }
+        else if(Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            HandleNewSelection(CritterManager.Instance.GetNextOfType(CritterManager.CritterType.DIGGIE));
+            CameraControl.Instance.LookAtPosition(curSelected.transform.position);
+        }
+        else if(Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            HandleNewSelection(CritterManager.Instance.GetNextOfType(CritterManager.CritterType.PATHER));
+            CameraControl.Instance.LookAtPosition(curSelected.transform.position);
+        }
     }
 
     private void ListenForClick()
@@ -40,11 +62,9 @@ public class CritterInputManager : MonoBehaviour
         }
     }
 
-    private void HandleNewSelection(CritterCommandControl ccc)
+    public void HandleNewSelection(CritterCommandControl ccc)
     {
-        if(curSelected != null)
-            curSelected.SetSelected(false);
-
+        curSelected?.SetSelected(false);
         ccc.SetSelected(true);
         curSelected = ccc;
     }

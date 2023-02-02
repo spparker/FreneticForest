@@ -8,6 +8,9 @@ public class CritterTypeData : ScriptableObject
     // What we're calling this
     public string critterName;
 
+    // Need Definitional Type
+    public CritterManager.CritterType type;
+
     // Is this the enemy?
     public bool enemy;
 

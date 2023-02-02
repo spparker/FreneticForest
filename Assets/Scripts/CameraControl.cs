@@ -12,6 +12,8 @@ public class CameraControl : MonoBehaviour
         WEST // -X
     }
 
+    public static CameraControl Instance{ get; private set; }
+
     LinkedList<CardinalDir> directionCycle = new LinkedList<CardinalDir>();
     LinkedListNode<CardinalDir> currentDir; // Direction the camera is placed (eg. SOUTH would be looking north)
 
@@ -40,6 +42,11 @@ public class CameraControl : MonoBehaviour
 
     void Awake()
     {
+        if(Instance != null && Instance != this)
+            Destroy(this);
+        else
+            Instance = this;
+        
         CardinalDir[] dirs = {CardinalDir.SOUTH, CardinalDir.EAST, CardinalDir.NORTH, CardinalDir.WEST};
         directionCycle = new LinkedList<CardinalDir>(dirs);
     }
@@ -83,6 +90,11 @@ public class CameraControl : MonoBehaviour
         // Effects
         if(Input.GetKeyDown(KeyCode.Space))
             ForestManager.Instance.ToggleSurface();
+    }
+
+    public void LookAtPosition(Vector3 pos)
+    {
+        _curLookPos = pos;
     }
 
     private void UpdateCameraPosition(CardinalDir dir)

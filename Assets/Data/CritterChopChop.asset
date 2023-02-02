@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: CritterChopChop
   m_EditorClassIdentifier: 
   critterName: ChopChop
+  type: 2
   enemy: 0
   numberOfIndividuals: 5
   moveSpeed: 5

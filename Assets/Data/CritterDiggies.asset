@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: CritterDiggies
   m_EditorClassIdentifier: 
   critterName: Diggies
+  type: 1
   enemy: 0
   numberOfIndividuals: 9
   moveSpeed: 7

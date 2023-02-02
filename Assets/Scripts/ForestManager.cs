@@ -8,7 +8,6 @@ public class ForestManager : MonoBehaviour
     public ForestSettings ForestSettings;
 
     public GameObject Tree_Prefab;
-    public GameObject Critter_Prefab;
 
     public GameObject HomeTree{ get; private set; }
     private TreeNetwork _homeNetwork;
@@ -167,24 +166,9 @@ public class ForestManager : MonoBehaviour
 
     private void SpawnCritters()
     {
-        SpawnCritterFromData(ForestSettings.critters.patherData, ForestSettings.numberOfPathers);
-        SpawnCritterFromData(ForestSettings.critters.diggieData, ForestSettings.numberOfDiggies);
-        SpawnCritterFromData(ForestSettings.critters.chopData, ForestSettings.numberOfChopChops);
-    }
-
-    private void SpawnCritterFromData(CritterTypeData data, int num)
-    {
-        var Holder = new GameObject(data.critterName).transform;
-
-        for(int i=0;i<num;i++)
-        {
-            Vector3 spawn_pos = new Vector3(Random.Range(-max_pos,max_pos),
-                                        0, Random.Range(-max_pos, max_pos));
-            var new_pather = Instantiate(Critter_Prefab, spawn_pos, Quaternion.identity);
-            new_pather.GetComponent<CritterPod>().CritterData = data;
-            new_pather.transform.name = data.critterName + i;
-            new_pather.transform.SetParent(Holder);
-        }
+        CritterManager.Instance.SpawnCritterFromData(ForestSettings.critters.patherData, ForestSettings.numberOfPathers, max_pos);
+        CritterManager.Instance.SpawnCritterFromData(ForestSettings.critters.diggieData, ForestSettings.numberOfDiggies, max_pos);
+        CritterManager.Instance.SpawnCritterFromData(ForestSettings.critters.chopData, ForestSettings.numberOfChopChops, max_pos);
     }
 
     private void RebuildNavMesh()

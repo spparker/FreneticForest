@@ -59,7 +59,7 @@ public class TreeNetwork : MonoBehaviour
 
     private void RemoveEdgeFromNode(NetworkNode nn)
     {
-        Debug.Log("Removing Edge from node " +  nn.id);
+        //Debug.Log("Removing Edge from node " +  nn.id);
         nn.numEdges--;
 
         if(nn.numEdges <= 0 && nn.id != 0)
@@ -83,8 +83,7 @@ public class TreeNetwork : MonoBehaviour
             position = root.transform.position
         };
 
-        Debug.Log("Created node: " + new_node.id);
-
+        //Debug.Log("Created node: " + new_node.id);
         _nodes.Add(new_node);
 
         return new_node.id;

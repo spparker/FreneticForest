@@ -591,6 +591,7 @@ GameObject:
   - component: {fileID: 1843316269}
   - component: {fileID: 1843316268}
   - component: {fileID: 1843316270}
+  - component: {fileID: 1843316271}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -637,6 +638,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1a990511cb79cd4cab0613597a1e582, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1843316271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1843316267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2029163c4a1a994d81be7bbc186f0d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Critter_Prefab: {fileID: 7344961388483820063, guid: 1e29ed1db69d8064296048080bc3ad80,
+    type: 3}
 --- !u!1 &1855341763
 GameObject:
   m_ObjectHideFlags: 0
@@ -1038,8 +1053,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ForestSettings: {fileID: 11400000, guid: b453b77ff5f866441a6aec4848e2eb0b, type: 2}
   Tree_Prefab: {fileID: 6892354846085866887, guid: d7843eb1c884f2348baa5cb35f5ef6af,
-    type: 3}
-  Critter_Prefab: {fileID: 7344961388483820063, guid: 1e29ed1db69d8064296048080bc3ad80,
     type: 3}
 --- !u!114 &2075853618
 MonoBehaviour:

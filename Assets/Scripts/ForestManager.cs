@@ -21,6 +21,12 @@ public class ForestManager : MonoBehaviour
     private float _timeSinceRebuild = 0;
     private float max_pos;
 
+    public const float TRANSITION_RATE = 0.5f;
+    public const float SLOW_THRESHOLD = 0.95f; // Lowerbound of slow transition
+    private float _alpha = 1;
+    private bool _inTransition;
+    private int _transDir = 1;
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -52,11 +58,38 @@ public class ForestManager : MonoBehaviour
 
         if(_timeSinceRebuild >= SECONDS_BETWEEN_REBUILD)
             RebuildNavMesh();
+
+        if(_inTransition)
+            UpdateSurfaceOpacity();
     }
 
     public void ToggleSurface()
     {
-        _meshRenderer.enabled = !_meshRenderer.enabled;
+        //_meshRenderer.enabled = !_meshRenderer.enabled;
+        _transDir = -_transDir;
+        _inTransition = true;
+    }
+
+    private void UpdateSurfaceOpacity()
+    {
+        var delta = _transDir * TRANSITION_RATE * Time.deltaTime;
+        if(_alpha > SLOW_THRESHOLD)
+            delta *= 0.1f;
+
+        _alpha += delta;
+        if(_alpha > 1)
+        {
+            _alpha = 1;
+            _inTransition = false;
+        }
+        else if(_alpha < 0)
+        {
+            _alpha = 0;
+            _inTransition = false;
+        }
+
+        _meshRenderer.material.color = new Color(_meshRenderer.material.color.r,
+         _meshRenderer.material.color.g, _meshRenderer.material.color.b, _alpha);
     }
 
     private void SpawnTrees()

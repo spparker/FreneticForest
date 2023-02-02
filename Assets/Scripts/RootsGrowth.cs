@@ -5,10 +5,18 @@ using UnityEngine;
 public class RootsGrowth : MonoBehaviour
 {
     TreeGrowth treeObject;
+    Material rootsMaterial;
 
     void Awake()
     {
         treeObject = GetComponentInParent<TreeGrowth>();
+    }
+
+    void Start()
+    {
+        rootsMaterial = GetComponent<Renderer>().material;
+        
+        rootsMaterial.SetFloat(name="_GroundHeight", 0);
     }
 
     // Stop growth when colliding with another trees roots

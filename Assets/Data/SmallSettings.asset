@@ -16,3 +16,4 @@ MonoBehaviour:
   numberOfCritters: 3
   forestScale: 2
   edgeBufferSize: 2
+  minutesPerDay: 0.5

@@ -17,4 +17,6 @@ public class ForestSettings : ScriptableObject
     // Distance away from edge of the forest
     public float edgeBufferSize;
 
+    // Minutes per day
+    public float minutesPerDay;
 }

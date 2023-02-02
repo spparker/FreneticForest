@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 314ffdcb5b66ef944b096d00db4cb745, type: 3}
-  m_Name: LargeSettings
+  m_Name: OneBigTreeSettings
   m_EditorClassIdentifier: 
-  numberOfTrees: 100
-  treeGrowthRate: 0.05
-  numberOfCritters: 9
-  forestScale: 10
-  edgeBufferSize: 4
-  minutesPerDay: 2
+  numberOfTrees: 1
+  treeGrowthRate: 0.5
+  numberOfCritters: 1
+  forestScale: 3
+  edgeBufferSize: 2
+  minutesPerDay: 0.1

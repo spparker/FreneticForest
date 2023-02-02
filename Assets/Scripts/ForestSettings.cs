@@ -8,6 +8,9 @@ public class ForestSettings : ScriptableObject
     // Number of trees to start
     public int numberOfTrees;
 
+    // How fast trees grow (relative to real time)
+    public float treeGrowthRate;
+
     // Number of assisting critter groups
     public int numberOfCritters;
 

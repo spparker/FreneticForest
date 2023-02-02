@@ -1036,7 +1036,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d453d04d19cb60648abb975b680c75b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ForestSettings: {fileID: 11400000, guid: e2d1470a691e7014892c2772774f80af, type: 2}
+  ForestSettings: {fileID: 11400000, guid: b453b77ff5f866441a6aec4848e2eb0b, type: 2}
   Tree_Prefab: {fileID: 6892354846085866887, guid: d7843eb1c884f2348baa5cb35f5ef6af,
     type: 3}
   Critter_Prefab: {fileID: 7344961388483820063, guid: 1e29ed1db69d8064296048080bc3ad80,

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TreeGrowth : MonoBehaviour
 {
-    public const float GROW_RATE = 0.05f;
+    private float _growRate;
     private float _currentAge;
     private float _currentSize;
     public bool CanGrow {get; private set;}
@@ -14,6 +14,7 @@ public class TreeGrowth : MonoBehaviour
         _currentAge = 0f;
         _currentSize = 1f;
         CanGrow = true;
+        _growRate = ForestSetup.Instance.ForestSettings.treeGrowthRate;
     }
 
     // Update is called once per frame
@@ -23,7 +24,7 @@ public class TreeGrowth : MonoBehaviour
         if(!CanGrow)
             return;
 
-        _currentSize += Time.deltaTime * GROW_RATE;
+        _currentSize += Time.deltaTime * _growRate;
         transform.localScale = new Vector3(_currentSize, _currentSize, _currentSize);
     }
 

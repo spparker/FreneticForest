@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80b3991dabb0e7d48bb0d7bb3d3dbd70, type: 3}
-  m_Name: CritterBasic
+  m_Name: CritterDiggies
   m_EditorClassIdentifier: 
-  critterName: Basic
+  critterName: Diggies
   enemy: 0
-  numberOfIndividuals: 10
-  moveSpeed: 3.5
-  damageOutput: 1
-  CritterSprite_Prefab: {fileID: 2331022443658609414, guid: c5b54a7f688229a4cb2494a16355ef79,
+  numberOfIndividuals: 9
+  moveSpeed: 7
+  damageOutput: 2
+  CritterSprite_Prefab: {fileID: 2331022443658609414, guid: c23a70dbf4c57ff4e9450d1b00948243,
     type: 3}

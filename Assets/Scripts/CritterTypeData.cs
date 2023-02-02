@@ -5,6 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/CritterTypeData", order = 2)]
 public class CritterTypeData : ScriptableObject
 {
+    // What we're calling this
+    public string critterName;
+
     // Is this the enemy?
     public bool enemy;
 
@@ -15,5 +18,8 @@ public class CritterTypeData : ScriptableObject
     public float moveSpeed;
 
     // Number of Individuals removed each combat cycle
-    public int damageOutput; 
+    public int damageOutput;
+
+    // Image of the critter
+    public GameObject CritterSprite_Prefab;
 }

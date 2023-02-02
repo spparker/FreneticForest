@@ -21,8 +21,8 @@ public class CameraControl : MonoBehaviour
     private Vector3 _objToCamWest;
 
 
-    public float IsoBuffer => ForestSetup.Instance.ArenaSize * 0.6f;
-    public float IsoCamHeight => ForestSetup.Instance.ArenaSize * 1f;
+    public float IsoBuffer => ForestManager.Instance.ArenaSize * 0.6f;
+    public float IsoCamHeight => ForestManager.Instance.ArenaSize * 1f;
 
     Transform mainCamTransform;
     Transform miniMapCamTransform;
@@ -47,12 +47,12 @@ public class CameraControl : MonoBehaviour
     void Start()
     {
         mainCamTransform = Camera.main.transform;
-        _curLookPos = new Vector3(ForestSetup.Instance.HomeTree.transform.position.x, 
-                                    ForestSetup.Instance.HomeTree.transform.position.y,
-                                    ForestSetup.Instance.HomeTree.transform.position.z);
+        _curLookPos = new Vector3(ForestManager.Instance.HomeTree.transform.position.x, 
+                                    ForestManager.Instance.HomeTree.transform.position.y,
+                                    ForestManager.Instance.HomeTree.transform.position.z);
 
         currentDir = directionCycle.First; // Start at South
-        _arenaMax = ForestSetup.Instance.ArenaSize;
+        _arenaMax = ForestManager.Instance.ArenaSize;
         SetupMainCamera( _arenaMax );
         SetupMinimapCamera();
     }
@@ -180,33 +180,33 @@ public class CameraControl : MonoBehaviour
         {
             mainCamTransform.position = new Vector3(0, IsoCamHeight,
                                     _arenaMax + IsoBuffer);
-            mainCamTransform.LookAt(ForestSetup.Instance.HomeTree.transform);
+            mainCamTransform.LookAt(ForestManager.Instance.HomeTree.transform);
             if(_objToCamNorth == Vector3.zero)
-                _objToCamNorth = ForestSetup.Instance.HomeTree.transform.position + mainCamTransform.position;
+                _objToCamNorth = ForestManager.Instance.HomeTree.transform.position + mainCamTransform.position;
         }
         else if(dir == CardinalDir.SOUTH)
         {
             mainCamTransform.position = new Vector3(0, IsoCamHeight,
                                     -_arenaMax - IsoBuffer);
-            mainCamTransform.LookAt(ForestSetup.Instance.HomeTree.transform);
+            mainCamTransform.LookAt(ForestManager.Instance.HomeTree.transform);
             if(_objToCamSouth == Vector3.zero)
-                _objToCamSouth = ForestSetup.Instance.HomeTree.transform.position + mainCamTransform.position;
+                _objToCamSouth = ForestManager.Instance.HomeTree.transform.position + mainCamTransform.position;
         }
         else if(dir == CardinalDir.EAST)
         {
             mainCamTransform.position = new Vector3(_arenaMax + IsoBuffer,
                                                 IsoCamHeight, 0);
-            mainCamTransform.LookAt(ForestSetup.Instance.HomeTree.transform);
+            mainCamTransform.LookAt(ForestManager.Instance.HomeTree.transform);
             if(_objToCamEast == Vector3.zero)
-                _objToCamEast = ForestSetup.Instance.HomeTree.transform.position + mainCamTransform.position;
+                _objToCamEast = ForestManager.Instance.HomeTree.transform.position + mainCamTransform.position;
         }
         else if(dir == CardinalDir.WEST)
         {
             mainCamTransform.position = new Vector3(-_arenaMax - IsoBuffer,
                                                 IsoCamHeight, 0);
-            mainCamTransform.LookAt(ForestSetup.Instance.HomeTree.transform);
+            mainCamTransform.LookAt(ForestManager.Instance.HomeTree.transform);
             if(_objToCamWest == Vector3.zero)
-                _objToCamWest = ForestSetup.Instance.HomeTree.transform.position + mainCamTransform.position;
+                _objToCamWest = ForestManager.Instance.HomeTree.transform.position + mainCamTransform.position;
         }
     }
 
@@ -214,6 +214,6 @@ public class CameraControl : MonoBehaviour
     {
         var minimap_cam = GameObject.Find("Minimap Camera");
         miniMapCamTransform = minimap_cam.transform; //Starts Facing South
-        minimap_cam.GetComponent<Camera>().orthographicSize = 5 * ForestSetup.Instance.ForestSettings.forestScale;
+        minimap_cam.GetComponent<Camera>().orthographicSize = 5 * ForestManager.Instance.ForestSettings.forestScale;
     }
 }

@@ -14,7 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numberOfTrees: 10
   treeGrowthRate: 0.05
-  numberOfCritters: 3
+  critters: {fileID: 11400000, guid: 4bb4b6ab4edb8d94084347250f4ea717, type: 2}
+  numberOfPathers: 2
+  numberOfDiggies: 1
+  numberOfChopChops: 1
   forestScale: 2
   edgeBufferSize: 2
   minutesPerDay: 0.5

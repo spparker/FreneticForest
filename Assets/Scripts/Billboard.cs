@@ -5,6 +5,9 @@ public class Billboard : MonoBehaviour {
 
     public const float MAX_WALK_ROTATION = 12f;
     public const float TILT_WALK_RATE = 100f;
+
+    public bool LeftFacing;
+
     private float _curTilt;
     private int _tiltingDir = 1;
     private Transform _mainCamTransform;
@@ -38,6 +41,9 @@ public class Billboard : MonoBehaviour {
     {
         Vector3 flat_cam = Vector3.ProjectOnPlane(_mainCamTransform.forward, Vector3.up).normalized;
         var angle = Vector3.SignedAngle(flat_cam, _agent.velocity.normalized, Vector3.up);
+
+        if(LeftFacing)
+            angle = -angle;
 
         if(angle > 0)
             _sr.flipX = false;

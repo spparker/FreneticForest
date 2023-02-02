@@ -14,7 +14,7 @@ public class TreeGrowth : MonoBehaviour
         _currentAge = 0f;
         _currentSize = 1f;
         CanGrow = true;
-        _growRate = ForestSetup.Instance.ForestSettings.treeGrowthRate;
+        _growRate = ForestManager.Instance.ForestSettings.treeGrowthRate;
     }
 
     // Update is called once per frame

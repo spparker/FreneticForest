@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class ForestSetup : MonoBehaviour
+public class ForestManager : MonoBehaviour
 {
     public const float SECONDS_BETWEEN_REBUILD = 20f;
     public ForestSettings ForestSettings;
+
     public GameObject Tree_Prefab;
     public GameObject Critter_Prefab;
 
@@ -14,11 +13,12 @@ public class ForestSetup : MonoBehaviour
 
     public float ArenaSize => ForestSettings.forestScale * 5f;
 
-    public static ForestSetup Instance{ get; private set; }
+    public static ForestManager Instance{ get; private set; }
 
     private NavMeshSurface _navSurface;
 
     private float _timeSinceRebuild = 0;
+    private float max_pos;
 
     void Awake()
     {
@@ -35,13 +35,13 @@ public class ForestSetup : MonoBehaviour
         transform.localScale = new Vector3(ForestSettings.forestScale,
                                          1f, ForestSettings.forestScale);
 
-        float max_pos = ArenaSize - ForestSettings.edgeBufferSize;
+        max_pos = ArenaSize - ForestSettings.edgeBufferSize;
         HomeTree = Instantiate(Tree_Prefab, Vector3.zero, Quaternion.identity);
 
-        SpawnTrees(max_pos);
+        SpawnTrees();
         RebuildNavMesh();
 
-        SpawnCritters(max_pos);
+        SpawnCritters();
     }
 
     void Update()
@@ -52,7 +52,7 @@ public class ForestSetup : MonoBehaviour
             RebuildNavMesh();
     }
 
-    private void SpawnTrees(float max_pos)
+    private void SpawnTrees()
     {
         var TreeHolder = new GameObject("Trees").transform;
 
@@ -65,16 +65,24 @@ public class ForestSetup : MonoBehaviour
         }
     }
 
-    private void SpawnCritters(float max_pos)
+    private void SpawnCritters()
     {
-        var CritterHolder = new GameObject("Critters").transform;
+        SpawnCritterFromData(ForestSettings.critters.patherData, ForestSettings.numberOfPathers);
+        SpawnCritterFromData(ForestSettings.critters.diggieData, ForestSettings.numberOfDiggies);
+        SpawnCritterFromData(ForestSettings.critters.chopData, ForestSettings.numberOfChopChops);
+    }
 
-        for(int i=0;i<ForestSettings.numberOfCritters;i++)
+    private void SpawnCritterFromData(CritterTypeData data, int num)
+    {
+        var Holder = new GameObject(data.critterName).transform;
+
+        for(int i=0;i<num;i++)
         {
             Vector3 spawn_pos = new Vector3(Random.Range(-max_pos,max_pos),
                                         0, Random.Range(-max_pos, max_pos));
-            var new_tree = Instantiate(Critter_Prefab, spawn_pos, Quaternion.identity);
-            new_tree.transform.SetParent(CritterHolder);
+            var new_pather = Instantiate(Critter_Prefab, spawn_pos, Quaternion.identity);
+            new_pather.GetComponent<CritterPod>().CritterData = data;
+            new_pather.transform.SetParent(Holder);
         }
     }
 

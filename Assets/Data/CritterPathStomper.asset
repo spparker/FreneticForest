@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80b3991dabb0e7d48bb0d7bb3d3dbd70, type: 3}
-  m_Name: CritterBasic
+  m_Name: CritterPathStomper
   m_EditorClassIdentifier: 
-  critterName: Basic
+  critterName: Stompies
   enemy: 0
-  numberOfIndividuals: 10
-  moveSpeed: 3.5
-  damageOutput: 1
-  CritterSprite_Prefab: {fileID: 2331022443658609414, guid: c5b54a7f688229a4cb2494a16355ef79,
+  numberOfIndividuals: 12
+  moveSpeed: 3
+  damageOutput: 0
+  CritterSprite_Prefab: {fileID: 2331022443658609414, guid: f40232ce0ee701847b0c156f40239b3c,
     type: 3}

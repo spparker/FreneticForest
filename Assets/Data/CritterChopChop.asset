@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80b3991dabb0e7d48bb0d7bb3d3dbd70, type: 3}
-  m_Name: CritterBasic
+  m_Name: CritterChopChop
   m_EditorClassIdentifier: 
-  critterName: Basic
+  critterName: ChopChop
   enemy: 0
-  numberOfIndividuals: 10
-  moveSpeed: 3.5
-  damageOutput: 1
-  CritterSprite_Prefab: {fileID: 2331022443658609414, guid: c5b54a7f688229a4cb2494a16355ef79,
+  numberOfIndividuals: 5
+  moveSpeed: 5
+  damageOutput: 3
+  CritterSprite_Prefab: {fileID: 2331022443658609414, guid: 38393c099a94b564296de55e04803360,
     type: 3}

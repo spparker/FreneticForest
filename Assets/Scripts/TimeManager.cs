@@ -15,7 +15,7 @@ public class TimeManager : MonoBehaviour
     void Start()
     {   
         //360 degrees / (60s/m * mpd) = rotation per second
-        _rotationPerSecond = 6f / ForestSetup.Instance.ForestSettings.minutesPerDay;
+        _rotationPerSecond = 6f / ForestManager.Instance.ForestSettings.minutesPerDay;
     }
 
     void Update()

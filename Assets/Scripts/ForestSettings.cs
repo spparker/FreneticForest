@@ -12,7 +12,11 @@ public class ForestSettings : ScriptableObject
     public float treeGrowthRate;
 
     // Number of assisting critter groups
-    public int numberOfCritters;
+    public CritterSettings critters;
+    
+    public int numberOfPathers;
+    public int numberOfDiggies;
+    public int numberOfChopChops;
 
     // X,Z dimension x5
     public float forestScale; 

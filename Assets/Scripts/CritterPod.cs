@@ -5,8 +5,9 @@ using UnityEngine.AI;
 
 public class CritterPod : MonoBehaviour
 {
-    public const float POD_RADIUS_PER = 0.2f;
-    public const float TO_CAPSULE_RADIUS = 2f;
+    public const float BASE_RADIUS_SIZE = 0.5f;
+    public const float POD_RADIUS_PER = 0.15f;
+    public const float TO_CAPSULE_RADIUS = 1.5f;
     
     public CritterTypeData CritterData;
     List<GameObject> MyCritter_List = new List<GameObject>();
@@ -26,7 +27,7 @@ public class CritterPod : MonoBehaviour
 
         for(int i=0;i<CritterData.numberOfIndividuals;i++)
         {
-            var offset = Random.insideUnitCircle * POD_RADIUS_PER * CritterData.numberOfIndividuals;
+            var offset = Random.insideUnitCircle * (BASE_RADIUS_SIZE + (POD_RADIUS_PER * CritterData.numberOfIndividuals));
             var spawn_pos = new Vector3(transform.position.x + offset.x,
                                         -CritterData.CritterSprite_Prefab.transform.position.y,
                                         transform.position.z + offset.y);
@@ -42,7 +43,7 @@ public class CritterPod : MonoBehaviour
 
     private void ScaleClickWithPodSize()
     {
-        _coll.radius = POD_RADIUS_PER * MyCritter_List.Count * TO_CAPSULE_RADIUS;
+        _coll.radius = (BASE_RADIUS_SIZE + (POD_RADIUS_PER * MyCritter_List.Count)) * TO_CAPSULE_RADIUS;
         _agent.radius = _coll.radius;
     }
 }

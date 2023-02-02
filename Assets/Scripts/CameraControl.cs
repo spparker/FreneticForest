@@ -26,13 +26,17 @@ public class CameraControl : MonoBehaviour
 
     Transform mainCamTransform;
     Transform miniMapCamTransform;
+    private float _arenaMax;
 
 
-    public const float ZOOM_RATE = 0.05f;
+    public const float ZOOM_RATE = 8f;
     public const float MIN_ZOOM_DIST = 0.1f;
-    //private float _maxZoomDistance; // Find from initial setup
-    private Vector3 _curLookPos; // Current spot on map that is targeted
     private float _curZoom = 1;
+
+    public const float PAN_RATE = 40f;
+    private Vector3 _curLookPos; // Current spot on map that is targeted
+
+
 
     void Awake()
     {
@@ -48,10 +52,9 @@ public class CameraControl : MonoBehaviour
                                     ForestSetup.Instance.HomeTree.transform.position.z);
 
         currentDir = directionCycle.First; // Start at South
-        SetupMainCamera( ForestSetup.Instance.ForestSettings.forestScale * 5f);
+        _arenaMax = ForestSetup.Instance.ArenaSize;
+        SetupMainCamera( _arenaMax );
         SetupMinimapCamera();
-
-        //_maxZoomDistance = Vector3.Magnitude(_curLookPos - mainCamTransform.position);
     }
 
     void Update()
@@ -62,22 +65,18 @@ public class CameraControl : MonoBehaviour
         // Map Rotation
         if(Input.GetKeyDown(KeyCode.Q))
             RotateLeft();
-
         if(Input.GetKeyDown(KeyCode.E))
             RotateRight();
 
         // Map Panning
-        /*if(Input.GetKeyDown(KeyCode.W))
+        if(Input.GetKey(KeyCode.W))
             PanForward();
-
-        if(Input.GetKeyDown(KeyCode.S))
-            PanBackwards();
-
-        if(Input.GetKeyDown(KeyCode.A))
+        if(Input.GetKey(KeyCode.S))
+            PanBackward();
+        if(Input.GetKey(KeyCode.A))
             PanLeft();
-
-        if(Input.GetKeyDown(KeyCode.D))
-            PanRight();*/
+        if(Input.GetKey(KeyCode.D))
+            PanRight();
 
         UpdateCameraPosition(currentDir.Value);
     }
@@ -108,8 +107,35 @@ public class CameraControl : MonoBehaviour
 
     private void CheckForZoom()
     {
-        _curZoom = Mathf.Clamp(_curZoom - Input.mouseScrollDelta.y * ZOOM_RATE
+        _curZoom = Mathf.Clamp(_curZoom - Input.mouseScrollDelta.y * ZOOM_RATE * Time.deltaTime
                                 , MIN_ZOOM_DIST, 1.0f);
+    }
+
+    private void PanForward()
+    {
+        PanCamera(Vector3.ProjectOnPlane(mainCamTransform.forward, Vector3.up) * PAN_RATE * Time.deltaTime);
+    }
+
+    private void PanBackward()
+    {
+         PanCamera(-Vector3.ProjectOnPlane(mainCamTransform.forward, Vector3.up) * PAN_RATE * Time.deltaTime);
+    }
+    private void PanLeft()
+    {
+        PanCamera(-Vector3.ProjectOnPlane(mainCamTransform.right, Vector3.up) * PAN_RATE * Time.deltaTime);
+    }
+    private void PanRight()
+    {
+        PanCamera(Vector3.ProjectOnPlane(mainCamTransform.right, Vector3.up) * PAN_RATE * Time.deltaTime);
+    }
+
+    // Keep Movement inside arena, ensure no vertical component
+    private void PanCamera(Vector3 delta)
+    {
+        Vector3 next_position = _curLookPos + delta;
+        float x = Mathf.Clamp(next_position.x, -_arenaMax, _arenaMax);
+        float z = Mathf.Clamp(next_position.z, -_arenaMax, _arenaMax);
+        _curLookPos = new Vector3(x, 0, z);
     }
 
     private void RotateLeft()
@@ -153,7 +179,7 @@ public class CameraControl : MonoBehaviour
         if(dir == CardinalDir.NORTH)
         {
             mainCamTransform.position = new Vector3(0, IsoCamHeight,
-                                    ForestSetup.Instance.ArenaSize + IsoBuffer);
+                                    _arenaMax + IsoBuffer);
             mainCamTransform.LookAt(ForestSetup.Instance.HomeTree.transform);
             if(_objToCamNorth == Vector3.zero)
                 _objToCamNorth = ForestSetup.Instance.HomeTree.transform.position + mainCamTransform.position;
@@ -161,14 +187,14 @@ public class CameraControl : MonoBehaviour
         else if(dir == CardinalDir.SOUTH)
         {
             mainCamTransform.position = new Vector3(0, IsoCamHeight,
-                                    -ForestSetup.Instance.ArenaSize - IsoBuffer);
+                                    -_arenaMax - IsoBuffer);
             mainCamTransform.LookAt(ForestSetup.Instance.HomeTree.transform);
             if(_objToCamSouth == Vector3.zero)
                 _objToCamSouth = ForestSetup.Instance.HomeTree.transform.position + mainCamTransform.position;
         }
         else if(dir == CardinalDir.EAST)
         {
-            mainCamTransform.position = new Vector3(ForestSetup.Instance.ArenaSize + IsoBuffer,
+            mainCamTransform.position = new Vector3(_arenaMax + IsoBuffer,
                                                 IsoCamHeight, 0);
             mainCamTransform.LookAt(ForestSetup.Instance.HomeTree.transform);
             if(_objToCamEast == Vector3.zero)
@@ -176,7 +202,7 @@ public class CameraControl : MonoBehaviour
         }
         else if(dir == CardinalDir.WEST)
         {
-            mainCamTransform.position = new Vector3(-ForestSetup.Instance.ArenaSize - IsoBuffer,
+            mainCamTransform.position = new Vector3(-_arenaMax - IsoBuffer,
                                                 IsoCamHeight, 0);
             mainCamTransform.LookAt(ForestSetup.Instance.HomeTree.transform);
             if(_objToCamWest == Vector3.zero)

@@ -23,7 +23,6 @@ public class CritterPod : MonoBehaviour
 
     void Start()
     {   
-
         _agent.speed = CritterData.moveSpeed;
 
         for(int i=0;i<CritterData.numberOfIndividuals;i++)
@@ -40,6 +39,7 @@ public class CritterPod : MonoBehaviour
 
     private void ScaleClickWithPodSize()
     {
-        _coll.radius = POD_RADIUS_PER * MyCritter_List.Count * TO_CAPSULE_RADIUS;
+        _coll.radius = POD_RADIUS_PER * MyCritter_List.Count * TO_CAPSULE_RADIUS;;
+        _agent.radius = _coll.radius;
     }
 }

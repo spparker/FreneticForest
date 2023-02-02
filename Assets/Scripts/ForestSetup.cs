@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class ForestSetup : MonoBehaviour
 {
+    public const float SECONDS_BETWEEN_REBUILD = 20f;
     public ForestSettings ForestSettings;
     public GameObject Tree_Prefab;
     public GameObject Critter_Prefab;
@@ -14,6 +15,10 @@ public class ForestSetup : MonoBehaviour
     public float ArenaSize => ForestSettings.forestScale * 5f;
 
     public static ForestSetup Instance{ get; private set; }
+
+    private NavMeshSurface _navSurface;
+
+    private float _timeSinceRebuild = 0;
 
     void Awake()
     {
@@ -26,6 +31,7 @@ public class ForestSetup : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _navSurface = GetComponent<NavMeshSurface>();
         transform.localScale = new Vector3(ForestSettings.forestScale,
                                          1f, ForestSettings.forestScale);
 
@@ -36,6 +42,14 @@ public class ForestSetup : MonoBehaviour
         RebuildNavMesh();
 
         SpawnCritters(max_pos);
+    }
+
+    void Update()
+    {
+        _timeSinceRebuild += Time.deltaTime;
+
+        if(_timeSinceRebuild >= SECONDS_BETWEEN_REBUILD)
+            RebuildNavMesh();
     }
 
     private void SpawnTrees(float max_pos)
@@ -62,13 +76,12 @@ public class ForestSetup : MonoBehaviour
             var new_tree = Instantiate(Critter_Prefab, spawn_pos, Quaternion.identity);
             new_tree.transform.SetParent(CritterHolder);
         }
-
     }
 
     private void RebuildNavMesh()
     {
-        var navSurface = GetComponent<NavMeshSurface>();
-        navSurface.BuildNavMesh();
+        _navSurface.BuildNavMesh();
+        _timeSinceRebuild = 0;
     }
 
     public struct TreeNode

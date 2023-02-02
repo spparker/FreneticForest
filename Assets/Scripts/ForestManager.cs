@@ -160,6 +160,7 @@ public class ForestManager : MonoBehaviour
                                         0, Random.Range(-max_pos, max_pos));
             var new_tree = Instantiate(Tree_Prefab, spawn_pos, Quaternion.identity);
             new_tree.transform.SetParent(TreeHolder);
+            new_tree.transform.name = "Tree" + i;
             _trees.Add(new_tree);
         }
     }
@@ -181,6 +182,7 @@ public class ForestManager : MonoBehaviour
                                         0, Random.Range(-max_pos, max_pos));
             var new_pather = Instantiate(Critter_Prefab, spawn_pos, Quaternion.identity);
             new_pather.GetComponent<CritterPod>().CritterData = data;
+            new_pather.transform.name = data.critterName + i;
             new_pather.transform.SetParent(Holder);
         }
     }

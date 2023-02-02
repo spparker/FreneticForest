@@ -41,6 +41,17 @@ public class CritterPod : MonoBehaviour
         ScaleClickWithPodSize();
     }
 
+    public void SetSelectedShader(bool isSelected)
+    {
+        int set_val = isSelected? 1: 0;
+        //TODO: Share a material
+        foreach( var crit in MyCritter_List)
+        {
+            var crit_mat = crit.GetComponent<SpriteRenderer>().material;
+            crit_mat.SetInt("_IsSelected", set_val);
+        }
+    }
+
     private void ScaleClickWithPodSize()
     {
         _coll.radius = (BASE_RADIUS_SIZE + (POD_RADIUS_PER * MyCritter_List.Count)) * TO_CAPSULE_RADIUS;

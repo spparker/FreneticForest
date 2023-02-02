@@ -6,18 +6,21 @@ using UnityEngine.AI;
 public class CritterCommandControl : MonoBehaviour
 {
     private NavMeshAgent _agent;
+    private CritterPod _pod;
 
     private Queue<CritterCommand> _commands = new Queue<CritterCommand>();
     private CritterCommand _currentCommand;
-
-    public bool IsSelected;
 
     private bool _patrolMode;
     private Vector3 _patrolEndPosition;
     private Vector3 _patrolStartPosition;
     public const float PATROL_TARGET_DELTA = 0.5f;
 
-    private void Start() => _agent = GetComponent<NavMeshAgent>();
+    private void Awake()
+    {
+        _agent = GetComponent<NavMeshAgent>();
+        _pod = GetComponent<CritterPod>();
+    }
 
     void Update()
     {
@@ -29,6 +32,11 @@ public class CritterCommandControl : MonoBehaviour
         _currentCommand = null;
         _patrolMode = false;
         _commands.Clear();
+    }
+
+    public void SetSelected(bool isSelected)
+    {
+        _pod.SetSelectedShader(isSelected);
     }
 
     public void QueueMoveCommand(Vector3 position)

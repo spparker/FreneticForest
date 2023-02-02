@@ -18,7 +18,7 @@ public class Roots : MonoBehaviour
     {
         rootsMaterial = GetComponent<Renderer>().material;
         
-        rootsMaterial.SetFloat(name="_GroundHeight", 0);
+        rootsMaterial.SetFloat("_GroundHeight", 0);
     }
 
     // Stop growth when colliding with another trees roots

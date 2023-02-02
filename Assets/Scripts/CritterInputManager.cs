@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CritterManager : MonoBehaviour
+public class CritterInputManager : MonoBehaviour
 {
     private CritterCommandControl curSelected;
 

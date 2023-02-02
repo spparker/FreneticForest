@@ -79,6 +79,10 @@ public class CameraControl : MonoBehaviour
             PanRight();
 
         UpdateCameraPosition(currentDir.Value);
+
+        // Effects
+        if(Input.GetKeyDown(KeyCode.Space))
+            ForestManager.Instance.ToggleSurface();
     }
 
     private void UpdateCameraPosition(CardinalDir dir)

@@ -16,6 +16,7 @@ public class ForestManager : MonoBehaviour
     public static ForestManager Instance{ get; private set; }
 
     private NavMeshSurface _navSurface;
+    private MeshRenderer _meshRenderer;
 
     private float _timeSinceRebuild = 0;
     private float max_pos;
@@ -32,6 +33,7 @@ public class ForestManager : MonoBehaviour
     void Start()
     {
         _navSurface = GetComponent<NavMeshSurface>();
+        _meshRenderer = GetComponent<MeshRenderer>();
         transform.localScale = new Vector3(ForestSettings.forestScale,
                                          1f, ForestSettings.forestScale);
 
@@ -50,6 +52,11 @@ public class ForestManager : MonoBehaviour
 
         if(_timeSinceRebuild >= SECONDS_BETWEEN_REBUILD)
             RebuildNavMesh();
+    }
+
+    public void ToggleSurface()
+    {
+        _meshRenderer.enabled = !_meshRenderer.enabled;
     }
 
     private void SpawnTrees()

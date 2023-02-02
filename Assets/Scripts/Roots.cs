@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RootsGrowth : MonoBehaviour
+public class Roots : MonoBehaviour
 {
     TreeGrowth treeObject;
     Material rootsMaterial;
@@ -23,7 +23,7 @@ public class RootsGrowth : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         if(treeObject.CanGrow 
-        && other.GetComponent<RootsGrowth>() != null)
+        && other.GetComponent<Roots>() != null)
             StopGrowth();
     }
 
@@ -31,7 +31,7 @@ public class RootsGrowth : MonoBehaviour
     public void OnTriggerStay(Collider other)
     {
         if(treeObject.CanGrow 
-        && other.GetComponent<RootsGrowth>() != null)
+        && other.GetComponent<Roots>() != null)
             StopGrowth();
     }
 

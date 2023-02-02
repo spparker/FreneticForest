@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,8 +9,12 @@ public class ForestManager : MonoBehaviour
 
     public GameObject Tree_Prefab;
     public GameObject Critter_Prefab;
+    public GameObject NetwokEdge_Prefab;
 
     public GameObject HomeTree{ get; private set; }
+    private TreeNetwork _homeNetwork;
+
+    private List<GameObject> _trees;
 
     public float ArenaSize => ForestSettings.forestScale * 5f;
 
@@ -44,12 +49,17 @@ public class ForestManager : MonoBehaviour
                                          1f, ForestSettings.forestScale);
 
         max_pos = ArenaSize - ForestSettings.edgeBufferSize;
+
         HomeTree = Instantiate(Tree_Prefab, Vector3.zero, Quaternion.identity);
+        _homeNetwork = gameObject.AddComponent<TreeNetwork>();
+        _trees = new List<GameObject>();
 
         SpawnTrees();
         RebuildNavMesh();
 
         SpawnCritters();
+
+        InitialBranchOut();
     }
 
     void Update()
@@ -61,6 +71,48 @@ public class ForestManager : MonoBehaviour
 
         if(_inTransition)
             UpdateSurfaceOpacity();
+    }
+
+    private void InitialBranchOut()
+    {
+        var nearest_neighbor = FindNearestRoots(HomeTree.transform.position);
+
+
+        //var nearest_neighbor.FindTreeById(1);
+
+        CreateNode();
+        _homeNetwork.AddEdge(0, 1, Vector3.Magnitude(HomeTree.transform.position - nearest_neighbor));
+
+        //Spawn Edge Prefab
+
+        Debug.Log("Added Nearest Neighbor at: " + nearest_neighbor);
+    }
+
+    private int CreateNode()
+    {
+        //Prefab Node
+        // at node.transform.position 
+        //Add Node
+        return _homeNetwork.CreateNode();
+    }
+
+    // Return nearest tree position to a tree
+    private Vector3 FindNearestRoots(Vector3 pos)
+    {
+        float min_dist = 99999;
+        GameObject min_tree = null;
+        foreach(var tree in _trees)
+        {
+            var dist = Vector3.SqrMagnitude(pos - tree.transform.position);
+            Debug.Log("Checking " + tree + "|" + dist);
+            if(dist < min_dist)
+            {
+                min_dist = dist;
+                min_tree = tree;
+                Debug.Log("New Min Tree");
+            }
+        }
+        return min_tree.transform.position;
     }
 
     public void ToggleSurface()
@@ -102,6 +154,7 @@ public class ForestManager : MonoBehaviour
                                         0, Random.Range(-max_pos, max_pos));
             var new_tree = Instantiate(Tree_Prefab, spawn_pos, Quaternion.identity);
             new_tree.transform.SetParent(TreeHolder);
+            _trees.Add(new_tree);
         }
     }
 
@@ -130,18 +183,5 @@ public class ForestManager : MonoBehaviour
     {
         _navSurface.BuildNavMesh();
         _timeSinceRebuild = 0;
-    }
-
-    public struct TreeNode
-    {
-        public int Id;
-        public Vector3 Position;
-    }
-
-    public struct TreeConnection
-    {
-        public float Strength;
-        public TreeNode NodeA;
-        public TreeNode NodeB;
     }
 }

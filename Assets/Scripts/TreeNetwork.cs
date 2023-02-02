@@ -20,15 +20,21 @@ public class TreeNetwork : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        _edges = new List<NetworkEdge>();
+        _nodes = new List<NetworkNode>();
+    }
+
+    void Start()
+    {
+        var home_root = ForestManager.Instance.HomeTree.GetComponentInChildren<Roots>();
         _origin = new NetworkNode()
         {
-            id = _nodeCount,
+            id = _nodeCount++,
             numEdges = 0,
-            edges = new int[MAX_EDGES]
+            edges = new int[MAX_EDGES],
+            root = home_root,
+            position = home_root.transform.position
         };
-
-        _edges = new List<NetworkEdge>();
-        _nodes = new List<NetworkNode>{ _origin };
     }
 
     // Update is called once per frame
@@ -47,32 +53,54 @@ public class TreeNetwork : MonoBehaviour
             RemoveEdgeFromNode(del.b);
             RemoveEdgeFromNode(del.a);
             _edges.Remove(del);
+            _edgeCount--;
         }
     }
 
     private void RemoveEdgeFromNode(NetworkNode nn)
     {
-        if(nn.numEdges <= 1)
+        Debug.Log("Removing Edge from node " +  nn.id);
+        nn.numEdges--;
+
+        if(nn.numEdges <= 0 && nn.id != 0)
             KillNode(nn);
-        else
-            nn.numEdges--;
     }
 
     private void KillNode(NetworkNode nn)
     {
         _nodes.Remove(nn);
+        _nodeCount--;
     }
 
-    public int CreateNode()
+    public int CreateNode(Roots root)
     {
         var new_node = new NetworkNode()
         {
-            id = _nodeCount,
+            id = _nodeCount++,
             numEdges = 0,
-            edges = new int[MAX_EDGES]
+            edges = new int[MAX_EDGES],
+            root = root,
+            position = root.transform.position
         };
 
-        _nodeCount++;
+        Debug.Log("Created node: " + new_node.id);
+
+        _nodes.Add(new_node);
+
+        return new_node.id;
+    }
+
+    public int CreateNode(Vector3 position)
+    {
+        var new_node = new NetworkNode()
+        {
+            id = _nodeCount++,
+            numEdges = 0,
+            edges = new int[MAX_EDGES],
+            root = null,
+            position = position
+        };
+
         _nodes.Add(new_node);
 
         return new_node.id;
@@ -88,7 +116,6 @@ public class TreeNetwork : MonoBehaviour
         if(src.numEdges >= MAX_EDGES
         || dst.numEdges >= MAX_EDGES)
             return false;
-
 
         NetworkEdge new_edge = new NetworkEdge
         {
@@ -106,11 +133,13 @@ public class TreeNetwork : MonoBehaviour
         return true;
     }
 
-    public struct NetworkNode
+    public class NetworkNode
     {
         public int id;
         public int numEdges;
         public int[] edges;
+        public Roots root;
+        public Vector3 position;
     }
 
     public class NetworkEdge
@@ -120,5 +149,21 @@ public class TreeNetwork : MonoBehaviour
         public float distance;
         public NetworkNode a;
         public NetworkNode b;
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+        foreach(var n in _nodes)
+        {
+            // Draws a blue line from this transform to the target
+            Gizmos.DrawSphere(n.position, 0.5f);
+        }
+        foreach(var e in _edges)
+        {
+            // Draws a blue line from this transform to the target
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawLine(e.a.position, e.b.position);
+        }
     }
 }

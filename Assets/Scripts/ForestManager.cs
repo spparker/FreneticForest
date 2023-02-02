@@ -9,7 +9,6 @@ public class ForestManager : MonoBehaviour
 
     public GameObject Tree_Prefab;
     public GameObject Critter_Prefab;
-    public GameObject NetwokEdge_Prefab;
 
     public GameObject HomeTree{ get; private set; }
     private TreeNetwork _homeNetwork;
@@ -52,6 +51,7 @@ public class ForestManager : MonoBehaviour
 
         HomeTree = Instantiate(Tree_Prefab, Vector3.zero, Quaternion.identity);
         _homeNetwork = gameObject.AddComponent<TreeNetwork>();
+        _homeNetwork.CreateNode(HomeTree.GetComponentInChildren<Roots>());
         _trees = new List<GameObject>();
 
         SpawnTrees();
@@ -75,41 +75,47 @@ public class ForestManager : MonoBehaviour
 
     private void InitialBranchOut()
     {
-        var nearest_neighbor = FindNearestRoots(HomeTree.transform.position);
-
+        //var nearest_neighbor = FindNearestRootsPosition(HomeTree.transform.position);
+        var nearest_roots = FindNearestRoots(HomeTree.transform.position);
 
         //var nearest_neighbor.FindTreeById(1);
 
-        CreateNode();
-        _homeNetwork.AddEdge(0, 1, Vector3.Magnitude(HomeTree.transform.position - nearest_neighbor));
+        _homeNetwork.CreateNode(nearest_roots);
+        _homeNetwork.AddEdge(0, 1, Vector3.Magnitude(HomeTree.transform.position - nearest_roots.transform.position));
 
-        //Spawn Edge Prefab
-
-        Debug.Log("Added Nearest Neighbor at: " + nearest_neighbor);
+        Debug.Log("Added Nearest Neighbor at: " + nearest_roots.transform.position);
     }
 
-    private int CreateNode()
+    private Roots FindNearestRoots(Vector3 pos)
     {
-        //Prefab Node
-        // at node.transform.position 
-        //Add Node
-        return _homeNetwork.CreateNode();
+        float min_dist = 99999;
+        Roots min_roots = null;
+        foreach(var tree in _trees)
+        {
+            var dist = Vector3.SqrMagnitude(pos - tree.transform.position);
+            //Debug.Log("Checking " + tree + "|" + dist);
+            if(dist < min_dist)
+            {
+                min_dist = dist;
+                min_roots = tree.GetComponentInChildren<Roots>();
+            }
+        }
+        return min_roots;
     }
 
     // Return nearest tree position to a tree
-    private Vector3 FindNearestRoots(Vector3 pos)
+    private Vector3 FindNearestRootsPosition(Vector3 pos)
     {
         float min_dist = 99999;
         GameObject min_tree = null;
         foreach(var tree in _trees)
         {
             var dist = Vector3.SqrMagnitude(pos - tree.transform.position);
-            Debug.Log("Checking " + tree + "|" + dist);
+            //Debug.Log("Checking " + tree + "|" + dist);
             if(dist < min_dist)
             {
                 min_dist = dist;
                 min_tree = tree;
-                Debug.Log("New Min Tree");
             }
         }
         return min_tree.transform.position;

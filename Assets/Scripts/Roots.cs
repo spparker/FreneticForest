@@ -7,6 +7,8 @@ public class Roots : MonoBehaviour
     TreeGrowth treeObject;
     Material rootsMaterial;
 
+    
+
     void Awake()
     {
         treeObject = GetComponentInParent<TreeGrowth>();

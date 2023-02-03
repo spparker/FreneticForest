@@ -19,7 +19,6 @@ public class DugHole : MonoBehaviour
 
         if(_depth >= MAX_DEPTH)
         {
-            Debug.Log("MAX DEPTH");
             _depth = MAX_DEPTH;
             return false;
         }

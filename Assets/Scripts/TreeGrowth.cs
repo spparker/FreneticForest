@@ -8,7 +8,7 @@ public class TreeGrowth : MonoBehaviour
 
     private float _growRate;
     private float _currentAge;
-    private float _currentSize;
+    private float _currentSize = 1;
     public CritterCommandControl OccupyingCritters{get; private set;}
 
     public bool CanEnter => !OccupyingCritters;
@@ -21,7 +21,6 @@ public class TreeGrowth : MonoBehaviour
     void Start()
     {
         _currentAge = 0f;
-        _currentSize = 1f;
         CanGrow = true;
         _growRate = ForestManager.Instance.ForestSettings.treeGrowthRate;
     }
@@ -35,6 +34,11 @@ public class TreeGrowth : MonoBehaviour
 
         _currentSize += Time.deltaTime * _growRate;
         transform.localScale = new Vector3(_currentSize, _currentSize, _currentSize);
+    }
+
+    public void SetStartingSize(float size)
+    {
+        _currentSize = size;
     }
 
     public void SignalStopGrowth()

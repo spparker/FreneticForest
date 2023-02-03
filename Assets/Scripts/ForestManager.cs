@@ -50,6 +50,7 @@ public class ForestManager : MonoBehaviour
         max_pos = ArenaSize - ForestSettings.edgeBufferSize;
 
         HomeTree = Instantiate(Tree_Prefab, Vector3.zero, Quaternion.identity);
+        HomeTree.GetComponent<TreeGrowth>().SetStartingSize(ForestSettings.homeTreeStartingSize);
         HomeNetwork = gameObject.AddComponent<TreeNetwork>();
         HomeNetwork.CreateNode(HomeTree.GetComponentInChildren<Roots>());
         _trees = new List<GameObject>();

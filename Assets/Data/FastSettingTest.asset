@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: FastSettingTest
   m_EditorClassIdentifier: 
   numberOfTrees: 16
+  homeTreeStartingSize: 1
   treeGrowthRate: 0.2
   critters: {fileID: 11400000, guid: 4bb4b6ab4edb8d94084347250f4ea717, type: 2}
   numberOfPathers: 3

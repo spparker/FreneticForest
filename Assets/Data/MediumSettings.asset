@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: MediumSettings
   m_EditorClassIdentifier: 
   numberOfTrees: 25
+  homeTreeStartingSize: 3
   treeGrowthRate: 0.05
   critters: {fileID: 11400000, guid: 4bb4b6ab4edb8d94084347250f4ea717, type: 2}
   numberOfPathers: 6

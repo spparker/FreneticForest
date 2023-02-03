@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6431250883502637623}
   - component: {fileID: 7344961388483820057}
   - component: {fileID: 7344961388483820056}
-  m_Layer: 3
+  m_Layer: 10
   m_Name: Critter
   m_TagString: Untagged
   m_Icon: {fileID: 0}

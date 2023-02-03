@@ -112,6 +112,7 @@ public class TreeNetwork : MonoBehaviour
             if(n == excluded)
                 continue;
 
+            Vector3 nearest_surface = new Vector3(n.position.x, 0, n.position.z);
             var dist = Vector3.Magnitude(n.position - p1);
             if(dist <= NODE_JOIN_DIST
             && dist < min_dist)
@@ -133,7 +134,8 @@ public class TreeNetwork : MonoBehaviour
     private NetworkNode FindNearbyRoots(Vector3 p, Roots excluded = null)
     {
         Roots nearest = ForestManager.Instance.FindNearestRoots(p, excluded);
-        if(Vector3.Magnitude(nearest.transform.position - p) <= NODE_JOIN_DIST)
+        Vector3 nearest_surface = new Vector3(nearest.transform.position.x, 0, nearest.transform.position.z);
+        if(Vector3.Magnitude(nearest_surface - p) <= NODE_JOIN_DIST)
         {
             Debug.Log("Found Nearby Root: " + nearest.gameObject.name);
             return CreateNode(nearest); // If it had one we would've found it on Step 1

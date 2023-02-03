@@ -992,7 +992,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 319
+    m_Bits: 3899
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: 2720b9c9566ae464babc61f7a9ce4621, type: 2}
   m_TargetDisplay: 0
@@ -1309,7 +1309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d453d04d19cb60648abb975b680c75b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ForestSettings: {fileID: 11400000, guid: be3a309682be0894c81afbe3cf555d8c, type: 2}
+  ForestSettings: {fileID: 11400000, guid: 940e0b536a5bd3c48adb36946927cf9e, type: 2}
   Tree_Prefab: {fileID: 6892354846085866887, guid: d7843eb1c884f2348baa5cb35f5ef6af,
     type: 3}
   NavSurface: {fileID: 2075853618}

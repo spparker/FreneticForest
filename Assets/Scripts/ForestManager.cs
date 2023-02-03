@@ -62,6 +62,8 @@ public class ForestManager : MonoBehaviour
         SpawnCritters();
 
         InitialBranchOut();
+
+        SpawnEnemy();
     }
 
     void Update()
@@ -153,7 +155,7 @@ public class ForestManager : MonoBehaviour
         }
 
         _meshRenderer.material.color = new Color(_meshRenderer.material.color.r,
-         _meshRenderer.material.color.g, _meshRenderer.material.color.b, _alpha);
+        _meshRenderer.material.color.g, _meshRenderer.material.color.b, _alpha);
     }
 
     private void SpawnTrees()
@@ -178,8 +180,13 @@ public class ForestManager : MonoBehaviour
         CritterManager.Instance.SpawnCritterFromData(ForestSettings.critters.chopData, ForestSettings.numberOfChopChops, max_pos);
     }
 
-    public void RebuildNavMesh()
+    private void SpawnEnemy()
     {
+        CritterManager.Instance.SpawnCritterFromData(ForestSettings.critters.invaderData, 1, max_pos);
+    }
+
+    public void RebuildNavMesh()
+    { // TODO: This is too slow now on big maps
         NavSurface.BuildNavMesh();
         //BurrowSurface.navMeshData = NavSurface.navMeshData;
         BurrowSurface.BuildNavMesh(); // will need to rebuild for better burrow movement

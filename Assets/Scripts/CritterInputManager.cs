@@ -62,7 +62,7 @@ public class CritterInputManager : MonoBehaviour
             else
                 ccc = gameCollider.GetComponent<CritterCommandControl>();
 
-            if(ccc == null)
+            if(ccc == null || ccc.Pod.CritterData.enemy)
                 return;
 
             HandleNewSelection(ccc);

@@ -30,12 +30,13 @@ public class Roots : MonoBehaviour
     }
 
     // Shrink? when overlapping with another trees roots
-    public void OnTriggerStay(Collider other)
+    // THIS GET VERY LAGGY
+    /*public void OnTriggerStay(Collider other)
     {
         if(treeObject.CanGrow 
         && other.GetComponent<Roots>() != null)
             StopGrowth();
-    }
+    }*/
 
     private void StopGrowth()
     {

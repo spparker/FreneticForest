@@ -8,5 +8,5 @@ public class CritterSettings : ScriptableObject
     public CritterTypeData patherData;
     public CritterTypeData diggieData;
     public CritterTypeData chopData;
-
+    public CritterTypeData invaderData;
 }

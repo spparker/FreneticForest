@@ -9,8 +9,10 @@ public class CritterManager : MonoBehaviour
         PATHER = 0,
         DIGGIE,
         CHOPCHOP,
+        INVADER
     }
 
+    public const int ENEMY_LAYER = 11;
     public const int DIGGIE_LAYER = 8;
     public const string DIGGIE_AGENT_STRING = "Burrower";
     public const string CHOPCHOP_AGENT_STRING = "ChopChop";
@@ -32,10 +34,11 @@ public class CritterManager : MonoBehaviour
         else
             Instance = this;
 
-        _critterTypeLists = new List<CritterCommandControl>[3];
+        _critterTypeLists = new List<CritterCommandControl>[4];
         _critterTypeLists[(int)CritterType.PATHER] = new List<CritterCommandControl>();
         _critterTypeLists[(int)CritterType.DIGGIE] = new List<CritterCommandControl>();
         _critterTypeLists[(int)CritterType.CHOPCHOP] = new List<CritterCommandControl>();
+        _critterTypeLists[(int)CritterType.INVADER] = new List<CritterCommandControl>();
     }
 
     public void SpawnCritterFromData(CritterTypeData data, int num, float max_pos)
@@ -61,8 +64,15 @@ public class CritterManager : MonoBehaviour
                 pod.SetAgentToType(CHOPCHOP_AGENT_STRING);
             new_critter.transform.name = data.critterName + i;
             new_critter.transform.SetParent(Holder);
+            if(data.enemy)
+                SetupEnemy(new_critter);
             _critterTypeLists[(int)data.type].Add(new_critter.GetComponent<CritterCommandControl>());
         }
+    }
+
+    private void SetupEnemy(GameObject enemy_critter)
+    {
+        enemy_critter.layer = ENEMY_LAYER;
     }
 
     public CritterCommandControl GetNextOfType(CritterType ct)

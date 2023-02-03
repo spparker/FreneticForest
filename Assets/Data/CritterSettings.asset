@@ -15,3 +15,4 @@ MonoBehaviour:
   patherData: {fileID: 11400000, guid: e8450eca034cc21448b23a1e53175eb8, type: 2}
   diggieData: {fileID: 11400000, guid: b3a9c41dbd3bdf049b446a6c02440166, type: 2}
   chopData: {fileID: 11400000, guid: e01a6d7b2d0fb2c4080cfe5ea381af82, type: 2}
+  invaderData: {fileID: 11400000, guid: f580c9fc6d9bfec4baf6c2e6f79516d7, type: 2}

@@ -86,7 +86,10 @@ public class CritterInputManager : MonoBehaviour
         {
             //Debug.Log("Clicked on:" + hitInfo.transform.gameObject.name);
             if(Input.GetKey(KeyCode.LeftControl))
+            {
+                //curSelected.ClearCommands(); // Clear otherwise Location will be wrong (could change to drag and release)
                 curSelected.QueuePatrolCommand(hitInfo.point);
+            }
             else
             {
                 // Left Shift maintains a command queue

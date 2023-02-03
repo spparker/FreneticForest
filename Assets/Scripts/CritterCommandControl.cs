@@ -6,20 +6,18 @@ using UnityEngine.AI;
 public class CritterCommandControl : MonoBehaviour
 {
     private NavMeshAgent _agent;
-    private CritterPod _pod;
+    public CritterPod Pod{get; private set;}
 
     private Queue<CritterCommand> _commands = new Queue<CritterCommand>();
     private CritterCommand _currentCommand;
 
-    private bool _patrolMode;
-    private Vector3 _patrolEndPosition;
-    private Vector3 _patrolStartPosition;
-    public const float PATROL_TARGET_DELTA = 0.5f;
+    private bool _inPatrol;
+
 
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
-        _pod = GetComponent<CritterPod>();
+        Pod = GetComponent<CritterPod>();
     }
 
     void Update()
@@ -30,13 +28,12 @@ public class CritterCommandControl : MonoBehaviour
     public void ClearCommands()
     {
         _currentCommand = null;
-        _patrolMode = false;
         _commands.Clear();
     }
 
     public void SetSelected(bool isSelected)
     {
-        _pod.SetSelectedShader(isSelected);
+        Pod.SetSelectedShader(isSelected);
     }
 
     public void QueueMoveCommand(Vector3 position)
@@ -46,7 +43,7 @@ public class CritterCommandControl : MonoBehaviour
 
     public void QueueEnterCommand(TreeGrowth tree)
     {
-        if(_pod.CritterData.canEnterTrees && _pod.InTree != tree)
+        if(Pod.CritterData.canEnterTrees && Pod.InTree != tree)
             _commands.Enqueue(item: new CommandEnter(tree, this));
         else
             QueueMoveCommand(tree.transform.position);
@@ -54,11 +51,13 @@ public class CritterCommandControl : MonoBehaviour
 
     public void QueuePatrolCommand(Vector3 end_position)
     {
-        _commands.Enqueue(item: new CommandPatrol(transform.position, end_position, this));
+        // Setup a Patrol stuff?
+        _commands.Enqueue(item: new CommandPatrol(end_position, this));
     }
 
     public void QueuePatrolCommandLoop(Vector3 start_positon, Vector3 end_position)
     {
+        // Finished a Patrol Leg - increment the thing
         _commands.Enqueue(item: new CommandPatrol(start_positon, end_position, this));
     }
 
@@ -69,7 +68,7 @@ public class CritterCommandControl : MonoBehaviour
             return;
 
         tree.EnterTree(this);
-        _pod.SetInTree(tree);
+        Pod.SetInTree(tree);
     }
 
     private void ProcessCommandQueue()
@@ -87,8 +86,8 @@ public class CritterCommandControl : MonoBehaviour
         if(_commands.Count <= 0)
             return;
 
-        if(_pod.InTree)
-            _pod.SetOnGround();
+        if(Pod.InTree)
+            Pod.SetOnGround();
 
         _currentCommand = _commands.Dequeue();
         _currentCommand.Execute();

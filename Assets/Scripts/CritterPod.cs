@@ -53,9 +53,15 @@ public class CritterPod : MonoBehaviour
             transform.position = new Vector3(InTree.transform.position.x, InTree.Top , InTree.transform.position.z);
     }
 
-    public void StartPatrol()
+    public void StartPatrol(Vector3 p1, Vector3 p2)
     {
         InPatrol = true;
+
+    }
+
+    public void EndPatrolPass()
+    {
+        //InPatrol = false;
     }
 
     public void SetInTree(TreeGrowth tree)

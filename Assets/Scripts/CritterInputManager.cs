@@ -85,7 +85,7 @@ public class CritterInputManager : MonoBehaviour
         if(Physics.Raycast(ray, out var hitInfo))
         {
             if(Input.GetKey(KeyCode.LeftControl))
-                curSelected.SetToPatrol(hitInfo.point);
+                curSelected.QueuePatrolCommand(hitInfo.point);
             else
             {
                 // Left Shift maintains a command queue

@@ -52,14 +52,14 @@ public class CritterCommandControl : MonoBehaviour
             QueueMoveCommand(tree.transform.position);
     }
 
-    // Loop move commands between two positions
-    public void SetToPatrol(Vector3 end_position)
+    public void QueuePatrolCommand(Vector3 end_position)
     {
-        ClearCommands();
-        _patrolMode = true;
-        _patrolStartPosition = _agent.transform.position;
-        _patrolEndPosition = end_position;
-        SetNextPatrolDestination();
+        _commands.Enqueue(item: new CommandPatrol(transform.position, end_position, this));
+    }
+
+    public void QueuePatrolCommandLoop(Vector3 start_positon, Vector3 end_position)
+    {
+        _commands.Enqueue(item: new CommandPatrol(start_positon, end_position, this));
     }
 
     // Occupy tree if empty
@@ -70,15 +70,6 @@ public class CritterCommandControl : MonoBehaviour
 
         tree.EnterTree(this);
         _pod.SetInTree(tree);
-    }
-
-
-    private void SetNextPatrolDestination()
-    {
-        if(Vector3.Magnitude(_agent.transform.position - _patrolStartPosition) <= PATROL_TARGET_DELTA)
-            QueueMoveCommand(_patrolEndPosition);
-        else
-            QueueMoveCommand(_patrolStartPosition);
     }
 
     private void ProcessCommandQueue()
@@ -92,9 +83,6 @@ public class CritterCommandControl : MonoBehaviour
         }
 
         _currentCommand = null;
-
-        if(_patrolMode) // TODO: Move this to OnArrive
-            SetNextPatrolDestination();
         
         if(_commands.Count <= 0)
             return;

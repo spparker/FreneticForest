@@ -18,7 +18,7 @@ public class ForestManager : MonoBehaviour
 
     public static ForestManager Instance{ get; private set; }
 
-    private NavMeshSurface _navSurface;
+    public NavMeshSurface NavSurface{get; private set;}
     private MeshRenderer _meshRenderer;
 
     private float _timeSinceRebuild = 0;
@@ -41,7 +41,7 @@ public class ForestManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _navSurface = GetComponent<NavMeshSurface>();
+        NavSurface = GetComponent<NavMeshSurface>();
         _meshRenderer = GetComponent<MeshRenderer>();
         transform.localScale = new Vector3(ForestSettings.forestScale,
                                          1f, ForestSettings.forestScale);
@@ -173,7 +173,7 @@ public class ForestManager : MonoBehaviour
 
     private void RebuildNavMesh()
     {
-        _navSurface.BuildNavMesh();
+        NavSurface.BuildNavMesh();
         _timeSinceRebuild = 0;
     }
 }

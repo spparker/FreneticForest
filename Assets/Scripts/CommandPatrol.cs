@@ -43,7 +43,8 @@ internal class CommandPatrol : CritterCommand
 
     public override void OnArrive()
     {
-        _ccc.Pod.EndPatrolPass();
+        _ccc.Pod.EndPatrolPass(_pointStart.Value, _pointEnd);
+        //if(!_ccc.Pod.InPatrol)
         _ccc.QueuePatrolCommandLoop(_pointEnd, _pointStart.Value);
     }
 }

@@ -84,7 +84,7 @@ public class CritterInputManager : MonoBehaviour
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if(Physics.Raycast(ray, out var hitInfo))
         {
-            Debug.Log("Clicked on:" + hitInfo.transform.gameObject.name);
+            //Debug.Log("Clicked on:" + hitInfo.transform.gameObject.name);
             if(Input.GetKey(KeyCode.LeftControl))
             {
                 //curSelected.ClearCommands(); // Clear otherwise Location will be wrong (could change to drag and release)

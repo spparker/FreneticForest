@@ -16,6 +16,7 @@ public class CritterPod : MonoBehaviour
 
     public bool InPatrol {get; private set;}
     private TreeNetwork.NetworkEdge _curEdge;
+    private DugHole _curDug;
 
     private Vector3 _enter_vec;
 
@@ -56,6 +57,7 @@ public class CritterPod : MonoBehaviour
 
     public void StartPatrol(Vector3 p1, Vector3 p2)
     {
+        Debug.Log("Start Patrol");
         InPatrol = true;
         if(CritterData.type == CritterManager.CritterType.PATHER)
             SetupForPath(p1, p2);
@@ -63,13 +65,20 @@ public class CritterPod : MonoBehaviour
             SetupForDig();
     }
 
-    public void EndPatrolPass()
+    public void EndPatrolPass(Vector3 p1, Vector3 p2)
     {
         //InPatrol = false;
         if(CritterData.type == CritterManager.CritterType.PATHER)
             CompletePathPass();
         else if(CritterData.type == CritterManager.CritterType.DIGGIE)
-            CompleteDigPass();
+            CompleteDigPass(p1, p2);
+    }
+
+    // Called on Max hole depth (does not stop patrol)
+    private void StopPatrol()
+    {
+        //Debug.Log("Stop Patrol");
+        InPatrol = false;
     }
 
     public void SetInTree(TreeGrowth tree)
@@ -112,6 +121,7 @@ public class CritterPod : MonoBehaviour
     }
 
     // Find or create nodes and edge
+    // Will only be called on initial patrol path
     private void SetupForPath(Vector3 p1, Vector3 p2)
     {
         _curEdge = ForestManager.Instance.HomeNetwork.GetOrCreateEdge(p1, p2);
@@ -128,11 +138,43 @@ public class CritterPod : MonoBehaviour
 
     private void SetupForDig()
     {
-        // Do we need to do anything?
+        _curDug = null;
     }
 
-    private void CompleteDigPass()
+    private void CompleteDigPass(Vector3 p1, Vector3 p2)
     {
-        // Deepend the hole
+        if(_curDug == null)
+        {
+            Vector3 clean_p1 = new Vector3(p1.x, 0, p1.z);
+            Vector3 clean_p2 = new Vector3(p2.x, 0, p2.z);
+            float dist = Vector3.Magnitude(clean_p2-clean_p1);
+            var dug = Instantiate(CritterManager.Instance.Dug_Prefab, clean_p2 - (clean_p2 - clean_p1)/2, Quaternion.identity);
+            dug.transform.localScale = new Vector3(1,1,dist);
+            dug.transform.LookAt(p2, Vector3.up);
+            dug.transform.Translate(new Vector3(0,0,0));
+            _curDug = dug.GetComponent<DugHole>();
+        }
+        else
+        {
+            if(!_curDug.Deepen())
+                StopPatrol();
+        }
+        ForestManager.Instance.RebuildNavMesh();
+    }
+
+    public void SetAgentToType(string agentTypeName)
+    {
+        int count = NavMesh.GetSettingsCount();
+        for (var i = 0; i < count; i++)
+        {
+             int id = NavMesh.GetSettingsByIndex(i).agentTypeID;
+             string name = NavMesh.GetSettingsNameFromID(id);
+             if(name == agentTypeName)
+             {
+                 _agent.agentTypeID = id;
+                 return;
+             }
+         }
+         Debug.Log("Did not find agent");
     }
 }

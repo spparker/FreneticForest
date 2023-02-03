@@ -18,7 +18,8 @@ public class ForestManager : MonoBehaviour
 
     public static ForestManager Instance{ get; private set; }
 
-    public NavMeshSurface NavSurface{get; private set;}
+    public NavMeshSurface NavSurface;
+    public NavMeshSurface BurrowSurface;
     private MeshRenderer _meshRenderer;
 
     private float _timeSinceRebuild = 0;
@@ -41,10 +42,10 @@ public class ForestManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        NavSurface = GetComponent<NavMeshSurface>();
         _meshRenderer = GetComponent<MeshRenderer>();
         transform.localScale = new Vector3(ForestSettings.forestScale,
                                          1f, ForestSettings.forestScale);
+        BurrowSurface.gameObject.transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
 
         max_pos = ArenaSize - ForestSettings.edgeBufferSize;
 
@@ -175,9 +176,11 @@ public class ForestManager : MonoBehaviour
         CritterManager.Instance.SpawnCritterFromData(ForestSettings.critters.chopData, ForestSettings.numberOfChopChops, max_pos);
     }
 
-    private void RebuildNavMesh()
+    public void RebuildNavMesh()
     {
         NavSurface.BuildNavMesh();
+        //BurrowSurface.navMeshData = NavSurface.navMeshData;
+        BurrowSurface.BuildNavMesh(); // will need to rebuild for better burrow movement
         _timeSinceRebuild = 0;
     }
 }

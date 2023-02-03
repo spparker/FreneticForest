@@ -11,8 +11,6 @@ public class CritterCommandControl : MonoBehaviour
     private Queue<CritterCommand> _commands = new Queue<CritterCommand>();
     private CritterCommand _currentCommand;
 
-    private bool _inPatrol;
-
 
     private void Awake()
     {

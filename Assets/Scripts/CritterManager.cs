@@ -11,9 +11,13 @@ public class CritterManager : MonoBehaviour
         CHOPCHOP,
     }
 
+    public const int DIGGIE_LAYER = 8;
+    public const string DIGGIE_AGENT_STRING = "Burrower";
+
     public static CritterManager Instance{ get; private set; }
 
     public GameObject Critter_Prefab;
+    public GameObject Dug_Prefab;
 
     List<CritterCommandControl>[] _critterTypeLists;
 
@@ -42,7 +46,16 @@ public class CritterManager : MonoBehaviour
             Vector3 spawn_pos = new Vector3(Random.Range(-max_pos,max_pos),
                                         0, Random.Range(-max_pos, max_pos));
             var new_critter = Instantiate(Critter_Prefab, spawn_pos, Quaternion.identity);
-            new_critter.GetComponent<CritterPod>().CritterData = data;
+            
+            
+            var pod = new_critter.GetComponent<CritterPod>();
+            pod.CritterData = data;
+
+            if(data.type == CritterType.DIGGIE)
+            {
+                new_critter.layer = DIGGIE_LAYER;
+                pod.SetAgentToType(DIGGIE_AGENT_STRING);
+            }
             new_critter.transform.name = data.critterName + i;
             new_critter.transform.SetParent(Holder);
             _critterTypeLists[(int)data.type].Add(new_critter.GetComponent<CritterCommandControl>());

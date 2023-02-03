@@ -1051,7 +1051,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d453d04d19cb60648abb975b680c75b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ForestSettings: {fileID: 11400000, guid: b453b77ff5f866441a6aec4848e2eb0b, type: 2}
+  ForestSettings: {fileID: 11400000, guid: c93e3f06ce379a24fbcd2f26d90e6560, type: 2}
   Tree_Prefab: {fileID: 6892354846085866887, guid: d7843eb1c884f2348baa5cb35f5ef6af,
     type: 3}
 --- !u!114 &2075853618
@@ -1072,7 +1072,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 127
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_IgnoreNavMeshAgent: 1

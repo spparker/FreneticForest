@@ -46,7 +46,7 @@ public class CritterCommandControl : MonoBehaviour
 
     public void QueueEnterCommand(TreeGrowth tree)
     {
-        if(_pod.CritterData.canEnterTrees)
+        if(_pod.CritterData.canEnterTrees && _pod.InTree != tree)
             _commands.Enqueue(item: new CommandEnter(tree, this));
         else
             QueueMoveCommand(tree.transform.position);

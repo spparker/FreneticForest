@@ -16,7 +16,7 @@ public class CritterPod : MonoBehaviour
 
     public bool InPatrol {get; private set;}
 
-    private Vector3 _enter_pos;
+    private Vector3 _enter_vec;
 
     private NavMeshAgent _agent;
     private CapsuleCollider _coll;
@@ -60,7 +60,8 @@ public class CritterPod : MonoBehaviour
 
     public void SetInTree(TreeGrowth tree)
     {
-        _enter_pos = transform.position;
+        _enter_vec = tree.transform.position - transform.position;
+        _enter_vec.Normalize();
         InTree = tree;
         _agent.enabled = false;
         _coll.enabled = false;
@@ -70,12 +71,11 @@ public class CritterPod : MonoBehaviour
     public void SetOnGround()
     {
         //WE NEED TO NOT GET STUCK IN THE BIG TREEES COMING DOWN
-        //ForestManager.Instance.NavSurface.
-
-        //transform.position = (InTree.transform.position - _enter_pos)  * InTree.Top; // Scale exit position;
+        transform.position -= _enter_vec * InTree.Radius;
         InTree.LeaveTree();
         InTree = null;
-        transform.position = _enter_pos;
+
+        //transform.position = new Vector3(transform.position.x, 0, transform.position.y);
         _coll.enabled = true;
         _agent.enabled = true;
     }

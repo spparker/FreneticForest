@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TreeGrowth : MonoBehaviour
 {
+    public const float INITIAL_RADIUS = 0.7f;
+
     private float _growRate;
     private float _currentAge;
     private float _currentSize;
@@ -14,6 +16,7 @@ public class TreeGrowth : MonoBehaviour
     public void LeaveTree(){OccupyingCritters = null;}
     public bool CanGrow {get; private set;}
     public float Top => _currentSize;
+    public float Radius => _currentSize * INITIAL_RADIUS;
 
     void Start()
     {

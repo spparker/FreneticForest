@@ -33,13 +33,17 @@ internal class CommandPatrol : CritterCommand
     public override void Execute()
     {
         if(_pointStart == null)
+        { // Will only be null on original command
             _pointStart = _ccc.transform.position;
+            _ccc.Pod.StartPatrol(_pointStart.Value, _pointEnd);
+        }
         //Debug.Log(string.Format("Executing Move to : {0}", _destination));
         _agent.SetDestination(_pointEnd);
     }
 
     public override void OnArrive()
     {
+        _ccc.Pod.EndPatrolPass();
         _ccc.QueuePatrolCommandLoop(_pointEnd, _pointStart.Value);
     }
 }

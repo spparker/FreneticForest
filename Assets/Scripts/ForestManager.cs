@@ -10,7 +10,7 @@ public class ForestManager : MonoBehaviour
     public GameObject Tree_Prefab;
 
     public GameObject HomeTree{ get; private set; }
-    private TreeNetwork _homeNetwork;
+    public TreeNetwork HomeNetwork{ get; private set;}
 
     private List<GameObject> _trees;
 
@@ -49,8 +49,8 @@ public class ForestManager : MonoBehaviour
         max_pos = ArenaSize - ForestSettings.edgeBufferSize;
 
         HomeTree = Instantiate(Tree_Prefab, Vector3.zero, Quaternion.identity);
-        _homeNetwork = gameObject.AddComponent<TreeNetwork>();
-        _homeNetwork.CreateNode(HomeTree.GetComponentInChildren<Roots>());
+        HomeNetwork = gameObject.AddComponent<TreeNetwork>();
+        HomeNetwork.CreateNode(HomeTree.GetComponentInChildren<Roots>());
         _trees = new List<GameObject>();
 
         SpawnTrees();
@@ -79,24 +79,28 @@ public class ForestManager : MonoBehaviour
 
         //var nearest_neighbor.FindTreeById(1);
 
-        _homeNetwork.CreateNode(nearest_roots);
-        _homeNetwork.AddEdge(0, 1, Vector3.Magnitude(HomeTree.transform.position - nearest_roots.transform.position));
+        HomeNetwork.CreateNode(nearest_roots);
+        HomeNetwork.AddEdge(0, 1, Vector3.Magnitude(HomeTree.transform.position - nearest_roots.transform.position));
 
         Debug.Log("Added Nearest Neighbor at: " + nearest_roots.transform.position);
     }
 
-    private Roots FindNearestRoots(Vector3 pos)
+    public Roots FindNearestRoots(Vector3 pos, Roots excluded = null)
     {
         float min_dist = 99999;
         Roots min_roots = null;
         foreach(var tree in _trees)
         {
+            var root = tree.GetComponentInChildren<Roots>();
+            if(root == excluded)
+                continue;
+
             var dist = Vector3.SqrMagnitude(pos - tree.transform.position);
             //Debug.Log("Checking " + tree + "|" + dist);
             if(dist < min_dist)
             {
                 min_dist = dist;
-                min_roots = tree.GetComponentInChildren<Roots>();
+                min_roots = root;
             }
         }
         return min_roots;

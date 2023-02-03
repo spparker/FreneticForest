@@ -15,6 +15,7 @@ public class CritterPod : MonoBehaviour
     public TreeGrowth InTree {get; private set;}
 
     public bool InPatrol {get; private set;}
+    private TreeNetwork.NetworkEdge _curEdge;
 
     private Vector3 _enter_vec;
 
@@ -56,12 +57,19 @@ public class CritterPod : MonoBehaviour
     public void StartPatrol(Vector3 p1, Vector3 p2)
     {
         InPatrol = true;
-
+        if(CritterData.type == CritterManager.CritterType.PATHER)
+            SetupForPath(p1, p2);
+        else if(CritterData.type == CritterManager.CritterType.DIGGIE)
+            SetupForDig();
     }
 
     public void EndPatrolPass()
     {
         //InPatrol = false;
+        if(CritterData.type == CritterManager.CritterType.PATHER)
+            CompletePathPass();
+        else if(CritterData.type == CritterManager.CritterType.DIGGIE)
+            CompleteDigPass();
     }
 
     public void SetInTree(TreeGrowth tree)
@@ -101,5 +109,30 @@ public class CritterPod : MonoBehaviour
     {
         _coll.radius = (BASE_RADIUS_SIZE + (POD_RADIUS_PER * MyCritter_List.Count)) * TO_CAPSULE_RADIUS;
         _agent.radius = _coll.radius;
+    }
+
+    // Find or create nodes and edge
+    private void SetupForPath(Vector3 p1, Vector3 p2)
+    {
+        _curEdge = ForestManager.Instance.HomeNetwork.GetOrCreateEdge(p1, p2);
+        if(_curEdge == null)
+            Debug.Log("Cannot add additional edge");
+    }
+
+    private void CompletePathPass()
+    {
+        // Increase weight
+        _curEdge?.Strengthen();
+        //Debug.Log("Edge "+ _curEdge + " Strengthened to " + _curEdge.weight);
+    }
+
+    private void SetupForDig()
+    {
+        // Do we need to do anything?
+    }
+
+    private void CompleteDigPass()
+    {
+        // Deepend the hole
     }
 }

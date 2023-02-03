@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class TreeNetwork : MonoBehaviour
 {
-    const float DECAY_RATE = 0.01f;
+    const float DECAY_RATE = 0.005f;
     const float DEATH_POINT = -0.1f;
+
+    const float NODE_JOIN_DIST = 7f;
+    const float DEFAULT_NODE_DEPTH = -1f;
+    const float PASS_WEIGHT_INCREASE = 0.2f;
+    const float MAX_EDGE_WEIGHT = 1.0f;
 
     const int MAX_EDGES = 8;
     NetworkNode _origin;
@@ -57,6 +62,86 @@ public class TreeNetwork : MonoBehaviour
         }
     }
 
+    public NetworkEdge GetOrCreateEdge(Vector3 p1, Vector3 p2)
+    {
+        NetworkNode node1 = BestOrNewNode(p1);
+        NetworkNode node2 = BestOrNewNodeExcluding(p2, node1);
+        
+        NetworkEdge edge = FindEdge(node1, node2);
+        edge ??= AddEdge(node1, node2);
+        return edge;
+    }
+
+    private NetworkEdge FindEdge(NetworkNode a, NetworkNode b)
+    {
+        foreach(var e in _edges)
+        {
+            if((e.a == a || e.b == a) && (e.a == b || e.b == b))
+            {
+                Debug.Log("Found Edge:" + e.id);
+                return e;
+            }
+        }
+        return null;
+    }
+
+    private NetworkNode BestOrNewNodeExcluding(Vector3 p, NetworkNode excluded)
+    {
+        var ret_node = FindNearbyNode(p, excluded);
+        ret_node ??= FindNearbyRoots(p, excluded.root);
+        ret_node ??= CreateNode(p);
+
+        return ret_node;
+    }
+
+    private NetworkNode BestOrNewNode(Vector3 p)
+    {
+        var ret_node = FindNearbyNode(p);
+        ret_node ??= FindNearbyRoots(p);
+        ret_node ??= CreateNode(p);
+
+        return ret_node;
+    }
+
+    private NetworkNode FindNearbyNode(Vector3 p1, NetworkNode excluded = null)
+    {
+        float min_dist = 999;
+        NetworkNode nearest = null;
+        foreach(var n in _nodes)
+        {
+            if(n == excluded)
+                continue;
+
+            var dist = Vector3.Magnitude(n.position - p1);
+            if(dist <= NODE_JOIN_DIST
+            && dist < min_dist)
+            {
+                min_dist = dist;
+                nearest = n;
+            }
+        }
+
+        if(nearest != null)
+        {
+            Debug.Log("Found Nearby Node: " + nearest.id + "|Root?" + nearest.root);
+            return nearest;
+        }
+        return null;
+    }
+
+    // Search Roots without Nodes and create and return if found
+    private NetworkNode FindNearbyRoots(Vector3 p, Roots excluded = null)
+    {
+        Roots nearest = ForestManager.Instance.FindNearestRoots(p, excluded);
+        if(Vector3.Magnitude(nearest.transform.position - p) <= NODE_JOIN_DIST)
+        {
+            Debug.Log("Found Nearby Root: " + nearest.gameObject.name);
+            return CreateNode(nearest); // If it had one we would've found it on Step 1
+        }
+
+        return null;
+    }
+
     private void RemoveEdgeFromNode(NetworkNode nn)
     {
         //Debug.Log("Removing Edge from node " +  nn.id);
@@ -72,7 +157,7 @@ public class TreeNetwork : MonoBehaviour
         _nodeCount--;
     }
 
-    public int CreateNode(Roots root)
+    public NetworkNode CreateNode(Roots root)
     {
         var new_node = new NetworkNode()
         {
@@ -86,10 +171,12 @@ public class TreeNetwork : MonoBehaviour
         //Debug.Log("Created node: " + new_node.id);
         _nodes.Add(new_node);
 
-        return new_node.id;
+        //return new_node.id;
+        return new_node;
     }
 
-    public int CreateNode(Vector3 position)
+    // Create a node by position at the default depth
+    public NetworkNode CreateNode(Vector3 position)
     {
         var new_node = new NetworkNode()
         {
@@ -97,12 +184,14 @@ public class TreeNetwork : MonoBehaviour
             numEdges = 0,
             edges = new int[MAX_EDGES],
             root = null,
-            position = position
+            position = new Vector3(position.x, DEFAULT_NODE_DEPTH, position.z)
         };
 
         _nodes.Add(new_node);
 
-        return new_node.id;
+        Debug.Log("Created Non-root node " + new_node.id);
+
+        return new_node;
     }
 
     public bool AddEdge(int src_id, int dst_id, float dist)
@@ -132,6 +221,32 @@ public class TreeNetwork : MonoBehaviour
         return true;
     }
 
+    private NetworkEdge AddEdge(NetworkNode src, NetworkNode dst)
+    {
+        if(src.numEdges >= MAX_EDGES
+        || dst.numEdges >= MAX_EDGES)
+            return null;
+
+        var dist = Vector3.Magnitude(src.position-dst.position);
+
+        NetworkEdge new_edge = new NetworkEdge
+        {
+            distance = dist,
+            weight = 0,
+            a = src,
+            b = dst,
+            id = _edgeCount
+        };
+        _edges.Add(new_edge);
+
+        Debug.Log("Created Edge " + new_edge.id);
+
+        _edgeCount++;
+        src.edges[src.numEdges++] = new_edge.id;
+        dst.edges[dst.numEdges++] = new_edge.id;
+        return new_edge;
+    }
+
     public class NetworkNode
     {
         public int id;
@@ -148,6 +263,13 @@ public class TreeNetwork : MonoBehaviour
         public float distance;
         public NetworkNode a;
         public NetworkNode b;
+
+        public void Strengthen()
+        {
+            weight += PASS_WEIGHT_INCREASE;
+            if(weight > MAX_EDGE_WEIGHT)
+                weight = MAX_EDGE_WEIGHT;
+        }
     }
 
     void OnDrawGizmos()

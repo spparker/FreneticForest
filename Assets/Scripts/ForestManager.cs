@@ -8,6 +8,8 @@ public class ForestManager : MonoBehaviour
     public ForestSettings ForestSettings;
 
     public GameObject Tree_Prefab;
+    public GameObject Node_Prefab;
+    public GameObject Edge_Prefab;
 
     public GameObject HomeTree{ get; private set; }
     public TreeNetwork HomeNetwork{ get; private set;}

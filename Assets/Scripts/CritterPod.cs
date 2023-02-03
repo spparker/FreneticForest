@@ -124,7 +124,9 @@ public class CritterPod : MonoBehaviour
     // Will only be called on initial patrol path
     private void SetupForPath(Vector3 p1, Vector3 p2)
     {
-        _curEdge = ForestManager.Instance.HomeNetwork.GetOrCreateEdge(p1, p2);
+        Vector3 clean_p1 = new Vector3(p1.x, 0, p1.z);
+        Vector3 clean_p2 = new Vector3(p2.x, 0, p2.z);
+        _curEdge = ForestManager.Instance.HomeNetwork.GetOrCreateEdge(clean_p1, clean_p2);
         if(_curEdge == null)
             Debug.Log("Cannot add additional edge");
     }

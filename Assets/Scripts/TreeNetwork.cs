@@ -54,14 +54,19 @@ public class TreeNetwork : MonoBehaviour
         }
 
         foreach(NetworkEdge del in delEdges)
-        {
-            RemoveEdgeFromNode(del.b);
-            RemoveEdgeFromNode(del.a);
-            _edges.Remove(del);
-            _edgeCount--;
-        }
+            KillEdge(del);
     }
 
+    private void KillEdge(NetworkEdge ne)
+    {
+        RemoveEdgeFromNode(ne.b);
+        RemoveEdgeFromNode(ne.a);
+        Destroy(ne.objEdge);
+        _edges.Remove(ne);
+        _edgeCount--;
+    }
+
+    // Assume points are flattened to surface here
     public NetworkEdge GetOrCreateEdge(Vector3 p1, Vector3 p2)
     {
         NetworkNode node1 = BestOrNewNode(p1);
@@ -155,6 +160,7 @@ public class TreeNetwork : MonoBehaviour
 
     private void KillNode(NetworkNode nn)
     {
+        Destroy(nn.objNode);
         _nodes.Remove(nn);
         _nodeCount--;
     }
@@ -169,6 +175,9 @@ public class TreeNetwork : MonoBehaviour
             root = root,
             position = root.transform.position
         };
+
+        var obj = Instantiate(ForestManager.Instance.Node_Prefab, new_node.position, Quaternion.identity);
+        new_node.objNode = obj;
 
         //Debug.Log("Created node: " + new_node.id);
         _nodes.Add(new_node);
@@ -188,6 +197,9 @@ public class TreeNetwork : MonoBehaviour
             root = null,
             position = new Vector3(position.x, DEFAULT_NODE_DEPTH, position.z)
         };
+
+        var obj = Instantiate(ForestManager.Instance.Node_Prefab, new_node.position, Quaternion.identity);
+        new_node.objNode = obj;
 
         _nodes.Add(new_node);
 
@@ -215,6 +227,11 @@ public class TreeNetwork : MonoBehaviour
             b = dst,
             id = _edgeCount
         };
+        
+        var objPos = new_edge.a.position - (new_edge.a.position - new_edge.b.position)/2;
+        var obj = Instantiate(ForestManager.Instance.Edge_Prefab, objPos, Quaternion.identity);
+        new_edge.objEdge = obj;
+
         _edges.Add(new_edge);
 
         _edgeCount++;
@@ -239,6 +256,11 @@ public class TreeNetwork : MonoBehaviour
             b = dst,
             id = _edgeCount
         };
+
+        var objPos = new_edge.a.position - (new_edge.a.position - new_edge.b.position)/2;
+        var obj = Instantiate(ForestManager.Instance.Edge_Prefab, objPos, Quaternion.identity);
+        new_edge.objEdge = obj;
+
         _edges.Add(new_edge);
 
         Debug.Log("Created Edge " + new_edge.id);
@@ -256,6 +278,7 @@ public class TreeNetwork : MonoBehaviour
         public int[] edges;
         public Roots root;
         public Vector3 position;
+        public GameObject objNode;
     }
 
     public class NetworkEdge
@@ -265,6 +288,7 @@ public class TreeNetwork : MonoBehaviour
         public float distance;
         public NetworkNode a;
         public NetworkNode b;
+        public GameObject objEdge;
 
         public void Strengthen()
         {

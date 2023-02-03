@@ -38,27 +38,34 @@ public class CritterInputManager : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0))
         {
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if(Physics.Raycast(ray, out var hitInfo))
-            {
-                var gameCollider = hitInfo.collider;
-                if(gameCollider == null)
-                    return;
-                
-                var ccc = gameCollider.GetComponent<CritterCommandControl>();
-                if(ccc == null)
-                    return;
-
-                HandleNewSelection(ccc);
-            }
+            HandleSelectClick();
         }
         else if(Input.GetMouseButtonDown(1))
         {
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if(Physics.Raycast(ray, out var hitInfo))
-            {
-                HandleCommandClick(hitInfo);
-            }
+            HandleCommandClick();
+        }
+    }
+
+    private void HandleSelectClick()
+    {
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if(Physics.Raycast(ray, out var hitInfo))
+        {
+            var gameCollider = hitInfo.collider;
+            if(gameCollider == null)
+                return;
+            
+            CritterCommandControl ccc;
+            var tree = gameCollider.GetComponentInParent<TreeGrowth>();
+            if(tree != null)
+                ccc = tree.OccupyingCritters;
+            else
+                ccc = gameCollider.GetComponent<CritterCommandControl>();
+
+            if(ccc == null)
+                return;
+
+            HandleNewSelection(ccc);
         }
     }
 
@@ -69,22 +76,29 @@ public class CritterInputManager : MonoBehaviour
         curSelected = ccc;
     }
 
-    private void HandleCommandClick(RaycastHit hitInfo)
+    private void HandleCommandClick()
     {
         if(curSelected == null)
             return;
 
-        if(Input.GetKey(KeyCode.LeftControl))
-            curSelected.SetToPatrol(hitInfo.point);
-        else
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if(Physics.Raycast(ray, out var hitInfo))
         {
-            // Left Shift maintains a command queue
-            if(!Input.GetKey(KeyCode.LeftShift))
+            if(Input.GetKey(KeyCode.LeftControl))
+                curSelected.SetToPatrol(hitInfo.point);
+            else
             {
-                curSelected.ClearCommands();
+                // Left Shift maintains a command queue
+                if(!Input.GetKey(KeyCode.LeftShift))
+                {
+                    curSelected.ClearCommands();
+                }
+                var tree = hitInfo.collider.GetComponentInParent<TreeGrowth>();
+                if(tree != null)
+                    curSelected.QueueEnterCommand(tree);
+                else
+                    curSelected.QueueMoveCommand(hitInfo.point);
             }
-
-            curSelected.QueueMoveCommand(hitInfo.point);
         }
     }
 }

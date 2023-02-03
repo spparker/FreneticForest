@@ -12,6 +12,8 @@ public class CritterPod : MonoBehaviour
     public CritterTypeData CritterData;
     List<GameObject> MyCritter_List = new List<GameObject>();
 
+    public TreeGrowth InTree {get; private set;}
+
     private NavMeshAgent _agent;
     private CapsuleCollider _coll;
 
@@ -39,6 +41,29 @@ public class CritterPod : MonoBehaviour
         }
 
         ScaleClickWithPodSize();
+    }
+
+    void Update()
+    {
+        if(InTree)
+            transform.position = new Vector3(InTree.transform.position.x, InTree.Top , InTree.transform.position.z);
+    }
+
+    public void SetInTree(TreeGrowth tree)
+    {
+        InTree = tree;
+        _agent.enabled = false;
+        _coll.enabled = false;
+        transform.position = new Vector3(tree.transform.position.x, tree.Top ,tree.transform.position.z);
+    }
+
+    public void SetOnGround()
+    {
+        InTree.LeaveTree();
+        InTree = null;
+        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        _coll.enabled = true;
+        _agent.enabled = true;
     }
 
     public void SetSelectedShader(bool isSelected)

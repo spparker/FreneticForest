@@ -15,6 +15,7 @@ MonoBehaviour:
   critterName: Diggies
   type: 1
   enemy: 0
+  canEnterTrees: 1
   numberOfIndividuals: 9
   moveSpeed: 7
   damageOutput: 2

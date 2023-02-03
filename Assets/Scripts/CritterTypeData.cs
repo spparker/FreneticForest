@@ -14,6 +14,9 @@ public class CritterTypeData : ScriptableObject
     // Is this the enemy?
     public bool enemy;
 
+    // Can they occupy a tree
+    public bool canEnterTrees;
+
     // AKA hit points
     public int numberOfIndividuals;
 

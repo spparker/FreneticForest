@@ -41,7 +41,15 @@ public class CritterCommandControl : MonoBehaviour
 
     public void QueueMoveCommand(Vector3 position)
     {
-        _commands.Enqueue(item: new CritterMoveCommand(position, _agent));
+        _commands.Enqueue(item: new CommandMove(position, _agent));
+    }
+
+    public void QueueEnterCommand(TreeGrowth tree)
+    {
+        if(_pod.CritterData.canEnterTrees)
+            _commands.Enqueue(item: new CommandEnter(tree, this));
+        else
+            QueueMoveCommand(tree.transform.position);
     }
 
     // Loop move commands between two positions
@@ -54,6 +62,17 @@ public class CritterCommandControl : MonoBehaviour
         SetNextPatrolDestination();
     }
 
+    // Occupy tree if empty
+    public void OccupyTree(TreeGrowth tree)
+    {
+        if(!tree.CanEnter)
+            return;
+
+        tree.EnterTree(this);
+        _pod.SetInTree(tree);
+    }
+
+
     private void SetNextPatrolDestination()
     {
         if(Vector3.Magnitude(_agent.transform.position - _patrolStartPosition) <= PATROL_TARGET_DELTA)
@@ -64,14 +83,24 @@ public class CritterCommandControl : MonoBehaviour
 
     private void ProcessCommandQueue()
     {
-        if(_currentCommand != null && _currentCommand.IsFinished == false)
-            return;
+        if(_currentCommand != null) 
+        {
+            if(_currentCommand.IsFinished == false)
+                return;
+            else
+                _currentCommand.OnArrive();
+        }
 
-        if(_patrolMode)
+        _currentCommand = null;
+
+        if(_patrolMode) // TODO: Move this to OnArrive
             SetNextPatrolDestination();
         
         if(_commands.Count <= 0)
             return;
+
+        if(_pod.InTree)
+            _pod.SetOnGround();
 
         _currentCommand = _commands.Dequeue();
         _currentCommand.Execute();

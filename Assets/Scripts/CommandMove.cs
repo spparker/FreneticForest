@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-internal class CritterMoveCommand : CritterCommand
+internal class CommandMove : CritterCommand
 {
     public const float DELTA_FROM_TARGET = 0.5f;
     private readonly Vector3 _destination;
     private readonly NavMeshAgent _agent;
 
-    public CritterMoveCommand(Vector3 destination, NavMeshAgent _agent)
+    public CommandMove(Vector3 destination, NavMeshAgent _agent)
     {
         _destination = destination;
         this._agent = _agent;
@@ -21,5 +21,9 @@ internal class CritterMoveCommand : CritterCommand
     {
         //Debug.Log(string.Format("Executing Move to : {0}", _destination));
         _agent.SetDestination(_destination);
+    }
+
+    public override void OnArrive()
+    {
     }
 }

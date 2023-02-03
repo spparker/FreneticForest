@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: CritterPathStomper
   m_EditorClassIdentifier: 
   critterName: Stompies
+  type: 0
   enemy: 0
+  canEnterTrees: 1
   numberOfIndividuals: 12
   moveSpeed: 3
   damageOutput: 0

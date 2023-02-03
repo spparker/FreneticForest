@@ -7,7 +7,13 @@ public class TreeGrowth : MonoBehaviour
     private float _growRate;
     private float _currentAge;
     private float _currentSize;
+    public CritterCommandControl OccupyingCritters{get; private set;}
+
+    public bool CanEnter => !OccupyingCritters;
+    public void EnterTree(CritterCommandControl ccc){OccupyingCritters = ccc;}
+    public void LeaveTree(){OccupyingCritters = null;}
     public bool CanGrow {get; private set;}
+    public float Top => _currentSize;
 
     void Start()
     {

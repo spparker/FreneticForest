@@ -20,6 +20,7 @@ public class ForestManager : MonoBehaviour
 
     public NavMeshSurface NavSurface;
     public NavMeshSurface BurrowSurface;
+    public NavMeshSurface JumperSurface;
     private MeshRenderer _meshRenderer;
 
     private float _timeSinceRebuild = 0;
@@ -46,7 +47,7 @@ public class ForestManager : MonoBehaviour
         transform.localScale = new Vector3(ForestSettings.forestScale,
                                          1f, ForestSettings.forestScale);
         BurrowSurface.gameObject.transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
-
+        JumperSurface.gameObject.transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
         max_pos = ArenaSize - ForestSettings.edgeBufferSize;
 
         HomeTree = Instantiate(Tree_Prefab, Vector3.zero, Quaternion.identity);
@@ -182,6 +183,7 @@ public class ForestManager : MonoBehaviour
         NavSurface.BuildNavMesh();
         //BurrowSurface.navMeshData = NavSurface.navMeshData;
         BurrowSurface.BuildNavMesh(); // will need to rebuild for better burrow movement
+        JumperSurface.BuildNavMesh();
         _timeSinceRebuild = 0;
     }
 }

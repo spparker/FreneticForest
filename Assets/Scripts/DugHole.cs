@@ -16,14 +16,17 @@ public class DugHole : MonoBehaviour
         _depth = Mathf.Clamp(_depth + DEPTH_PER_PASS,1, MAX_DEPTH);
 
         transform.localScale = new Vector3(1 + _depth * WIDTH_PER_DEPTH, _depth, transform.localScale.z);
-        HoleMask.transform.position = new Vector3(HoleMask.transform.position.x, 0, HoleMask.transform.position.z);
-        //transform.Translate(0,-0.25f,0);
 
         if(_depth >= MAX_DEPTH)
         {
             _depth = MAX_DEPTH;
             return false;
         }
+        else
+            transform.Translate(0,-0.25f,0);
+
+        HoleMask.transform.position = new Vector3(HoleMask.transform.position.x, 0, HoleMask.transform.position.z);
+
         return true;
     }
 }

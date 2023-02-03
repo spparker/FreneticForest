@@ -13,6 +13,7 @@ public class CritterManager : MonoBehaviour
 
     public const int DIGGIE_LAYER = 8;
     public const string DIGGIE_AGENT_STRING = "Burrower";
+    public const string CHOPCHOP_AGENT_STRING = "ChopChop";
 
     public static CritterManager Instance{ get; private set; }
 
@@ -56,6 +57,8 @@ public class CritterManager : MonoBehaviour
                 new_critter.layer = DIGGIE_LAYER;
                 pod.SetAgentToType(DIGGIE_AGENT_STRING);
             }
+            else if(data.type == CritterType.CHOPCHOP)
+                pod.SetAgentToType(CHOPCHOP_AGENT_STRING);
             new_critter.transform.name = data.critterName + i;
             new_critter.transform.SetParent(Holder);
             _critterTypeLists[(int)data.type].Add(new_critter.GetComponent<CritterCommandControl>());

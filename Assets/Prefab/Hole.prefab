@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 391591953351130442}
   - component: {fileID: 6704448351376341649}
   - component: {fileID: 187175150019549370}
-  m_Layer: 9
+  m_Layer: 2
   m_Name: HoleMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,6 +209,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_OverrideArea: 1
-  m_Area: 1
+  m_Area: 0
   m_IgnoreFromBuild: 0
   m_AffectedAgents: 00000000

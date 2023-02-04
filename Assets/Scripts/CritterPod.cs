@@ -104,6 +104,13 @@ public class CritterPod : MonoBehaviour
         _agent.enabled = false;
         _coll.enabled = false;
         transform.position = new Vector3(tree.transform.position.x, tree.Top ,tree.transform.position.z);
+
+        if(InTree.Invaded && !CritterData.enemy)
+        { // Autoattack nearest invader
+            var invader = CritterManager.Instance.GetNearestOfType(CritterManager.CritterType.INVADER,transform.position);
+            if(invader)
+                GetComponent<CritterCommandControl>().QueueAttackCommand(invader.Pod);
+        }
     }
 
     public void SetOnGround()

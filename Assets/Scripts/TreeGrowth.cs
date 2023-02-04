@@ -33,7 +33,7 @@ public class TreeGrowth : MonoBehaviour
 
     private SpriteRenderer _spriteRenderer;
 
-
+    public bool Invaded => _invaderCount > 0;
     public bool Overgrown => _overgrownLevel >= _overgrow_visual_threshold;
     public bool CanEnter => !OccupyingCritters;
     public void EnterTree(CritterCommandControl ccc){

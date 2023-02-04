@@ -9,11 +9,22 @@ public class TreeGrowth : MonoBehaviour
     private float _growRate;
     private float _currentAge;
     private float _currentSize = 1;
+    private int _invaderCout;
     public CritterCommandControl OccupyingCritters{get; private set;}
 
     public bool CanEnter => !OccupyingCritters;
-    public void EnterTree(CritterCommandControl ccc){OccupyingCritters = ccc;}
-    public void LeaveTree(){OccupyingCritters = null;}
+    public void EnterTree(CritterCommandControl ccc){
+        if(ccc.Pod.CritterData.enemy)
+            _invaderCout++;
+        else
+            OccupyingCritters = ccc;}
+
+    public void LeaveTree(bool enemy){
+        if(enemy)
+            _invaderCout++;
+        else
+            OccupyingCritters = null;}
+
     public bool CanGrow {get; private set;}
     public float Top => _currentSize;
     public float Radius => _currentSize * INITIAL_RADIUS;

@@ -110,7 +110,7 @@ public class CritterPod : MonoBehaviour
     {
         //WE NEED TO NOT GET STUCK IN THE BIG TREEES COMING DOWN
         transform.position -= _enter_vec * InTree.Radius;
-        InTree.LeaveTree();
+        InTree.LeaveTree(CritterData.enemy);
         InTree = null;
 
         //transform.position = new Vector3(transform.position.x, 0, transform.position.y);
@@ -233,7 +233,7 @@ public class CritterPod : MonoBehaviour
     {
         if(number <= 0)
             return;
-            
+
         var first_critter = MyCritter_List[0];
         MyCritter_List.Remove(first_critter);
         Destroy(first_critter);

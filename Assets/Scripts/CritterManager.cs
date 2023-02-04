@@ -63,11 +63,11 @@ public class CritterManager : MonoBehaviour
             {
                 if(critter.InCombat == null)
                 {
-                    Debug.Log("Someone else destroyed my target");
+                    //Debug.Log("Someone else destroyed my target");
                     end.Add(critter);
                     continue;
                 }
-                Debug.Log("Handle Combat for " + critter.name + " against " + critter.InCombat.name);
+                //Debug.Log("Handle Combat for " + critter.name + " against " + critter.InCombat.name);
                 critter.CombatTime = 0;
                 bool hasWon = critter.InCombat.TakeDamage(critter.CritterData.damageOutput);
                 if(hasWon)
@@ -91,7 +91,7 @@ public class CritterManager : MonoBehaviour
 
     private void CritterDeath(CritterPod dead)
     {
-        Debug.Log("Death of: " + dead.name);
+        //Debug.Log("Death of: " + dead.name);
         _critterTypeLists[(int)dead.CritterData.type].Remove(dead.GetComponent<CritterCommandControl>());
         _CritterInput.ClearSelected(dead);
         Destroy(dead.gameObject);
@@ -154,7 +154,7 @@ public class CritterManager : MonoBehaviour
                 ret = crit;
             }
         }
-        Debug.Log("Nearest of type " + ct + ": " + ret);
+        //Debug.Log("Nearest of type " + ct + ": " + ret);
         return ret;
     }
 

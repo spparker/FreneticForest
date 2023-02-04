@@ -67,9 +67,9 @@ public class CritterCommandControl : MonoBehaviour
     // Occupy tree if empty
     public void OccupyTree(TreeGrowth tree)
     {
-        if(!tree.CanEnter)
+        if(!Pod.CritterData.enemy && !tree.CanEnter)
             return;
-
+            
         tree.EnterTree(this);
         Pod.SetInTree(tree);
     }

@@ -7,7 +7,7 @@ public class Roots : MonoBehaviour
     TreeGrowth treeObject;
     Material rootsMaterial;
 
-    
+    public float Radius => treeObject.Radius;
 
     void Awake()
     {

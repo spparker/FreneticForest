@@ -7,7 +7,7 @@ public class TreeNetwork : MonoBehaviour
     const float DECAY_RATE = 0.0044f;
     const float DEATH_POINT = -0.3f;
 
-    const float NODE_JOIN_DIST = 6.5f;
+    const float NODE_JOIN_DIST = 6f;
     const float DEFAULT_NODE_DEPTH = -1f;
     const float PASS_WEIGHT_INCREASE = 0.22f;
     const float MAX_EDGE_WEIGHT = 1.0f;
@@ -178,9 +178,11 @@ public class TreeNetwork : MonoBehaviour
     {
         Roots nearest = ForestManager.Instance.FindNearestRoots(p, excluded);
         Vector3 nearest_surface = new Vector3(nearest.transform.position.x, 0, nearest.transform.position.z);
-        if(Vector3.Magnitude(nearest_surface - p) <= NODE_JOIN_DIST)
+        Debug.Log("Found nearest Root: " + nearest.transform.parent.name + " @ " + Vector3.Magnitude(nearest_surface - p) );
+
+        if(Vector3.Magnitude(nearest_surface - p) <= NODE_JOIN_DIST + nearest.Radius)
         {
-            //Debug.Log("Found Nearby Root: " + nearest.gameObject.name);
+            Debug.Log("Found Nearby Root: " + nearest.gameObject.name);
             return CreateNode(nearest); // If it had one we would've found it on Step 1
         }
 

@@ -98,7 +98,7 @@ public class CritterPod : MonoBehaviour
 
     public void SetInTree(TreeGrowth tree)
     {
-        Debug.Log(name + " set in tree");
+        //Debug.Log(name + " set in tree");
         _enter_vec = new Vector3 (tree.transform.position.x - transform.position.x, 0, tree.transform.position.z - transform.position.z);
         _enter_vec.Normalize();
         InTree = tree;

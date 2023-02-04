@@ -70,7 +70,7 @@ public class ForestManager : MonoBehaviour
         var netObj = new GameObject("Network");
         HomeNetwork = netObj.AddComponent<TreeNetwork>();
         HomeNetwork.CreateNode(HomeTree.GetComponentInChildren<Roots>());
-        _trees = new List<GameObject>();
+        _trees = new List<GameObject>{ HomeTree};
 
         SpawnTrees();
         RebuildNavMesh();

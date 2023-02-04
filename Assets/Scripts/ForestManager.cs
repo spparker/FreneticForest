@@ -58,7 +58,8 @@ public class ForestManager : MonoBehaviour
         HomeTree.GetComponent<TreeGrowth>().SetStartingSize(ForestSettings.homeTreeStartingSize);
         
         MeshRenderer homeMiniRenderer = HomeTree.GetComponentInChildren<NavMeshObstacle>().gameObject.GetComponent<MeshRenderer>();
-        homeMiniRenderer.material.SetColor("_Color", Color.yellow);
+        //homeMiniRenderer.material.SetColor("_Color", Color.yellow);
+        homeMiniRenderer.material.color = Color.yellow;
         var netObj = new GameObject("Network");
         HomeNetwork = netObj.AddComponent<TreeNetwork>();
         HomeNetwork.CreateNode(HomeTree.GetComponentInChildren<Roots>());

@@ -15,7 +15,7 @@ MonoBehaviour:
   critterName: Stompies
   type: 0
   enemy: 0
-  canEnterTrees: 1
+  canEnterTrees: 0
   numberOfIndividuals: 4
   moveSpeed: 3
   damageOutput: 0

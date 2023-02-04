@@ -15,7 +15,7 @@ MonoBehaviour:
   critterName: ChopChop
   type: 2
   enemy: 0
-  canEnterTrees: 0
+  canEnterTrees: 1
   numberOfIndividuals: 5
   moveSpeed: 6
   damageOutput: 3

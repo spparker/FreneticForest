@@ -142,7 +142,7 @@ public class TreeGrowth : MonoBehaviour
 
     private void BecomeRough()
     {
-        if(_healthState == TreeHealth.NORMAL)
+        if(_healthState == TreeHealth.NORMAL && StressLevel < _stress_visual_threshold)
         {
             Debug.Log("Help Me");
             _healthState = TreeHealth.ROUGH;
@@ -158,11 +158,13 @@ public class TreeGrowth : MonoBehaviour
 
     private void BecomeTrimmed()
     {
-        Debug.Log("Much Better");
-        if(_healthState == TreeHealth.ROUGH)
-            _spriteRenderer.sprite = ForestManager.Instance.TreeGrowthData.RoughImage;
-        else
-            _spriteRenderer.sprite = ForestManager.Instance.TreeGrowthData.HealthyImage;
+        if(_overgrownLevel < _overgrow_visual_threshold)
+        {
+            if(_healthState == TreeHealth.ROUGH)
+                _spriteRenderer.sprite = ForestManager.Instance.TreeGrowthData.RoughImage;
+            else
+                _spriteRenderer.sprite = ForestManager.Instance.TreeGrowthData.HealthyImage;
+        }
     }
 
     private void BecomeNormal()

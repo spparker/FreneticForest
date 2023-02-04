@@ -7,7 +7,7 @@ public class CritterPod : MonoBehaviour
 {
     public const float BASE_RADIUS_SIZE = 0.5f;
     public const float POD_RADIUS_PER = 0.15f;
-    public const float TO_CAPSULE_RADIUS = 1.5f;
+    public const float TO_CAPSULE_RADIUS = 1.8f;
 
     
     public CritterTypeData CritterData;

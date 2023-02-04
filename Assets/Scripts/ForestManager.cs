@@ -6,12 +6,14 @@ public class ForestManager : MonoBehaviour
 {
     public const float SECONDS_BETWEEN_REBUILD = 20f;
     public ForestSettings ForestSettings;
+    public TreeGrowthData TreeGrowthData;
 
     public GameObject Tree_Prefab;
     public GameObject Node_Prefab;
     public GameObject Edge_Prefab;
 
     public GameObject HomeTree{ get; private set; }
+    private SpriteRenderer _homeTreeRenderer;
     public TreeNetwork HomeNetwork{ get; private set;}
 
     private List<GameObject> _trees;
@@ -54,6 +56,9 @@ public class ForestManager : MonoBehaviour
 
         HomeTree = Instantiate(Tree_Prefab, Vector3.zero, Quaternion.identity);
         HomeTree.GetComponent<TreeGrowth>().SetStartingSize(ForestSettings.homeTreeStartingSize);
+        
+        MeshRenderer homeMiniRenderer = HomeTree.GetComponentInChildren<NavMeshObstacle>().gameObject.GetComponent<MeshRenderer>();
+        homeMiniRenderer.material.SetColor("_Color", Color.yellow);
         var netObj = new GameObject("Network");
         HomeNetwork = netObj.AddComponent<TreeNetwork>();
         HomeNetwork.CreateNode(HomeTree.GetComponentInChildren<Roots>());

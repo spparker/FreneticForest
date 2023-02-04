@@ -21,6 +21,9 @@ public class InvaderAI : MonoBehaviour
     {
         //if(_critterTarget == null)
         //    AttackRandom();
+
+        if(_treeTarget == null)
+            ClimbRandom();
     }
 
     private void AttackRandom()

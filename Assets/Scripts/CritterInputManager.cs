@@ -98,7 +98,6 @@ public class CritterInputManager : MonoBehaviour
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if(Physics.Raycast(ray, out var hitInfo))
         {
-
             if(Input.GetKey(KeyCode.LeftControl))
             {
                 //curSelected.ClearCommands(); // Clear otherwise Location will be wrong (could change to drag and release)
@@ -121,6 +120,12 @@ public class CritterInputManager : MonoBehaviour
                 else
                     curSelected.QueueMoveCommand(hitInfo.point);
             }
+            SendCommandToShader(hitInfo.point);
         }
+    }
+
+    private void SendCommandToShader(Vector3 pos)
+    {
+        ForestManager.Instance.NewCommandForShader(pos.x, pos.z);
     }
 }

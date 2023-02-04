@@ -43,6 +43,12 @@ public class ForestManager : MonoBehaviour
     private bool _inTransition;
     private int _transDir = 1;
 
+    public const float MIN_COMMAND_RAD = 0.03f;
+    public const float COMMAND_GROW_TIME = 1f; // seconds
+    public const float MAX_COMMAND_RAD = 1.5f;
+    private float _commandTime;
+
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -96,6 +102,12 @@ public class ForestManager : MonoBehaviour
             _timeTilNextEnemy = Random.Range(MIN_ENEMY_SPAWN_T, MAX_ENEMY_SPAWN_T);
             SpawnEnemy();
         }
+
+        _commandTime += Time.deltaTime;
+        if(_commandTime >= COMMAND_GROW_TIME)
+            HideCommandShader();
+        else
+            UpdateCommandShader();
     }
 
     private void InitialBranchOut()
@@ -227,5 +239,25 @@ public class ForestManager : MonoBehaviour
     public void HideSelectedShader()
     {
         _meshRenderer.material.SetInt("_ShowSelected", 0);
+    }
+
+    public void NewCommandForShader(float x, float y)
+    {
+        _meshRenderer.material.SetInt("_ShowCommand", 1);
+        _meshRenderer.material.SetVector("_CommandPos", new Vector4(x,y,0,0));
+        _meshRenderer.material.SetFloat("_CommandRadius", MIN_COMMAND_RAD);
+        _commandTime = 0;
+    }
+
+    private void UpdateCommandShader()
+    {
+        //_meshRenderer.material.SetVector("_CommandPos", new Vector4(x,y,0,0));
+        var rad = Mathf.Lerp(MIN_COMMAND_RAD, MAX_COMMAND_RAD, _commandTime);
+        _meshRenderer.material.SetFloat("_CommandRadius", rad);
+    }
+
+    public void HideCommandShader()
+    {
+        _meshRenderer.material.SetInt("_ShowCommand", 0);
     }
 }

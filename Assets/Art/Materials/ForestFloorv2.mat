@@ -99,9 +99,10 @@ Material:
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
-    - _CircleThickness: 0.05
+    - _CircleThickness: 0.06
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
+    - _CommandRadius: 0.5
     - _Cull: 2
     - _Cutoff: 0.511
     - _DetailAlbedoMapScale: 1
@@ -118,6 +119,7 @@ Material:
     - _QueueOffset: 5
     - _Radius: 0.8
     - _ReceiveShadows: 1
+    - _ShowCommand: 0
     - _ShowSelected: 0
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
@@ -131,6 +133,8 @@ Material:
     - _CircleColor: {r: 1, g: 1, b: 1, a: 1}
     - _ClickPos: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 0.35849038, g: 0.35849038, b: 0.35849038, a: 1}
+    - _CommandCircleColor: {r: 1, g: 0, b: 0, a: 0}
+    - _CommandPos: {r: 0, g: 0, b: 0, a: 0}
     - _CritterCircleColor: {r: 0.8490566, g: 0.8490566, b: 0.8490566, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SelectedPos: {r: 0, g: 0, b: 0, a: 0}

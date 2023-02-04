@@ -17,6 +17,8 @@ public class CritterManager : MonoBehaviour
     public const string DIGGIE_AGENT_STRING = "Burrower";
     public const string CHOPCHOP_AGENT_STRING = "ChopChop";
 
+    public const float COMBAT_TICK_LENGTH = 2f; // Second per Damage
+
     public static CritterManager Instance{ get; private set; }
 
     public GameObject Critter_Prefab;
@@ -27,6 +29,10 @@ public class CritterManager : MonoBehaviour
     private CritterType _curCycleList;
     private int _curListPos;
 
+    List<CritterPod> _activeCombatList; // Attacking Pod and start time
+
+    private CritterInputManager _CritterInput;
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -34,11 +40,55 @@ public class CritterManager : MonoBehaviour
         else
             Instance = this;
 
+
+        _CritterInput = GetComponent<CritterInputManager>();
+        _activeCombatList = new List<CritterPod>();
+
         _critterTypeLists = new List<CritterCommandControl>[4];
         _critterTypeLists[(int)CritterType.PATHER] = new List<CritterCommandControl>();
         _critterTypeLists[(int)CritterType.DIGGIE] = new List<CritterCommandControl>();
         _critterTypeLists[(int)CritterType.CHOPCHOP] = new List<CritterCommandControl>();
         _critterTypeLists[(int)CritterType.INVADER] = new List<CritterCommandControl>();
+    }
+
+    void Update()
+    {
+        // COMBAT SYSTEM
+        var destroy = new List<CritterPod>();
+        var end = new List<CritterPod>();
+        foreach(var critter in _activeCombatList)
+        {
+            critter.CombatTime += Time.deltaTime;
+            if(critter.CombatTime > COMBAT_TICK_LENGTH)
+            {
+                //Debug.Log("Handle Combat for" + critter.name);
+                critter.CombatTime = 0;
+                bool hasWon = critter.InCombat.TakeDamage(critter.CritterData.damageOutput);
+                if(hasWon)
+                    destroy.Add(critter.InCombat);
+
+                if(critter.TakeDamage(critter.InCombat.CritterData.damageOutput))
+                    destroy.Add(critter);
+                else if(hasWon)
+                    end.Add(critter);
+            }
+        }
+
+        foreach(var dead in destroy)
+        {
+            _activeCombatList.Remove(dead);
+            CritterDeath(dead);
+        }
+        foreach(var winner in end)
+            winner.EndCombat();
+    }
+
+    private void CritterDeath(CritterPod dead)
+    {
+        //Debug.Log("Death of: " + dead.name);
+        _critterTypeLists[(int)dead.CritterData.type].Remove(dead.GetComponent<CritterCommandControl>());
+        _CritterInput.ClearSelected(dead);
+        Destroy(dead.gameObject);
     }
 
     public void SpawnCritterFromData(CritterTypeData data, int num, float max_pos)
@@ -90,5 +140,15 @@ public class CritterManager : MonoBehaviour
             _curCycleList = ct;
             return _critterTypeLists[(int)ct][_curListPos];
         }
+    }
+
+    public void NotifyEnterCombat(CritterPod attacker)
+    {
+        _activeCombatList.Add(attacker);
+    }
+
+    public void NotifyEndCombat(CritterPod attacker)
+    {
+        _activeCombatList.Remove(attacker);
     }
 }

@@ -7,6 +7,15 @@ public class CritterInputManager : MonoBehaviour
 
     private CritterCommandControl curSelected;
 
+    public void ClearSelected(CritterPod pod)
+    {
+        if(!curSelected)
+            return;
+
+        if(curSelected == pod.GetComponent<CritterCommandControl>())
+            curSelected = null;
+    }
+
 
     // Update is called once per frame
     void Update()

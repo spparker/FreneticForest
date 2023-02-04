@@ -8,6 +8,7 @@ public class CritterPod : MonoBehaviour
     public const float BASE_RADIUS_SIZE = 0.5f;
     public const float POD_RADIUS_PER = 0.15f;
     public const float TO_CAPSULE_RADIUS = 1.5f;
+
     
     public CritterTypeData CritterData;
     List<GameObject> MyCritter_List = new List<GameObject>();
@@ -15,6 +16,7 @@ public class CritterPod : MonoBehaviour
     public TreeGrowth InTree {get; private set;}
 
     public CritterPod InCombat {get; private set;}
+    public float CombatTime { get; set;}
 
     public float Radius { get; private set;}
     public float ColliderRadius => Radius * TO_CAPSULE_RADIUS;
@@ -196,8 +198,9 @@ public class CritterPod : MonoBehaviour
 
     public void EnterCombatWith(CritterPod target)
     {
-        Debug.Log("Enter Combat");
         InCombat = target;
+        CombatTime = 0;
+        CritterManager.Instance.NotifyEnterCombat(this);
     }
 
     private void MoveSpritesToCombat()
@@ -209,8 +212,31 @@ public class CritterPod : MonoBehaviour
         }
     }
 
-    public void EndCombat()
+    public void EndCombat(bool notify = true)
     {
         InCombat = null;
+        if(notify)
+            CritterManager.Instance.NotifyEndCombat(this);
+    }
+
+    public bool TakeDamage(int amount)
+    {
+        if( MyCritter_List.Count <= amount)
+            return true;
+        else
+            RemoveCritters(amount);
+        return false;
+
+    }
+
+    private void RemoveCritters(int number)
+    {
+        if(number <= 0)
+            return;
+            
+        var first_critter = MyCritter_List[0];
+        MyCritter_List.Remove(first_critter);
+        Destroy(first_critter);
+        RemoveCritters(--number);
     }
 }

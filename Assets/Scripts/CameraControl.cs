@@ -123,8 +123,11 @@ public class CameraControl : MonoBehaviour
 
     private void CheckForZoom()
     {
-        _curZoom = Mathf.Clamp(_curZoom - Input.mouseScrollDelta.y * ZOOM_RATE * Time.deltaTime
-                                , (MIN_ZOOM_DIST/ _arenaMax ), 1.0f);
+        var scroll_scale = Mathf.Clamp(_curZoom, 0.3f, 1f);
+        _curZoom = Mathf.Clamp(_curZoom - Input.mouseScrollDelta.y * (ZOOM_RATE * scroll_scale * Time.deltaTime)
+                        , (MIN_ZOOM_DIST/ _arenaMax ), 1.0f);
+        //_curZoom = Mathf.Clamp(_curZoom - Input.mouseScrollDelta.y * ZOOM_RATE * Time.deltaTime
+        //                        , (MIN_ZOOM_DIST/ _arenaMax ), 1.0f);
     }
 
     private void PanForward()

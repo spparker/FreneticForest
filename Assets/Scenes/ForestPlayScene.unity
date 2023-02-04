@@ -160,8 +160,8 @@ Camera:
   m_GameObject: {fileID: 330585543}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1309,8 +1309,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d453d04d19cb60648abb975b680c75b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ForestSettings: {fileID: 11400000, guid: 940e0b536a5bd3c48adb36946927cf9e, type: 2}
-  TreeGrowthData: {fileID: 11400000, guid: 38bf14f14e46d4244871d072070f0347, type: 2}
+  ForestSettings: {fileID: 11400000, guid: 23155c9416230724aadbfb4fba8a3f0d, type: 2}
+  TreeGrowthData: {fileID: 11400000, guid: b407dbd49ee78fd4280ed3b738fc50b5, type: 2}
   Tree_Prefab: {fileID: 6892354846085866887, guid: d7843eb1c884f2348baa5cb35f5ef6af,
     type: 3}
   Node_Prefab: {fileID: 8721573145271558476, guid: 05a021b070a719345be827ed32bfb95b,

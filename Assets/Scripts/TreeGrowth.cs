@@ -71,6 +71,12 @@ public class TreeGrowth : MonoBehaviour
         _calm_rate = ForestManager.Instance.TreeGrowthData.CalmRate;
     }
 
+    public void SetRandomSpawnValues(float max_initial_size)
+    {
+        _currentSize = Random.Range(1.0f, max_initial_size);
+        _overgrownLevel = Random.Range(0.0f, 0.2f);
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -144,7 +150,7 @@ public class TreeGrowth : MonoBehaviour
     {
         if(_healthState == TreeHealth.NORMAL && StressLevel < _stress_visual_threshold)
         {
-            Debug.Log("Help Me");
+            //Debug.Log("Help Me");
             _healthState = TreeHealth.ROUGH;
             _spriteRenderer.sprite = ForestManager.Instance.TreeGrowthData.RoughImage;
         }
@@ -152,7 +158,7 @@ public class TreeGrowth : MonoBehaviour
 
     private void BecomeOvergrown()
     {
-        Debug.Log("Trim Me");
+        //Debug.Log("Trim Me");
         _spriteRenderer.sprite = ForestManager.Instance.TreeGrowthData.OvergrowImage;
     }
 

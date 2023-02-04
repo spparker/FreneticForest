@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class TreeNetwork : MonoBehaviour
 {
-    const float DECAY_RATE = 0.005f;
-    const float DEATH_POINT = -0.1f;
+    const float DECAY_RATE = 0.0044f;
+    const float DEATH_POINT = -0.3f;
 
-    const float NODE_JOIN_DIST = 5f;
+    const float NODE_JOIN_DIST = 6.5f;
     const float DEFAULT_NODE_DEPTH = -1f;
-    const float PASS_WEIGHT_INCREASE = 0.2f;
+    const float PASS_WEIGHT_INCREASE = 0.22f;
     const float MAX_EDGE_WEIGHT = 1.0f;
 
     const float BASE_EDGE_RAD = 0.1f;
-    const float MAX_EDGE_RAD = 1.5f;
+    const float MAX_EDGE_RAD = 1.3f;
 
     const int MAX_EDGES = 8;
     NetworkNode _origin;
@@ -167,7 +167,7 @@ public class TreeNetwork : MonoBehaviour
 
         if(nearest != null)
         {
-            Debug.Log("Found Nearby Node: " + nearest.id + "|Root?" + nearest.root);
+            //Debug.Log("Found Nearby Node: " + nearest.id + "|Root?" + nearest.root);
             return nearest;
         }
         return null;
@@ -180,7 +180,7 @@ public class TreeNetwork : MonoBehaviour
         Vector3 nearest_surface = new Vector3(nearest.transform.position.x, 0, nearest.transform.position.z);
         if(Vector3.Magnitude(nearest_surface - p) <= NODE_JOIN_DIST)
         {
-            Debug.Log("Found Nearby Root: " + nearest.gameObject.name);
+            //Debug.Log("Found Nearby Root: " + nearest.gameObject.name);
             return CreateNode(nearest); // If it had one we would've found it on Step 1
         }
 

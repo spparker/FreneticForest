@@ -5,8 +5,8 @@ using UnityEngine;
 public class DugHole : MonoBehaviour
 {
     public GameObject HoleMask;
-    public const float DEPTH_PER_PASS = 1;
-    public const float WIDTH_PER_DEPTH = 0.2f;
+    public const float DEPTH_PER_PASS = 0.5f;
+    public const float WIDTH_PER_DEPTH = 0.1f;
     public const float MAX_DEPTH = 10;
     private float _depth = 1;
 
@@ -23,9 +23,9 @@ public class DugHole : MonoBehaviour
             return false;
         }
         else
-            transform.Translate(0,-0.25f,0);
+            transform.Translate(0, -DEPTH_PER_PASS * 0.25f ,0);
 
-        HoleMask.transform.position = new Vector3(HoleMask.transform.position.x, 0, HoleMask.transform.position.z);
+        HoleMask.transform.position = new Vector3(HoleMask.transform.position.x, -0.1f, HoleMask.transform.position.z);
 
         return true;
     }

@@ -29,6 +29,12 @@ public class CritterCommandControl : MonoBehaviour
         _commands.Clear();
     }
 
+    public void SetSelected(bool isSelected, Color colorOverride)
+    {
+        Pod.SetSelectColor(colorOverride);
+        Pod.SetSelectedShader(isSelected);
+    }
+
     public void SetSelected(bool isSelected)
     {
         Pod.SetSelectedShader(isSelected);

@@ -42,9 +42,9 @@ Material:
     - _IsSelected: 0
     - _QueueControl: 0
     - _QueueOffset: 6
-    - _SelectThickness: 0.0099
+    - _SelectThickness: 0.05
     m_Colors:
-    - _SelectColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SelectColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &4791307773744389623
 MonoBehaviour:

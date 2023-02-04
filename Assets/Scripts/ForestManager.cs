@@ -26,9 +26,16 @@ public class ForestManager : MonoBehaviour
     public NavMeshSurface BurrowSurface;
     public NavMeshSurface JumperSurface;
     private MeshRenderer _meshRenderer;
-
+    private float _timeTilNextEnemy = 0;
     private float _timeSinceRebuild = 0;
     private float max_pos;
+
+    public const float MIN_ENEMY_SPAWN_T = 10f;
+    public const float MAX_ENEMY_SPAWN_T = 50f;
+
+    public const int MAX_ENEMIES = 5;
+
+    public const float MAX_TREE_SPAWN = 4f;
 
     public const float TRANSITION_RATE = 0.5f;
     public const float SLOW_THRESHOLD = 0.95f; // Lowerbound of slow transition
@@ -71,8 +78,6 @@ public class ForestManager : MonoBehaviour
         SpawnCritters();
 
         InitialBranchOut();
-
-        SpawnEnemy();
     }
 
     void Update()
@@ -84,6 +89,13 @@ public class ForestManager : MonoBehaviour
 
         if(_inTransition)
             UpdateSurfaceOpacity();
+
+        _timeTilNextEnemy -= Time.deltaTime;
+        if( _timeTilNextEnemy <= 0 )
+        {
+            _timeTilNextEnemy = Random.Range(MIN_ENEMY_SPAWN_T, MAX_ENEMY_SPAWN_T);
+            SpawnEnemy();
+        }
     }
 
     private void InitialBranchOut()
@@ -177,7 +189,9 @@ public class ForestManager : MonoBehaviour
                                         0, Random.Range(-max_pos, max_pos));
             var new_tree = Instantiate(Tree_Prefab, spawn_pos, Quaternion.identity);
             new_tree.transform.SetParent(TreeHolder);
-            new_tree.transform.name = "Tree" + i;
+            new_tree.transform.name = "Tree " + i;
+            var tg = new_tree.GetComponent<TreeGrowth>();
+            tg.SetRandomSpawnValues(MAX_TREE_SPAWN);
             _trees.Add(new_tree);
         }
     }
@@ -191,7 +205,7 @@ public class ForestManager : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        CritterManager.Instance.SpawnCritterFromData(ForestSettings.critters.invaderData, 7, max_pos);
+        CritterManager.Instance.SpawnCritterFromData(ForestSettings.critters.invaderData, Random.Range(1, MAX_ENEMIES), max_pos);
     }
 
     public void RebuildNavMesh()

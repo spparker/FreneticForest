@@ -94,8 +94,11 @@ public class CritterManager : MonoBehaviour
         //Debug.Log("Death of: " + dead.name);
         _critterTypeLists[(int)dead.CritterData.type].Remove(dead.GetComponent<CritterCommandControl>());
         _CritterInput.ClearSelected(dead);
+        if(dead.InTree)
+            dead.InTree.LeaveTree(dead.CritterData.enemy);
         Destroy(dead.gameObject);
     }
+    
 
     public void SpawnCritterFromData(CritterTypeData data, int num, float max_pos)
     {
@@ -123,6 +126,7 @@ public class CritterManager : MonoBehaviour
             if(data.enemy)
                 SetupEnemy(new_critter);
             _critterTypeLists[(int)data.type].Add(new_critter.GetComponent<CritterCommandControl>());
+
         }
     }
 
@@ -130,6 +134,8 @@ public class CritterManager : MonoBehaviour
     {
         enemy_critter.layer = ENEMY_LAYER;
         enemy_critter.AddComponent<InvaderAI>();
+        //Set to selected
+        enemy_critter.GetComponent<CritterCommandControl>().SetSelected(true, Color.red);
     }
 
     // For AI to find players

@@ -72,7 +72,7 @@ public class CritterPod : MonoBehaviour
 
     public void StartPatrol(Vector3 p1, Vector3 p2)
     {
-        Debug.Log("Start Patrol");
+        //Debug.Log("Start Patrol");
         InPatrol = true;
         if(CritterData.type == CritterManager.CritterType.PATHER)
             SetupForPath(p1, p2);
@@ -133,6 +133,16 @@ public class CritterPod : MonoBehaviour
         {
             var crit_mat = crit.GetComponent<SpriteRenderer>().material;
             crit_mat.SetInt("_IsSelected", set_val);
+        }
+    }
+
+    public void SetSelectColor(Color color)
+    {
+        //TODO: lol  a material
+        foreach( var crit in MyCritter_List)
+        {
+            var crit_mat = crit.GetComponent<SpriteRenderer>().material;
+            crit_mat.SetColor("_SelectColor", color);
         }
     }
 

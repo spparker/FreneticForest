@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 249fd40ca147b8c4a894891d35771961, type: 3}
+  m_Name: AlphaTrees
+  m_EditorClassIdentifier: 
+  OvergrowStress: 0.01
+  OvergrowRate: 0.008
+  OvergrowVisualThreshold: 0.8
+  StressVisualThreshold: 0.5
+  StressPerInvader: 0.01
+  StressRate: 0.00001
+  TrimRate: -0.2
+  CalmRate: -0.01
+  HealthyImage: {fileID: 21300000, guid: ebda341769ba05e46b79c515e8938d16, type: 3}
+  RoughImage: {fileID: 21300000, guid: 6df1fd9721d942b4d8bf01d990ffb7cd, type: 3}
+  DiseasedImage: {fileID: 21300000, guid: 309cf8808c5a7fb4da8250a6c9e3ae20, type: 3}
+  OvergrowImage: {fileID: 21300000, guid: cfd4bdd678c53c6449fcd66a0da03ad3, type: 3}

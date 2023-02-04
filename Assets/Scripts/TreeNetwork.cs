@@ -7,7 +7,7 @@ public class TreeNetwork : MonoBehaviour
     const float DECAY_RATE = 0.005f;
     const float DEATH_POINT = -0.1f;
 
-    const float NODE_JOIN_DIST = 7f;
+    const float NODE_JOIN_DIST = 5f;
     const float DEFAULT_NODE_DEPTH = -1f;
     const float PASS_WEIGHT_INCREASE = 0.2f;
     const float MAX_EDGE_WEIGHT = 1.0f;

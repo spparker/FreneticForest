@@ -14,6 +14,11 @@ public class CritterPod : MonoBehaviour
 
     public TreeGrowth InTree {get; private set;}
 
+    public CritterPod InCombat {get; private set;}
+
+    public float Radius { get; private set;}
+    public float ColliderRadius => Radius * TO_CAPSULE_RADIUS;
+
     public bool InPatrol {get; private set;}
     private TreeNetwork.NetworkEdge _curEdge;
     private DugHole _curDug;
@@ -32,13 +37,11 @@ public class CritterPod : MonoBehaviour
     void Start()
     {   
         _agent.speed = CritterData.moveSpeed;
+        Radius = BASE_RADIUS_SIZE + (POD_RADIUS_PER * CritterData.numberOfIndividuals);
 
         for(int i=0;i<CritterData.numberOfIndividuals;i++)
         {
-            var offset = Random.insideUnitCircle * (BASE_RADIUS_SIZE + (POD_RADIUS_PER * CritterData.numberOfIndividuals));
-            var spawn_pos = new Vector3(transform.position.x + offset.x,
-                                        -CritterData.CritterSprite_Prefab.transform.position.y,
-                                        transform.position.z + offset.y);
+            var spawn_pos = GetRandomCircleSpawn(transform.position, Radius);
                                         
             var individual = Instantiate(CritterData.CritterSprite_Prefab, spawn_pos, Quaternion.identity);
             individual.transform.parent = transform;
@@ -53,6 +56,16 @@ public class CritterPod : MonoBehaviour
     {
         if(InTree)
             transform.position = new Vector3(InTree.transform.position.x, InTree.Top , InTree.transform.position.z);
+        else if(InCombat)
+            MoveSpritesToCombat();
+    }
+
+    private Vector3 GetRandomCircleSpawn(Vector3 center, float radius)
+    {
+        var offset = Random.insideUnitCircle * radius;
+        return new Vector3(center.x + offset.x,
+                                    -CritterData.CritterSprite_Prefab.transform.position.y,
+                                    center.z + offset.y);
     }
 
     public void StartPatrol(Vector3 p1, Vector3 p2)
@@ -178,5 +191,26 @@ public class CritterPod : MonoBehaviour
              }
          }
          Debug.Log("Did not find agent");
+    }
+
+
+    public void EnterCombatWith(CritterPod target)
+    {
+        Debug.Log("Enter Combat");
+        InCombat = target;
+    }
+
+    private void MoveSpritesToCombat()
+    {
+        foreach(var critter in MyCritter_List)
+        {
+            var combat_pos = GetRandomCircleSpawn(InCombat.transform.position, BASE_RADIUS_SIZE + (POD_RADIUS_PER * InCombat.CritterData.numberOfIndividuals));
+            critter.transform.position = combat_pos;
+        }
+    }
+
+    public void EndCombat()
+    {
+        InCombat = null;
     }
 }

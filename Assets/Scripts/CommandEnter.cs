@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 internal class CommandEnter : CritterCommand
 {
-    public const float DELTA_FROM_TARGET = 0.5f;
+    public const float DELTA_FROM_TARGET = 0.1f;
     private readonly TreeGrowth _tree;
     private readonly CritterCommandControl _ccc;
     private readonly NavMeshAgent _agent;
@@ -17,7 +17,7 @@ internal class CommandEnter : CritterCommand
         _agent = _ccc.GetComponent<NavMeshAgent>();
     }
 
-    public override bool IsFinished => _agent.remainingDistance <= DELTA_FROM_TARGET + _tree.Radius;
+    public override bool IsFinished => _agent.remainingDistance <= DELTA_FROM_TARGET + _tree.Radius + _ccc.Pod.Radius;
 
     public override void Execute()
     {

@@ -31,8 +31,8 @@ public class CameraControl : MonoBehaviour
     private float _arenaMax;
 
 
-    public const float ZOOM_RATE = 8f;
-    public const float MIN_ZOOM_DIST = 0.1f;
+    public const float ZOOM_RATE = 7f;
+    public const float MIN_ZOOM_DIST = 1.2f;
     private float _curZoom = 1;
 
     public const float PAN_RATE = 40f;
@@ -124,7 +124,7 @@ public class CameraControl : MonoBehaviour
     private void CheckForZoom()
     {
         _curZoom = Mathf.Clamp(_curZoom - Input.mouseScrollDelta.y * ZOOM_RATE * Time.deltaTime
-                                , MIN_ZOOM_DIST, 1.0f);
+                                , (MIN_ZOOM_DIST/ _arenaMax ), 1.0f);
     }
 
     private void PanForward()

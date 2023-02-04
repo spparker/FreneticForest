@@ -39,6 +39,11 @@ public class CritterCommandControl : MonoBehaviour
         _commands.Enqueue(item: new CommandMove(position, _agent));
     }
 
+    public void QueueAttackCommand(CritterPod target)
+    {
+        _commands.Enqueue(item: new CommandAttack(target, this));
+    }
+
     public void QueueEnterCommand(TreeGrowth tree)
     {
         if(Pod.CritterData.canEnterTrees && Pod.InTree != tree)
@@ -86,6 +91,9 @@ public class CritterCommandControl : MonoBehaviour
 
         if(Pod.InTree)
             Pod.SetOnGround();
+
+        if(Pod.InCombat)
+            Pod.EndCombat();
 
         _currentCommand = _commands.Dequeue();
         _currentCommand.Execute();

@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 internal class CommandMove : CritterCommand
 {
-    public const float DELTA_FROM_TARGET = 0.5f;
+    public const float DELTA_FROM_TARGET = 0.6f;
     private readonly Vector3 _destination;
     private readonly NavMeshAgent _agent;
 

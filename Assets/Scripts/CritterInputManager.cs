@@ -84,7 +84,7 @@ public class CritterInputManager : MonoBehaviour
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if(Physics.Raycast(ray, out var hitInfo))
         {
-            //Debug.Log("Clicked on:" + hitInfo.transform.gameObject.name);
+
             if(Input.GetKey(KeyCode.LeftControl))
             {
                 //curSelected.ClearCommands(); // Clear otherwise Location will be wrong (could change to drag and release)
@@ -98,7 +98,11 @@ public class CritterInputManager : MonoBehaviour
                     curSelected.ClearCommands();
                 }
                 var tree = hitInfo.collider.GetComponentInParent<TreeGrowth>();
-                if(tree != null)
+                            //Debug.Log("Clicked on:" + hitInfo.transform.gameObject.name);
+                var cp = hitInfo.transform.GetComponent<CritterPod>();
+                if( cp !=null && cp.CritterData.enemy)
+                    curSelected.QueueAttackCommand(cp);
+                else if(tree != null)
                     curSelected.QueueEnterCommand(tree);
                 else
                     curSelected.QueueMoveCommand(hitInfo.point);

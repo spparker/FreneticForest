@@ -54,7 +54,8 @@ public class ForestManager : MonoBehaviour
 
         HomeTree = Instantiate(Tree_Prefab, Vector3.zero, Quaternion.identity);
         HomeTree.GetComponent<TreeGrowth>().SetStartingSize(ForestSettings.homeTreeStartingSize);
-        HomeNetwork = gameObject.AddComponent<TreeNetwork>();
+        var netObj = new GameObject("Network");
+        HomeNetwork = netObj.AddComponent<TreeNetwork>();
         HomeNetwork.CreateNode(HomeTree.GetComponentInChildren<Roots>());
         _trees = new List<GameObject>();
 

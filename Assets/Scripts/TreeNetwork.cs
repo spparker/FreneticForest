@@ -12,6 +12,9 @@ public class TreeNetwork : MonoBehaviour
     const float PASS_WEIGHT_INCREASE = 0.2f;
     const float MAX_EDGE_WEIGHT = 1.0f;
 
+    const float BASE_EDGE_RAD = 0.1f;
+    const float MAX_EDGE_RAD = 1.5f;
+
     const int MAX_EDGES = 8;
     NetworkNode _origin;
 
@@ -51,10 +54,45 @@ public class TreeNetwork : MonoBehaviour
             ne.weight -= Time.deltaTime * DECAY_RATE;
             if(ne.weight <= DEATH_POINT)
                 delEdges.Add(ne);
+            UpdateEdges(ne);
         }
 
         foreach(NetworkEdge del in delEdges)
             KillEdge(del);
+    }
+
+    private void UpdateEdges(NetworkEdge ne)
+    {
+        UpdateRootedNodePosition(ne.a);
+        UpdateRootedNodePosition(ne.b);
+        UpdateEdgeRotation(ne);
+        ScaleEdgeToStrength(ne);
+    }
+
+    // Keep node at root depth
+    private void UpdateRootedNodePosition(NetworkNode n)
+    {
+        if(n.root == null)
+            return;
+
+        n.position = n.root.transform.position;
+        n.objNode.transform.position = n.position;
+    }
+
+    // Tilt to the new nodes
+    private void UpdateEdgeRotation(NetworkEdge ne)
+    {
+        var objPos = ne.a.position - (ne.a.position - ne.b.position)/2;
+        ne.objEdge.transform.position = objPos;
+        ne.objEdge.transform.LookAt(ne.a.position);
+        ne.objEdge.transform.Rotate(90,0,0);
+    }
+
+    // Scale visual edge radius to connection weight
+    private void ScaleEdgeToStrength(NetworkEdge ne)
+    {
+        var radius = BASE_EDGE_RAD + ne.weight * MAX_EDGE_RAD;
+        ne.objEdge.transform.localScale = new Vector3(radius, ne.objEdge.transform.localScale.y, radius);
     }
 
     private void KillEdge(NetworkEdge ne)
@@ -176,10 +214,7 @@ public class TreeNetwork : MonoBehaviour
             position = root.transform.position
         };
 
-        var obj = Instantiate(ForestManager.Instance.Node_Prefab, new_node.position, Quaternion.identity);
-        new_node.objNode = obj;
-
-        //Debug.Log("Created node: " + new_node.id);
+        new_node.objNode = SpawnNodeObject(new_node.position);
         _nodes.Add(new_node);
 
         //return new_node.id;
@@ -198,14 +233,19 @@ public class TreeNetwork : MonoBehaviour
             position = new Vector3(position.x, DEFAULT_NODE_DEPTH, position.z)
         };
 
-        var obj = Instantiate(ForestManager.Instance.Node_Prefab, new_node.position, Quaternion.identity);
-        new_node.objNode = obj;
-
+        new_node.objNode = SpawnNodeObject(new_node.position);
         _nodes.Add(new_node);
 
-        Debug.Log("Created Non-root node " + new_node.id);
+        //Debug.Log("Created Non-root node " + new_node.id);
 
         return new_node;
+    }
+
+    private GameObject SpawnNodeObject(Vector3 pos)
+    {
+        var obj = Instantiate(ForestManager.Instance.Node_Prefab, pos, Quaternion.identity);
+        obj.transform.SetParent(ForestManager.Instance.HomeNetwork.transform);
+        return obj;
     }
 
     public bool AddEdge(int src_id, int dst_id, float dist)
@@ -228,10 +268,7 @@ public class TreeNetwork : MonoBehaviour
             id = _edgeCount
         };
         
-        var objPos = new_edge.a.position - (new_edge.a.position - new_edge.b.position)/2;
-        var obj = Instantiate(ForestManager.Instance.Edge_Prefab, objPos, Quaternion.identity);
-        new_edge.objEdge = obj;
-
+        new_edge.objEdge = new_edge.objEdge = SpawnEdgeObject(new_edge.a.position, new_edge.b.position);
         _edges.Add(new_edge);
 
         _edgeCount++;
@@ -257,18 +294,29 @@ public class TreeNetwork : MonoBehaviour
             id = _edgeCount
         };
 
-        var objPos = new_edge.a.position - (new_edge.a.position - new_edge.b.position)/2;
-        var obj = Instantiate(ForestManager.Instance.Edge_Prefab, objPos, Quaternion.identity);
-        new_edge.objEdge = obj;
-
+        new_edge.objEdge = SpawnEdgeObject(new_edge.a.position, new_edge.b.position);
         _edges.Add(new_edge);
 
-        Debug.Log("Created Edge " + new_edge.id);
+        //Debug.Log("Created Edge " + new_edge.id);
 
         _edgeCount++;
         src.edges[src.numEdges++] = new_edge.id;
         dst.edges[dst.numEdges++] = new_edge.id;
         return new_edge;
+    }
+
+    private GameObject SpawnEdgeObject(Vector3 a, Vector3 b)
+    {
+        var objPos = a - (a - b)/2;
+        var obj = Instantiate(ForestManager.Instance.Edge_Prefab, objPos, Quaternion.identity);
+
+        var mag = Vector3.Magnitude(a - b); // Divide by 2 for cylinder height
+        obj.transform.localScale = new Vector3(obj.transform.localScale.x, mag / 2, obj.transform.localScale.z);
+        obj.transform.LookAt(a);
+        obj.transform.Rotate(90,0,0);
+
+        obj.transform.SetParent(ForestManager.Instance.HomeNetwork.transform);
+        return obj;
     }
 
     public class NetworkNode

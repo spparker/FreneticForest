@@ -7,9 +7,9 @@ public class CritterManager : MonoBehaviour
     public enum CritterType
     {
         PATHER = 0,
-        DIGGIE,
-        CHOPCHOP,
-        INVADER
+        DIGGIE = 1,
+        CHOPCHOP = 2,
+        INVADER = 3,
     }
 
     public const int ENEMY_LAYER = 11;
@@ -61,7 +61,13 @@ public class CritterManager : MonoBehaviour
             critter.CombatTime += Time.deltaTime;
             if(critter.CombatTime > COMBAT_TICK_LENGTH)
             {
-                //Debug.Log("Handle Combat for" + critter.name);
+                if(critter.InCombat == null)
+                {
+                    Debug.Log("Someone else destroyed my target");
+                    end.Add(critter);
+                    continue;
+                }
+                Debug.Log("Handle Combat for " + critter.name + " against " + critter.InCombat.name);
                 critter.CombatTime = 0;
                 bool hasWon = critter.InCombat.TakeDamage(critter.CritterData.damageOutput);
                 if(hasWon)
@@ -85,7 +91,7 @@ public class CritterManager : MonoBehaviour
 
     private void CritterDeath(CritterPod dead)
     {
-        //Debug.Log("Death of: " + dead.name);
+        Debug.Log("Death of: " + dead.name);
         _critterTypeLists[(int)dead.CritterData.type].Remove(dead.GetComponent<CritterCommandControl>());
         _CritterInput.ClearSelected(dead);
         Destroy(dead.gameObject);
@@ -123,6 +129,33 @@ public class CritterManager : MonoBehaviour
     private void SetupEnemy(GameObject enemy_critter)
     {
         enemy_critter.layer = ENEMY_LAYER;
+        enemy_critter.AddComponent<InvaderAI>();
+    }
+
+    // For AI to find players
+    public CritterCommandControl GetNearestOfRandom(Vector3 pos)
+    {
+        int r = Random.Range(0,3);
+        return GetNearestOfType((CritterType)r, pos);
+    }
+
+    public CritterCommandControl GetNearestOfType(CritterType ct, Vector3 pos)
+    {
+        if(_critterTypeLists[(int)ct].Count < 1)
+            return null;
+        float min_dist = 999;
+        CritterCommandControl ret = _critterTypeLists[(int)ct][0]; // rip
+        foreach (CritterCommandControl crit in _critterTypeLists[(int)ct])
+        {
+            float dist = Vector3.Magnitude(crit.transform.position - pos );
+            if(dist < min_dist)
+            {
+                min_dist = dist;
+                ret = crit;
+            }
+        }
+        Debug.Log("Nearest of type " + ct + ": " + ret);
+        return ret;
     }
 
     public CritterCommandControl GetNextOfType(CritterType ct)

@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: CritterInvader
   m_EditorClassIdentifier: 
   critterName: Invader
-  type: 2
+  type: 3
   enemy: 1
-  canEnterTrees: 0
+  canEnterTrees: 1
   numberOfIndividuals: 3
   moveSpeed: 7
   damageOutput: 2

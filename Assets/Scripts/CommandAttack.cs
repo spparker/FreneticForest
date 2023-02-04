@@ -21,6 +21,8 @@ internal class CommandAttack : CritterCommand
 
     public override bool IsFinished {
         get {
+            if(_target == null)
+                return true;
             var dist_to_target = Vector3.Magnitude(_ccc.transform.position - _target.transform.position);
             if(dist_to_target <= _reach_delta)
                 return true;
@@ -35,6 +37,7 @@ internal class CommandAttack : CritterCommand
 
     public override void OnArrive()
     {
-        _ccc.Pod.EnterCombatWith(_target);
+        if(_target != null)
+            _ccc.Pod.EnterCombatWith(_target);
     }
 }

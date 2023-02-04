@@ -185,7 +185,7 @@ public class ForestManager : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        CritterManager.Instance.SpawnCritterFromData(ForestSettings.critters.invaderData, 10, max_pos);
+        CritterManager.Instance.SpawnCritterFromData(ForestSettings.critters.invaderData, 7, max_pos);
     }
 
     public void RebuildNavMesh()

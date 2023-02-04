@@ -98,19 +98,20 @@ public class CritterPod : MonoBehaviour
 
     public void SetInTree(TreeGrowth tree)
     {
-        _enter_vec = tree.transform.position - transform.position;
+        Debug.Log(name + " set in tree");
+        _enter_vec = new Vector3 (tree.transform.position.x - transform.position.x, 0, tree.transform.position.z - transform.position.z);
         _enter_vec.Normalize();
         InTree = tree;
         _agent.enabled = false;
         _coll.enabled = false;
         transform.position = new Vector3(tree.transform.position.x, tree.Top ,tree.transform.position.z);
 
-        if(InTree.Invaded && !CritterData.enemy)
+        /*if(InTree.Invaded && !CritterData.enemy)
         { // Autoattack nearest invader
             var invader = CritterManager.Instance.GetNearestOfType(CritterManager.CritterType.INVADER,transform.position);
             if(invader)
                 GetComponent<CritterCommandControl>().QueueAttackCommand(invader.Pod);
-        }
+        }*/
     }
 
     public void SetOnGround()
@@ -225,13 +226,26 @@ public class CritterPod : MonoBehaviour
         foreach(var critter in MyCritter_List)
         {
             var combat_pos = GetRandomCircleSpawn(InCombat.transform.position, BASE_RADIUS_SIZE + (POD_RADIUS_PER * InCombat.CritterData.numberOfIndividuals));
+            if(InCombat.InTree)
+                combat_pos = new Vector3(combat_pos.x, InCombat.transform.position.y, combat_pos.z);
             critter.transform.position = combat_pos;
+        }
+    }
+
+    private void ReturnSpritesFromCombat()
+    {
+        foreach(var critter in MyCritter_List)
+        {
+            var normal_pos = GetRandomCircleSpawn(transform.position, BASE_RADIUS_SIZE + (POD_RADIUS_PER * MyCritter_List.Count));
+            critter.transform.position = normal_pos;
         }
     }
 
     public void EndCombat(bool notify = true)
     {
         InCombat = null;
+        ReturnSpritesFromCombat();
+        ScaleClickWithPodSize();
         if(notify)
             CritterManager.Instance.NotifyEndCombat(this);
     }
@@ -243,7 +257,6 @@ public class CritterPod : MonoBehaviour
         else
             RemoveCritters(amount);
         return false;
-
     }
 
     private void RemoveCritters(int number)

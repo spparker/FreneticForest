@@ -75,9 +75,20 @@ public class CritterCommandControl : MonoBehaviour
     {
         if(!Pod.CritterData.enemy && !tree.CanEnter)
             return;
-            
-        tree.EnterTree(this);
-        Pod.SetInTree(tree);
+
+        // Check for enemy in tree
+        if(tree.Invaded && !Pod.CritterData.enemy)
+        { // Autoattack nearest invader
+            Debug.Log("Auto Attacking tree inhabitant");
+            var invader = CritterManager.Instance.GetNearestOfType(CritterManager.CritterType.INVADER,transform.position);
+            if(invader)
+                GetComponent<CritterCommandControl>().QueueAttackCommand(invader.Pod);
+        }
+        else
+        {
+            tree.EnterTree(this);
+            Pod.SetInTree(tree);
+        }
     }
 
     private void ProcessCommandQueue()

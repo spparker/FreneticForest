@@ -11,12 +11,16 @@ internal class CommandAttack : CritterCommand
     private readonly NavMeshAgent _agent;
     private readonly float _reach_delta;
 
+    public CritterPod GetTarget => _target;
+
     public CommandAttack(CritterPod target, CritterCommandControl ccc)
     {
         _target = target;
         _ccc = ccc;
         _agent = _ccc.GetComponent<NavMeshAgent>();
         _reach_delta = DELTA_FROM_TARGET + _ccc.Pod.ColliderRadius + _target.ColliderRadius;
+        if(_target.InTree)
+            _reach_delta += _target.InTree.Radius;
     }
 
     public override bool IsFinished {

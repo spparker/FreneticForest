@@ -44,7 +44,7 @@ public class TreeGrowth : MonoBehaviour
 
     public void LeaveTree(bool enemy){
         if(enemy)
-            _invaderCount++;
+            _invaderCount--;
         else
             OccupyingCritters = null;}
 

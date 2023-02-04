@@ -191,6 +191,7 @@ public class CameraControl : MonoBehaviour
 
         //Isometric Position
         PositionMainCameraCardinalDirection(currentDir.Value);
+        _curZoom = 0.4f;
     }
 
     private void PositionMainCameraCardinalDirection(CardinalDir dir)

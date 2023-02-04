@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 314ffdcb5b66ef944b096d00db4cb745, type: 3}
   m_Name: AlphaForest
   m_EditorClassIdentifier: 
-  numberOfTrees: 18
+  numberOfTrees: 20
   homeTreeStartingSize: 8
   treeGrowthRate: 0.01
   critters: {fileID: 11400000, guid: 06009d3a3352fd640bf266d4f2f3daaa, type: 2}

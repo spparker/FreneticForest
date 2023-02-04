@@ -22,6 +22,11 @@ public class CritterInputManager : MonoBehaviour
     {
         ListenForKeys();
         ListenForClick();
+
+        if(curSelected)
+            ForestManager.Instance.UpdateSelectedShader(curSelected.transform.position.x, curSelected.transform.position.z, curSelected.Pod.Radius);
+        else
+            ForestManager.Instance.HideSelectedShader();
     }
     
     private void ListenForKeys()

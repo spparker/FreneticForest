@@ -216,4 +216,16 @@ public class ForestManager : MonoBehaviour
         JumperSurface.BuildNavMesh();
         _timeSinceRebuild = 0;
     }
+
+    public void UpdateSelectedShader(float x, float y, float rad)
+    {
+        _meshRenderer.material.SetInt("_ShowSelected", 1);
+        _meshRenderer.material.SetVector("_SelectedPos", new Vector4(x,y,0,0));
+        _meshRenderer.material.SetFloat("_Radius", rad);
+    }
+
+    public void HideSelectedShader()
+    {
+        _meshRenderer.material.SetInt("_ShowSelected", 0);
+    }
 }

@@ -30,7 +30,7 @@ public class TreeNetwork : MonoBehaviour
 
     public int TotalSize {get; private set;} // Number of Rooted Nodes
     public float TotalWisdom {get; private set;} // Combined Ages
-    public float TotalHappiness {get; private set;} // Something Minus Stress?
+    public float TotalStress {get; private set;} // Something Minus Stress?
 
     private List<int> EdgesThisPass; // Tracking traveled edges each iteration
     private List<int> NodesThisPass;
@@ -76,7 +76,7 @@ public class TreeNetwork : MonoBehaviour
 
         TotalSize = 0;
         TotalWisdom = 0;
-        TotalHappiness = 0;
+        TotalStress = 0;
 
         TravelNodeRecursive(_origin);
     }
@@ -109,7 +109,7 @@ public class TreeNetwork : MonoBehaviour
         {
             TotalSize += 1;
             TotalWisdom += node_root.Tree.Age;
-            TotalHappiness += 1 - node_root.Tree.StressLevel;
+            TotalStress += node_root.Tree.StressLevel;
         }
     }
 

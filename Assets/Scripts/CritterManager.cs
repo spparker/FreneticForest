@@ -31,7 +31,7 @@ public class CritterManager : MonoBehaviour
 
     List<CritterPod> _activeCombatList; // Attacking Pod and start time
 
-    private CritterInputManager _CritterInput;
+    public CritterInputManager Input{get;private set;}
 
     public int PatherCount => _critterTypeLists[(int)CritterType.PATHER].Count;
     public int DiggieCount => _critterTypeLists[(int)CritterType.DIGGIE].Count;
@@ -44,8 +44,7 @@ public class CritterManager : MonoBehaviour
         else
             Instance = this;
 
-
-        _CritterInput = GetComponent<CritterInputManager>();
+        Input = GetComponent<CritterInputManager>();
         _activeCombatList = new List<CritterPod>();
 
         _critterTypeLists = new List<CritterCommandControl>[4];
@@ -71,6 +70,8 @@ public class CritterManager : MonoBehaviour
                     end.Add(critter);
                     continue;
                 }
+
+                Input.PlayCritterAudio(critter.InCombat.CritterData.Sounds.SoundFight); // Play Invader Hurt noise
                 //Debug.Log("Handle Combat for " + critter.name + " against " + critter.InCombat.name);
                 critter.CombatTime = 0;
                 bool hasWon = critter.InCombat.TakeDamage(critter.CritterData.damageOutput);
@@ -97,7 +98,7 @@ public class CritterManager : MonoBehaviour
     {
         //Debug.Log("Death of: " + dead.name);
         _critterTypeLists[(int)dead.CritterData.type].Remove(dead.GetComponent<CritterCommandControl>());
-        _CritterInput.ClearSelected(dead);
+        Input.ClearSelected(dead);
         if(dead.InTree)
             dead.InTree.LeaveTree(dead);
         Destroy(dead.gameObject);

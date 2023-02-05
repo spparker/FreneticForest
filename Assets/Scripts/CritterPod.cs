@@ -96,6 +96,8 @@ public class CritterPod : MonoBehaviour
             SetupForPath(p1, p2);
         else if(CritterData.type == CritterManager.CritterType.DIGGIE)
             SetupForDig();
+
+        CritterManager.Instance.Input.PlayCritterAudio(CritterData.Sounds.SoundTask);
     }
 
     public void EndPatrolPass(Vector3 p1, Vector3 p2)
@@ -130,6 +132,8 @@ public class CritterPod : MonoBehaviour
         }
         else // CHOPPERS AND INVADERS
             transform.position = new Vector3(tree.transform.position.x, tree.Top ,tree.transform.position.z);
+
+        CritterManager.Instance.Input.PlayCritterAudio(CritterData.Sounds.SoundTask);
     }
 
     private void SetupBurrow(Vector3 root_pos)
@@ -294,6 +298,7 @@ public class CritterPod : MonoBehaviour
         InCombat = target;
         CombatTime = 0;
         CritterManager.Instance.NotifyEnterCombat(this);
+        CritterManager.Instance.Input.PlayCritterAudio(CritterData.Sounds.SoundFight);
     }
 
     private void MoveSpritesToCombat()

@@ -7,6 +7,11 @@ public class CritterInputManager : MonoBehaviour
 
     private CritterCommandControl curSelected;
 
+    private int _curAudio;
+    [SerializeField] private AudioSource _critterAudio0;
+    [SerializeField] private AudioSource _critterAudio1;
+    [SerializeField] private AudioSource _critterAudio2;
+
     public void ClearSelected(CritterPod pod)
     {
         if(!curSelected)
@@ -95,6 +100,7 @@ public class CritterInputManager : MonoBehaviour
         curSelected?.SetSelected(false);
         ccc.SetSelected(true);
         curSelected = ccc;
+        PlayCritterAudio(ccc.Pod.CritterData.Sounds.SoundSelect);
     }
 
     private void HandleCommandClick()
@@ -105,6 +111,7 @@ public class CritterInputManager : MonoBehaviour
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if(Physics.Raycast(ray, out var hitInfo))
         {
+            PlayCritterAudio(curSelected.Pod.CritterData.Sounds.SoundCommand);
             if(Input.GetKey(KeyCode.LeftControl))
             {
                 //curSelected.ClearCommands(); // Clear otherwise Location will be wrong (could change to drag and release)
@@ -134,5 +141,31 @@ public class CritterInputManager : MonoBehaviour
     private void SendCommandToShader(Vector3 pos)
     {
         ForestManager.Instance.NewCommandForShader(pos.x, pos.z);
+    }
+
+    public void PlayCritterAudio(AudioClip clip)
+    {
+        if(_curAudio == 0)
+        {
+            PlayAudioOnSource(_critterAudio0, clip);
+            _curAudio++;
+        }
+        else if(_curAudio == 1)
+        {
+            PlayAudioOnSource(_critterAudio1, clip);
+            _curAudio++;
+        }
+        else
+        {
+            PlayAudioOnSource(_critterAudio2, clip);
+            _curAudio=0;
+        }
+    }
+
+    private void PlayAudioOnSource(AudioSource src, AudioClip clip)
+    {
+        src.Stop();
+        src.clip = clip;
+        src.Play();
     }
 }

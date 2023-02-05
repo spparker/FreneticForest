@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 public class ForestManager : MonoBehaviour
 {
-    public const float SECONDS_BETWEEN_REBUILD = 20f;
+    public const float SECONDS_BETWEEN_REBUILD = 30f;
     public ForestSettings ForestSettings;
     public TreeGrowthData TreeGrowthData;
 
@@ -13,7 +13,6 @@ public class ForestManager : MonoBehaviour
     public GameObject Edge_Prefab;
 
     public TreeGrowth HomeTree{ get; private set; }
-    private SpriteRenderer _homeTreeRenderer;
     public TreeNetwork HomeNetwork{ get; private set;}
     public TreeNetwork.NetworkNode HomeNode{ get; private set;}
 
@@ -34,6 +33,8 @@ public class ForestManager : MonoBehaviour
 
     public const float MIN_ENEMY_SPAWN_T = 20f;
     public const float MAX_ENEMY_SPAWN_T = 90f;
+    //public const float MIN_ENEMY_SPAWN_T = 1f;
+    //public const float MAX_ENEMY_SPAWN_T = 10f;
 
     public const int MAX_ENEMIES = 4;
 
@@ -104,6 +105,7 @@ public class ForestManager : MonoBehaviour
         {
             _timeTilNextEnemy = Random.Range(MIN_ENEMY_SPAWN_T, MAX_ENEMY_SPAWN_T);
             SpawnEnemy();
+            CritterManager.Instance.Input.PlayCritterAudio(ForestSettings.critters.invaderData.Sounds.SoundCommand);
         }
 
         _commandTime += Time.deltaTime;

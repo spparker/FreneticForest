@@ -146,24 +146,6 @@ public class ForestManager : MonoBehaviour
         return min_roots;
     }
 
-    // Return nearest tree position to a tree
-    private Vector3 FindNearestRootsPosition(Vector3 pos)
-    {
-        float min_dist = 99999;
-        GameObject min_tree = null;
-        foreach(var tree in _trees)
-        {
-            var dist = Vector3.SqrMagnitude(pos - tree.transform.position);
-            //Debug.Log("Checking " + tree + "|" + dist);
-            if(dist < min_dist)
-            {
-                min_dist = dist;
-                min_tree = tree;
-            }
-        }
-        return min_tree.transform.position;
-    }
-
     public void ToggleSurface()
     {
         //_meshRenderer.enabled = !_meshRenderer.enabled;

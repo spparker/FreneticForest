@@ -6,6 +6,7 @@ public class TreeGrowth : MonoBehaviour
 {
     public enum TreeHealth
     {
+        BABY,
         NORMAL,
         ROUGH,
         DISEASED,
@@ -70,6 +71,11 @@ public class TreeGrowth : MonoBehaviour
     public void SetRandomSpawnValues(float max_initial_size)
     {
         _currentSize = Random.Range(1.0f, max_initial_size);
+        if(_currentSize < 2)
+        {
+            _spriteRenderer.sprite =  ForestManager.Instance.TreeGrowthData.BabyImage;
+            _healthState = TreeHealth.BABY;
+        }
         _overgrownLevel = Random.Range(0.0f, 0.2f);
     }
 
@@ -94,6 +100,13 @@ public class TreeGrowth : MonoBehaviour
 
         _currentSize += Time.deltaTime * _growRate;
         transform.localScale = new Vector3(_currentSize, _currentSize, _currentSize);
+
+        if(_healthState == TreeHealth.BABY)
+        {
+            _spriteRenderer.sprite =  ForestManager.Instance.TreeGrowthData.HealthyImage;
+            _healthState = TreeHealth.NORMAL;
+        }
+
     }
 
     public void EnterTree(CritterCommandControl ccc)
@@ -186,7 +199,7 @@ public class TreeGrowth : MonoBehaviour
     {
         if(_healthState == TreeHealth.ROUGH)
         {
-            Debug.Log("Whew - Feeling Good!");
+            //Debug.Log("Whew - Feeling Good!");
             _healthState = TreeHealth.NORMAL;
             _spriteRenderer.sprite = ForestManager.Instance.TreeGrowthData.HealthyImage;
         }

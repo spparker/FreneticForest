@@ -206,12 +206,10 @@ public class TreeNetwork : MonoBehaviour
         NetworkNode nearest = null;
         foreach(var n in _nodes)
         {
-            Debug.Log("Look at node:" + n.id);
             if(n == excluded)
                 continue;
             Vector3 nearest_surface = new Vector3(n.position.x, 0, n.position.z);
             var dist = Vector3.Magnitude(nearest_surface - p1);
-            Debug.Log("dist= " + dist);
             float add = 0;
             if(n.root)
                 add = n.root.Tree.Radius;
@@ -225,7 +223,7 @@ public class TreeNetwork : MonoBehaviour
 
         if(nearest != null)
         {
-            Debug.Log("Found Nearby Node: " + nearest.id + "|Root?" + nearest.root);
+            //Debug.Log("Found Nearby Node: " + nearest.id + "|Root?" + nearest.root);
             return nearest;
         }
         return null;
@@ -240,7 +238,7 @@ public class TreeNetwork : MonoBehaviour
 
         if(Vector3.Magnitude(nearest_surface - p) <= NODE_JOIN_DIST + nearest.Tree.Radius)
         {
-            Debug.Log("Found Nearby Root: " + nearest.gameObject.name);
+            //Debug.Log("Found Nearby Root: " + nearest.gameObject.name);
             return CreateNode(nearest); // If it had one we would've found it on Step 1
         }
 
@@ -276,7 +274,7 @@ public class TreeNetwork : MonoBehaviour
         new_node.objNode = SpawnNodeObject(new_node.position);
         _nodes.Add(new_node);
 
-        Debug.Log("Created Root node " + new_node.id + " on Roots of " + root);
+        //Debug.Log("Created Root node " + new_node.id + " on Roots of " + root);
         return new_node;
     }
 
@@ -295,7 +293,7 @@ public class TreeNetwork : MonoBehaviour
         new_node.objNode = SpawnNodeObject(new_node.position);
         _nodes.Add(new_node);
 
-        Debug.Log("Created Non-root node " + new_node.id);
+        //Debug.Log("Created Non-root node " + new_node.id);
         return new_node;
     }
 

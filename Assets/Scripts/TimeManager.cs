@@ -26,7 +26,7 @@ public class TimeManager : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("x: " + _directionalLight.transform.rotation.eulerAngles.x);
+        //Debug.Log("x: " + _directionalLight.transform.rotation.eulerAngles.x);
         if(_directionalLight.transform.rotation.eulerAngles.x > 280)
             _moonLight.SetActive(true);
         else

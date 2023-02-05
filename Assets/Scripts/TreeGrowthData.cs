@@ -21,7 +21,6 @@ public class TreeGrowthData : ScriptableObject
 
     // Add Images here 
     public Sprite HealthyImage;
-    public Sprite RoughImage;
-    public Sprite DiseasedImage;
-    public Sprite OvergrowImage;
+    public Sprite DiseasedImage; // Not Used??
+    public Sprite BabyImage;
 }

@@ -32,7 +32,8 @@ public class TreeGrowth : MonoBehaviour
     public CritterCommandControl BurrowedCritters{get; private set;}
 
 
-    private SpriteRenderer _spriteRenderer;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private SpriteRenderer _overgrowRenderer;
 
     public bool Invaded => _invaderCount > 0;
     public bool Overgrown => _overgrownLevel >= _overgrow_visual_threshold;
@@ -48,7 +49,7 @@ public class TreeGrowth : MonoBehaviour
 
     void Start()
     {
-        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        _overgrowRenderer.enabled = false;
         Roots = GetComponentInChildren<Roots>();
 
         _currentAge = 0f;
@@ -165,25 +166,20 @@ public class TreeGrowth : MonoBehaviour
         {
             //Debug.Log("Help Me");
             _healthState = TreeHealth.ROUGH;
-            _spriteRenderer.sprite = ForestManager.Instance.TreeGrowthData.RoughImage;
+            //_spriteRenderer.sprite = ForestManager.Instance.TreeGrowthData.RoughImage;
         }
     }
 
     private void BecomeOvergrown()
     {
         //Debug.Log("Trim Me");
-        _spriteRenderer.sprite = ForestManager.Instance.TreeGrowthData.OvergrowImage;
+        //_spriteRenderer.sprite = ForestManager.Instance.TreeGrowthData.OvergrowImage;
+        _overgrowRenderer.enabled = true;
     }
 
     private void BecomeTrimmed()
     {
-        if(_overgrownLevel < _overgrow_visual_threshold)
-        {
-            if(_healthState == TreeHealth.ROUGH)
-                _spriteRenderer.sprite = ForestManager.Instance.TreeGrowthData.RoughImage;
-            else
-                _spriteRenderer.sprite = ForestManager.Instance.TreeGrowthData.HealthyImage;
-        }
+        _overgrowRenderer.enabled = false;
     }
 
     private void BecomeNormal()

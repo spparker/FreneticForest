@@ -19,5 +19,5 @@ MonoBehaviour:
   numberOfIndividuals: 8
   moveSpeed: 2.5
   damageOutput: 0
-  CritterSprite_Prefab: {fileID: 2331022443658609414, guid: f40232ce0ee701847b0c156f40239b3c,
+  CritterSprite_Prefab: {fileID: 2331022443658609414, guid: d72c92478db18874b9e0e0b9480dc8d9,
     type: 3}

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1775068685852739752}
   - component: {fileID: 8888932793042794567}
   m_Layer: 6
-  m_Name: BaaSprite
+  m_Name: MashaSpritev2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2331022443658609414}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.1, z: 0}
+  m_LocalPosition: {x: 0, y: 0.268, z: 0}
   m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 398894d06010b92448c79348b288ce35, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4293356eeb0083649b4550a85ca13a9c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -97,9 +97,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 774ac6b5fd19be54e97afd3a238b35a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LeftFacing: 0
-  Forward: {fileID: 0}
-  ForwardSideways: {fileID: 0}
-  Sideways: {fileID: 0}
-  Backward: {fileID: 0}
-  BackwardSideways: {fileID: 0}
+  LeftFacing: 1
+  Forward: {fileID: 21300000, guid: 576560b797e251541998d1943e9da2ff, type: 3}
+  ForwardSideways: {fileID: 21300000, guid: ad7e7a99df505b44babccfb195c8182a, type: 3}
+  Sideways: {fileID: 21300000, guid: 4293356eeb0083649b4550a85ca13a9c, type: 3}
+  Backward: {fileID: 21300000, guid: 1fbbf765bb74cd14c87684875c04958b, type: 3}
+  BackwardSideways: {fileID: 21300000, guid: 5ea324590a16558429e387dd1c871c50, type: 3}

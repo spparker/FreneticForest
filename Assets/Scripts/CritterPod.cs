@@ -9,6 +9,9 @@ public class CritterPod : MonoBehaviour
     public const float POD_RADIUS_PER = 0.15f;
     public const float TO_CAPSULE_RADIUS = 1.8f;
 
+    public const int NORMAL_SPRITE_ORDER = 3006;
+    public const int IN_BURROW_ORDER = -10;
+
     
     public CritterTypeData CritterData;
     List<GameObject> MyCritter_List = new List<GameObject>();
@@ -93,6 +96,8 @@ public class CritterPod : MonoBehaviour
     {
         //Debug.Log("Stop Patrol");
         InPatrol = false;
+        if(CritterData.type == CritterManager.CritterType.DIGGIE)
+            RemoveFromDiggingHole();
     }
 
     public void SetInTree(TreeGrowth tree)
@@ -104,17 +109,54 @@ public class CritterPod : MonoBehaviour
         _agent.enabled = false;
         _coll.enabled = false;
         if(CritterData.type == CritterManager.CritterType.DIGGIE)
-            transform.position = new Vector3(tree.transform.position.x, tree.Roots.transform.position.y, tree.transform.position.z);
+        {
+            SetupBurrow(new Vector3(tree.transform.position.x, tree.Roots.transform.position.y, tree.transform.position.z));
+        }
         else // CHOPPERS AND INVADERS
             transform.position = new Vector3(tree.transform.position.x, tree.Top ,tree.transform.position.z);
     }
 
+    private void SetupBurrow(Vector3 root_pos)
+    {
+        transform.position = root_pos;
+        ChangeRenderQueue(IN_BURROW_ORDER);
+    }
+
+    private void SetInDiggingHole(float depth)
+    {
+        foreach(var critter in MyCritter_List)
+            critter.transform.position = new Vector3(critter.transform.position.x, -depth + 1f, critter.transform.position.z);
+        ChangeRenderQueue(IN_BURROW_ORDER);
+    }
+
+    private void RemoveFromDiggingHole()
+    {
+        foreach(var critter in MyCritter_List)
+            critter.transform.position = new Vector3(critter.transform.position.x, CritterData.CritterSprite_Prefab.transform.position.y, critter.transform.position.z);
+        ChangeRenderQueue(NORMAL_SPRITE_ORDER);
+    }
+
+    private void ChangeRenderQueue(int order)
+    {
+        foreach(var critter in MyCritter_List)
+        {
+            var crit_mat = critter.GetComponent<SpriteRenderer>().material;
+            //Debug.Log("Queue before: " + crit_mat.renderQueue);
+            crit_mat.renderQueue = order;
+        }
+    }
+
     public void SetOnGround()
     {
+        //Debug.Log("SetOnGround");
         //WE NEED TO NOT GET STUCK IN THE BIG TREEES COMING DOWN
         transform.position -= _enter_vec * InTree.Radius;
+        transform.position = new Vector3(transform.position.x, 0.1f ,transform.position.z);
         InTree.LeaveTree(this);
         InTree = null;
+
+        if(CritterData.type == CritterManager.CritterType.DIGGIE)
+            ChangeRenderQueue(NORMAL_SPRITE_ORDER);
 
         //transform.position = new Vector3(transform.position.x, 0, transform.position.y);
         _coll.enabled = true;
@@ -187,6 +229,7 @@ public class CritterPod : MonoBehaviour
         }
         else
         {
+            SetInDiggingHole(_curDug.Depth);
             if(!_curDug.Deepen())
                 StopPatrol();
         }

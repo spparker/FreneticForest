@@ -10,6 +10,8 @@ public class DugHole : MonoBehaviour
     public const float MAX_DEPTH = 10;
     private float _depth = 1;
 
+    public float Depth => _depth;
+
     // Returns true to continue
     public bool Deepen()
     {

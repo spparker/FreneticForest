@@ -6,12 +6,14 @@ public class Roots : MonoBehaviour
 {
     TreeGrowth treeObject;
     Material rootsMaterial;
+    GameObject rootMask;
 
     public float Radius => treeObject.Radius;
 
     void Awake()
     {
         treeObject = GetComponentInParent<TreeGrowth>();
+        rootMask = transform.Find("RootsMask").gameObject;
     }
 
     void Start()
@@ -19,6 +21,19 @@ public class Roots : MonoBehaviour
         rootsMaterial = GetComponent<Renderer>().material;
         
         rootsMaterial.SetFloat("_GroundHeight", 0);
+    }
+
+    void Update()
+    {
+        if(treeObject.BurrowedCritters)
+        {
+            rootMask.SetActive(true);
+            var flat_to_cam = Vector3.ProjectOnPlane(Camera.main.transform.position - treeObject.transform.position, Vector3.up);
+            flat_to_cam.Normalize();
+            rootMask.transform.position = new Vector3(transform.position.x, rootMask.transform.position.y, transform.position.z) + flat_to_cam * Radius;
+        }
+        else
+            rootMask.SetActive(false);
     }
 
     // Stop growth when colliding with another trees roots

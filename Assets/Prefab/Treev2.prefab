@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LeftFacing: 0
+  Stomp: 0
   Forward: {fileID: 0}
   ForwardSideways: {fileID: 0}
   Sideways: {fileID: 0}
@@ -202,6 +203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LeftFacing: 0
+  Stomp: 0
   Forward: {fileID: 0}
   ForwardSideways: {fileID: 0}
   Sideways: {fileID: 0}
@@ -348,7 +350,7 @@ NavMeshObstacle:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6892354847212065556}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Shape: 0
   m_Extents: {x: 0.5, y: 1, z: 0.5}

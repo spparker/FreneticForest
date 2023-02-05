@@ -72,7 +72,14 @@ public class CritterInputManager : MonoBehaviour
             CritterCommandControl ccc;
             var tree = gameCollider.GetComponentInParent<TreeGrowth>();
             if(tree != null)
-                ccc = tree.OccupyingCritters;
+            {
+                ccc = tree.BurrowedCritters ? tree.BurrowedCritters : tree.OccupyingCritters;
+                // Second click to select occupied
+                if(curSelected == ccc && tree.OccupyingCritters)
+                    ccc = tree.OccupyingCritters;
+                else if(curSelected == ccc && tree.BurrowedCritters)
+                    ccc = tree.BurrowedCritters;
+            }
             else
                 ccc = gameCollider.GetComponent<CritterCommandControl>();
 

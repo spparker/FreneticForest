@@ -73,7 +73,10 @@ public class CritterCommandControl : MonoBehaviour
     // Occupy tree if empty
     public void OccupyTree(TreeGrowth tree)
     {
-        if(!Pod.CritterData.enemy && !tree.CanEnter)
+        if(Pod.CritterData.type == CritterManager.CritterType.CHOPCHOP && !tree.CanEnter)
+            return;
+
+        if(Pod.CritterData.type == CritterManager.CritterType.DIGGIE && !tree.CanBurrow)
             return;
 
         // Check for enemy in tree

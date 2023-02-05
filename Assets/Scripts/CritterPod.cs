@@ -24,6 +24,7 @@ public class CritterPod : MonoBehaviour
     public bool InPatrol {get; private set;}
     private TreeNetwork.NetworkEdge _curEdge;
     private DugHole _curDug;
+    private bool _needToReNav;
 
     private Vector3 _enter_vec;
 
@@ -56,9 +57,7 @@ public class CritterPod : MonoBehaviour
 
     void Update()
     {
-        if(InTree)
-            transform.position = new Vector3(InTree.transform.position.x, InTree.Top , InTree.transform.position.z);
-        else if(InCombat)
+        if(InCombat)
             MoveSpritesToCombat();
     }
 
@@ -104,21 +103,17 @@ public class CritterPod : MonoBehaviour
         InTree = tree;
         _agent.enabled = false;
         _coll.enabled = false;
-        transform.position = new Vector3(tree.transform.position.x, tree.Top ,tree.transform.position.z);
-
-        /*if(InTree.Invaded && !CritterData.enemy)
-        { // Autoattack nearest invader
-            var invader = CritterManager.Instance.GetNearestOfType(CritterManager.CritterType.INVADER,transform.position);
-            if(invader)
-                GetComponent<CritterCommandControl>().QueueAttackCommand(invader.Pod);
-        }*/
+        if(CritterData.type == CritterManager.CritterType.DIGGIE)
+            transform.position = new Vector3(tree.transform.position.x, tree.Roots.transform.position.y, tree.transform.position.z);
+        else // CHOPPERS AND INVADERS
+            transform.position = new Vector3(tree.transform.position.x, tree.Top ,tree.transform.position.z);
     }
 
     public void SetOnGround()
     {
         //WE NEED TO NOT GET STUCK IN THE BIG TREEES COMING DOWN
         transform.position -= _enter_vec * InTree.Radius;
-        InTree.LeaveTree(CritterData.enemy);
+        InTree.LeaveTree(this);
         InTree = null;
 
         //transform.position = new Vector3(transform.position.x, 0, transform.position.y);
@@ -174,6 +169,7 @@ public class CritterPod : MonoBehaviour
     private void SetupForDig()
     {
         _curDug = null;
+        _needToReNav = true;
     }
 
     private void CompleteDigPass(Vector3 p1, Vector3 p2)
@@ -194,7 +190,11 @@ public class CritterPod : MonoBehaviour
             if(!_curDug.Deepen())
                 StopPatrol();
         }
-        ForestManager.Instance.RebuildNavMesh();
+        if(_needToReNav)
+        {
+            ForestManager.Instance.RebuildNavMesh();
+            _needToReNav = false;
+        }
     }
 
     public void SetAgentToType(string agentTypeName)

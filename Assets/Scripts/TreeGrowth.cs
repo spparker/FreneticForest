@@ -29,6 +29,7 @@ public class TreeGrowth : MonoBehaviour
     private int _invaderCount;
     private float _overgrownLevel = 0;
     public CritterCommandControl OccupyingCritters{get; private set;}
+    public CritterCommandControl BurrowedCritters{get; private set;}
 
 
     private SpriteRenderer _spriteRenderer;
@@ -36,26 +37,19 @@ public class TreeGrowth : MonoBehaviour
     public bool Invaded => _invaderCount > 0;
     public bool Overgrown => _overgrownLevel >= _overgrow_visual_threshold;
     public bool CanEnter => !OccupyingCritters;
-    public void EnterTree(CritterCommandControl ccc){
-        if(ccc.Pod.CritterData.enemy)
-            _invaderCount++;
-        else
-            OccupyingCritters = ccc;}
-
-    public void LeaveTree(bool enemy){
-        if(enemy)
-            _invaderCount--;
-        else
-            OccupyingCritters = null;}
+    public bool CanBurrow => !BurrowedCritters;
 
     public bool CanGrow { get; private set; }
     public float StressLevel { get; private set; }
     public float Top => _currentSize;
     public float Radius => _currentSize * INITIAL_RADIUS;
+    public Roots Roots { get; private set; }
 
     void Start()
     {
         _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        Roots = GetComponentInChildren<Roots>();
+
         _currentAge = 0f;
         CanGrow = true;
         _growRate = ForestManager.Instance.ForestSettings.treeGrowthRate;
@@ -100,17 +94,35 @@ public class TreeGrowth : MonoBehaviour
         transform.localScale = new Vector3(_currentSize, _currentSize, _currentSize);
     }
 
+    public void EnterTree(CritterCommandControl ccc)
+    {
+        if(ccc.Pod.CritterData.enemy)
+            _invaderCount++;
+        else if(ccc.Pod.CritterData.type == CritterManager.CritterType.CHOPCHOP)
+            OccupyingCritters = ccc;
+        else if(ccc.Pod.CritterData.type == CritterManager.CritterType.DIGGIE)
+            BurrowedCritters = ccc;
+    }
+
+    public void LeaveTree(CritterPod cp)
+    {
+        if(cp.CritterData.enemy)
+            _invaderCount--;
+        else if(cp.CritterData.type == CritterManager.CritterType.CHOPCHOP)
+            OccupyingCritters = null;
+        else if(cp.CritterData.type == CritterManager.CritterType.DIGGIE)
+            BurrowedCritters = null;
+    }
+
     public void AddCritterAssistance()
     {
-        if(!OccupyingCritters)
-            return;
-
-        if(OccupyingCritters.Pod.CritterData.type == CritterManager.CritterType.CHOPCHOP)
+        if(OccupyingCritters)
         {
             _overgrownLevel = Mathf.Clamp(_overgrownLevel + Time.deltaTime * _trim_rate, 0, 1);
             BecomeTrimmed();
         }
-        else if(OccupyingCritters.Pod.CritterData.type == CritterManager.CritterType.DIGGIE)
+        
+        if(BurrowedCritters)
         {
             StressLevel = Mathf.Clamp(StressLevel + Time.deltaTime * _calm_rate, 0, 1);
         }

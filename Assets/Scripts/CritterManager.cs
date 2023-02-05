@@ -95,7 +95,7 @@ public class CritterManager : MonoBehaviour
         _critterTypeLists[(int)dead.CritterData.type].Remove(dead.GetComponent<CritterCommandControl>());
         _CritterInput.ClearSelected(dead);
         if(dead.InTree)
-            dead.InTree.LeaveTree(dead.CritterData.enemy);
+            dead.InTree.LeaveTree(dead);
         Destroy(dead.gameObject);
     }
     

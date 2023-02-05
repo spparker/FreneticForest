@@ -187,7 +187,7 @@ public class CritterPod : MonoBehaviour
     private void ScaleClickWithPodSize()
     {
         _coll.radius = (BASE_RADIUS_SIZE + (POD_RADIUS_PER * MyCritter_List.Count)) * TO_CAPSULE_RADIUS;
-        _agent.radius = _coll.radius;
+        //_agent.radius = _coll.radius;
     }
 
     // Find or create nodes and edge

@@ -12,6 +12,8 @@ public class CritterPod : MonoBehaviour
     public const int NORMAL_SPRITE_ORDER = 3006;
     public const int IN_BURROW_ORDER = -10;
 
+    public const float TREE_TASK_ROT_SPEED = 50;
+
     
     public CritterTypeData CritterData;
     List<GameObject> MyCritter_List = new List<GameObject>();
@@ -46,6 +48,8 @@ public class CritterPod : MonoBehaviour
     {   
         _agent.speed = CritterData.moveSpeed;
         Radius = BASE_RADIUS_SIZE + (POD_RADIUS_PER * CritterData.numberOfIndividuals);
+        if(CritterData.type == CritterManager.CritterType.CHOPCHOP)
+            Radius += 1;
 
         for(int i=0;i<CritterData.numberOfIndividuals;i++)
         {
@@ -72,6 +76,8 @@ public class CritterPod : MonoBehaviour
     {
         if(InCombat)
             MoveSpritesToCombat();
+        if(InTree)
+            SpritesInTreeTask();
     }
 
     private Vector3 GetRandomCircleSpawn(Vector3 center, float radius)
@@ -265,6 +271,21 @@ public class CritterPod : MonoBehaviour
              }
          }
          Debug.Log("Did not find agent");
+    }
+
+    private void SpritesInTreeTask()
+    {
+        /*foreach(var critter in MyCritter_List)
+        {
+            float x = Random.Range(-Radius, Radius);
+            x = Mathf.Lerp(critter.transform.position.x, x, 0.3f);
+            float z = Random.Range(-Radius, Radius);
+            z = Mathf.Lerp(critter.transform.position.z, z, 0.3f);
+            critter.transform.position = new Vector3(x, critter.transform.position.y, z);
+        }*/
+
+        var rot_dir = new Vector3(0,TREE_TASK_ROT_SPEED * Time.deltaTime, 0);
+        transform.Rotate(rot_dir);
     }
 
 

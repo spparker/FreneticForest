@@ -1048,7 +1048,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Your Jantu
+  m_text: Jantu
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2867,7 +2867,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Your Network
+  m_text: Network
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3212,9 +3212,9 @@ RectTransform:
   m_Father: {fileID: 1961388754}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 136, y: -93}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 136, y: 96}
   m_SizeDelta: {x: 250, y: 165}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1688276858
@@ -3230,7 +3230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.15686275}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4294,7 +4294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d453d04d19cb60648abb975b680c75b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ForestSettings: {fileID: 11400000, guid: 171cf03aad20d754e8023b55d98d9ffe, type: 2}
+  ForestSettings: {fileID: 11400000, guid: 1426d432b99e68142acdfb68fbbfbe0d, type: 2}
   TreeGrowthData: {fileID: 11400000, guid: b407dbd49ee78fd4280ed3b738fc50b5, type: 2}
   Tree_Prefab: {fileID: 6892354846085866887, guid: d7843eb1c884f2348baa5cb35f5ef6af,
     type: 3}

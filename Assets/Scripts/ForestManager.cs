@@ -15,7 +15,7 @@ public class ForestManager : MonoBehaviour
     public TreeGrowth HomeTree{ get; private set; }
     private SpriteRenderer _homeTreeRenderer;
     public TreeNetwork HomeNetwork{ get; private set;}
-    private TreeNetwork.NetworkNode _homeNode;
+    public TreeNetwork.NetworkNode HomeNode{ get; private set;}
 
 
     private List<GameObject> _trees;
@@ -78,7 +78,7 @@ public class ForestManager : MonoBehaviour
         homeMiniRenderer.material.color = Color.yellow;
         var netObj = new GameObject("Network");
         HomeNetwork = netObj.AddComponent<TreeNetwork>();
-        _homeNode = HomeNetwork.CreateNode(HomeTree.Roots);
+        HomeNode = HomeNetwork.CreateNode(HomeTree.Roots);
         _trees = new List<GameObject>{HomeTree.gameObject};
 
         SpawnTrees();
@@ -122,7 +122,7 @@ public class ForestManager : MonoBehaviour
 
         var node_1 = HomeNetwork.CreateNode(nearest_roots);
         //HomeNetwork.AddEdge(0, 1, Vector3.Magnitude(HomeTree.transform.position - nearest_roots.transform.position));
-        HomeNetwork.AddEdge(_homeNode, node_1);
+        HomeNetwork.AddEdge(HomeNode, node_1);
 
         Debug.Log("Added Nearest Neighbor at: " + nearest_roots.transform.position);
     }
@@ -185,11 +185,11 @@ public class ForestManager : MonoBehaviour
         {
             
             float x =Random.Range(-max_pos,max_pos);
-            if(Mathf.Abs(x) <= _homeNode.root.Tree.Radius * 2)
+            if(Mathf.Abs(x) <= HomeNode.root.Tree.Radius * 2)
                 x *= 2;
 
             float z =Random.Range(-max_pos,max_pos);
-            if(Mathf.Abs(z) <= _homeNode.root.Tree.Radius * 2)
+            if(Mathf.Abs(z) <= HomeNode.root.Tree.Radius * 2)
                 z *= 2;
 
             Vector3 spawn_pos = new Vector3(x, 0, z);
@@ -204,9 +204,9 @@ public class ForestManager : MonoBehaviour
 
     private void SpawnCritters()
     {
-        CritterManager.Instance.SpawnCritterAroundHomeTree(ForestSettings.critters.patherData, ForestSettings.numberOfPathers, _homeNode.root.Tree.Radius);
-        CritterManager.Instance.SpawnCritterAroundHomeTree(ForestSettings.critters.diggieData, ForestSettings.numberOfDiggies, _homeNode.root.Tree.Radius);
-        CritterManager.Instance.SpawnCritterAroundHomeTree(ForestSettings.critters.chopData, ForestSettings.numberOfChopChops, _homeNode.root.Tree.Radius);
+        CritterManager.Instance.SpawnCritterAroundHomeTree(ForestSettings.critters.patherData, ForestSettings.numberOfPathers, HomeNode.root.Tree.Radius);
+        CritterManager.Instance.SpawnCritterAroundHomeTree(ForestSettings.critters.diggieData, ForestSettings.numberOfDiggies, HomeNode.root.Tree.Radius);
+        CritterManager.Instance.SpawnCritterAroundHomeTree(ForestSettings.critters.chopData, ForestSettings.numberOfChopChops, HomeNode.root.Tree.Radius);
     }
 
     private void SpawnEnemy()

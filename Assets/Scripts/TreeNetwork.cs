@@ -21,6 +21,8 @@ public class TreeNetwork : MonoBehaviour
     List<NetworkEdge> _edges;
     List<NetworkNode> _nodes;
 
+    public NetworkNode Origin => _nodes[0];
+
     // Always incrementing ID system, not actual count
     private int _edgeCount = 0;
     private int _nodeCount = 0;
@@ -204,11 +206,16 @@ public class TreeNetwork : MonoBehaviour
         NetworkNode nearest = null;
         foreach(var n in _nodes)
         {
+            Debug.Log("Look at node:" + n.id);
             if(n == excluded)
                 continue;
             Vector3 nearest_surface = new Vector3(n.position.x, 0, n.position.z);
             var dist = Vector3.Magnitude(nearest_surface - p1);
-            if(dist <= NODE_JOIN_DIST
+            Debug.Log("dist= " + dist);
+            float add = 0;
+            if(n.root)
+                add = n.root.Tree.Radius;
+            if(dist <= NODE_JOIN_DIST + add
             && dist < min_dist)
             {
                 min_dist = dist;
@@ -253,7 +260,6 @@ public class TreeNetwork : MonoBehaviour
     {
         Destroy(nn.objNode);
         _nodes.Remove(nn);
-        //_nodeCount--;
     }
 
     public NetworkNode CreateNode(Roots root)
@@ -262,7 +268,6 @@ public class TreeNetwork : MonoBehaviour
         {
             id = _nodeCount++,
             numEdges = 0,
-            //edges = new int[MAX_EDGES],
             edges = new List<NetworkEdge>(),
             root = root,
             position = root.transform.position
@@ -271,8 +276,7 @@ public class TreeNetwork : MonoBehaviour
         new_node.objNode = SpawnNodeObject(new_node.position);
         _nodes.Add(new_node);
 
-        //return new_node.id;
-        Debug.Log("Created Root node " + new_node.id);
+        Debug.Log("Created Root node " + new_node.id + " on Roots of " + root);
         return new_node;
     }
 

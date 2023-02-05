@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcb495a81696df84db2af5c111071366, type: 3}
+  m_Name: BetaJantu
+  m_EditorClassIdentifier: 
+  patherData: {fileID: 11400000, guid: 564e0daa7f1980c428838724eedfbbca, type: 2}
+  diggieData: {fileID: 11400000, guid: ce5e423ef596b4c4598eb177ba017959, type: 2}
+  chopData: {fileID: 11400000, guid: 36af1273a8b70cf46a420a554a2d2cd7, type: 2}
+  invaderData: {fileID: 11400000, guid: 3bda174b89c0e634291b3fb2d008ab11, type: 2}

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eec87cd067a6647429712d4b24c6f50a, type: 3}
+  m_Name: BetaInvaderSound
+  m_EditorClassIdentifier: 
+  SoundSelect: {fileID: 8300000, guid: 37c251f65533a5b498f0b6085215ae90, type: 3}
+  SoundTask: {fileID: 8300000, guid: cfe842ada696c2d47bd3576726501987, type: 3}
+  SoundCommand: {fileID: 8300000, guid: 994d23020e1fa414fa169625f6416e4f, type: 3}
+  SoundFight: {fileID: 8300000, guid: 0b031c9c9fa03c846bc093f4a8373246, type: 3}

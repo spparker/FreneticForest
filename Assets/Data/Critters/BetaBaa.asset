@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80b3991dabb0e7d48bb0d7bb3d3dbd70, type: 3}
+  m_Name: BetaBaa
+  m_EditorClassIdentifier: 
+  critterName: Baa
+  type: 2
+  enemy: 0
+  canEnterTrees: 1
+  numberOfIndividuals: 4
+  moveSpeed: 8
+  damageOutput: 3
+  CritterSprite_Prefab: {fileID: 2331022443658609414, guid: 38393c099a94b564296de55e04803360,
+    type: 3}
+  Sounds: {fileID: 11400000, guid: ac5eb008d80856749bfca5af15de5f25, type: 2}

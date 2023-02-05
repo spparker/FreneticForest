@@ -11,7 +11,6 @@ public class TreeGrowthData : ScriptableObject
     public float OvergrowVisualThreshold = 0.8f;
 
     //Stress
-    public float StressVisualThreshold = 0.5f;
     public float StressPerInvader = 0.01f;
     public float StressRate = 0.0001f;
 

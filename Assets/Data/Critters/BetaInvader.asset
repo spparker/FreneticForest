@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80b3991dabb0e7d48bb0d7bb3d3dbd70, type: 3}
+  m_Name: BetaInvader
+  m_EditorClassIdentifier: 
+  critterName: Invader
+  type: 3
+  enemy: 1
+  canEnterTrees: 1
+  numberOfIndividuals: 3
+  moveSpeed: 5
+  damageOutput: 1
+  CritterSprite_Prefab: {fileID: 2331022443658609414, guid: 44616cf38da1874418c505367c060681,
+    type: 3}
+  Sounds: {fileID: 11400000, guid: 5937fd86e963a564daf371c641f0cb89, type: 2}

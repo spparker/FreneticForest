@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eec87cd067a6647429712d4b24c6f50a, type: 3}
+  m_Name: BetaPattaSound
+  m_EditorClassIdentifier: 
+  SoundSelect: {fileID: 8300000, guid: d3e59fa5576ef7044bc07840e1eeb028, type: 3}
+  SoundTask: {fileID: 8300000, guid: 16d9829a4944c6b4d89ff5f0fbaa6aa7, type: 3}
+  SoundCommand: {fileID: 8300000, guid: 1383bd49b92e11a499eaf65905b93580, type: 3}
+  SoundFight: {fileID: 8300000, guid: 6b53c08361b84b043a95afe44459fa08, type: 3}

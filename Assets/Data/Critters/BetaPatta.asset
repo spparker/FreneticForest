@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80b3991dabb0e7d48bb0d7bb3d3dbd70, type: 3}
+  m_Name: BetaPatta
+  m_EditorClassIdentifier: 
+  critterName: Patta
+  type: 1
+  enemy: 0
+  canEnterTrees: 1
+  numberOfIndividuals: 7
+  moveSpeed: 6
+  damageOutput: 1
+  CritterSprite_Prefab: {fileID: 2331022443658609414, guid: 2c50869b3a1ce1b42b4d6566f82b3036,
+    type: 3}
+  Sounds: {fileID: 11400000, guid: 54858624d0e9c0d41b84ea2b114b93c2, type: 2}

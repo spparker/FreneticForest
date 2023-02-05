@@ -28,4 +28,5 @@ public class CritterTypeData : ScriptableObject
 
     // Image of the critter
     public GameObject CritterSprite_Prefab;
+    public CritterSoundPack Sounds;
 }

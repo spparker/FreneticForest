@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eec87cd067a6647429712d4b24c6f50a, type: 3}
+  m_Name: BetaBaaSound
+  m_EditorClassIdentifier: 
+  SoundSelect: {fileID: 8300000, guid: b6e790b13c26bac4ea1e18d369299d34, type: 3}
+  SoundTask: {fileID: 8300000, guid: f25378926bbe96a47be28cd26975413c, type: 3}
+  SoundCommand: {fileID: 8300000, guid: 14b23148cbc82ba44b9a6f27fe4064e7, type: 3}
+  SoundFight: {fileID: 8300000, guid: 14031e7d28bdc264c9836abc7eca0906, type: 3}

@@ -31,8 +31,8 @@ public class ForestManager : MonoBehaviour
     private float _timeSinceRebuild = 0;
     private float max_pos;
 
-    public const float MIN_ENEMY_SPAWN_T = 10f;
-    public const float MAX_ENEMY_SPAWN_T = 80f;
+    public const float MIN_ENEMY_SPAWN_T = 20f;
+    public const float MAX_ENEMY_SPAWN_T = 90f;
 
     public const int MAX_ENEMIES = 4;
 

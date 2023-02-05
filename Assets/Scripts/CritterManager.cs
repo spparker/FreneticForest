@@ -17,7 +17,7 @@ public class CritterManager : MonoBehaviour
     public const string DIGGIE_AGENT_STRING = "Burrower";
     public const string CHOPCHOP_AGENT_STRING = "ChopChop";
 
-    public const float COMBAT_TICK_LENGTH = 2f; // Second per Damage
+    public const float COMBAT_TICK_LENGTH = 4f; // Second per Damage
 
     public static CritterManager Instance{ get; private set; }
 

@@ -8,7 +8,6 @@ public class TreeGrowth : MonoBehaviour
     {
         BABY,
         NORMAL,
-        ROUGH,
         DISEASED,
     }
 
@@ -17,7 +16,6 @@ public class TreeGrowth : MonoBehaviour
     float _overgrow_stress = 0.05f;
     float _overgrow_rate = 0.05f;
     float _overgrow_visual_threshold = 0.8f;
-    float _stress_visual_threshold = 0.5f;
     float _stress_per_invader = 0.01f;
     float _stress_rate = 0.0001f;
     float _trim_rate = -0.2f;
@@ -61,7 +59,6 @@ public class TreeGrowth : MonoBehaviour
         _overgrow_stress = ForestManager.Instance.TreeGrowthData.OvergrowStress;
         _overgrow_rate = ForestManager.Instance.TreeGrowthData.OvergrowRate;
         _overgrow_visual_threshold = ForestManager.Instance.TreeGrowthData.OvergrowVisualThreshold;
-        _stress_visual_threshold = ForestManager.Instance.TreeGrowthData.StressVisualThreshold;
         _stress_per_invader = ForestManager.Instance.TreeGrowthData.StressPerInvader;
         _stress_rate = ForestManager.Instance.TreeGrowthData.StressRate;
         _trim_rate = ForestManager.Instance.TreeGrowthData.TrimRate;
@@ -102,11 +99,7 @@ public class TreeGrowth : MonoBehaviour
         transform.localScale = new Vector3(_currentSize, _currentSize, _currentSize);
 
         if(_healthState == TreeHealth.BABY)
-        {
-            _spriteRenderer.sprite =  ForestManager.Instance.TreeGrowthData.HealthyImage;
-            _healthState = TreeHealth.NORMAL;
-        }
-
+            BecomeHealthy();
     }
 
     public void EnterTree(CritterCommandControl ccc)
@@ -145,24 +138,19 @@ public class TreeGrowth : MonoBehaviour
 
     private void UpdateTreeState()
     {
+        //TODO: Change Sprite Color
+
         if(StressLevel >= 1.0f)
             BecomeDiseased();
-        else if(StressLevel >= _stress_visual_threshold)
-            BecomeRough();
-        else
-            BecomeNormal();
     }
 
     private void BecomeDiseased()
     {
-        if(_healthState == TreeHealth.ROUGH)
-        {
-            _healthState = TreeHealth.DISEASED;
-            CanGrow = false;
-            _spriteRenderer.sprite = ForestManager.Instance.TreeGrowthData.DiseasedImage;
-            // Let the disease travel
-            //Die();
-        }
+        _healthState = TreeHealth.DISEASED;
+        CanGrow = false;
+        _spriteRenderer.sprite = ForestManager.Instance.TreeGrowthData.DiseasedImage;
+        // Let the disease travel
+        //Die();
     }
 
     private void Die()
@@ -171,16 +159,6 @@ public class TreeGrowth : MonoBehaviour
         // Tell Manager
         // Kick out Critters
         // Destroy(gameObject);
-    }
-
-    private void BecomeRough()
-    {
-        if(_healthState == TreeHealth.NORMAL && StressLevel < _stress_visual_threshold)
-        {
-            //Debug.Log("Help Me");
-            _healthState = TreeHealth.ROUGH;
-            //_spriteRenderer.sprite = ForestManager.Instance.TreeGrowthData.RoughImage;
-        }
     }
 
     private void BecomeOvergrown()
@@ -195,14 +173,10 @@ public class TreeGrowth : MonoBehaviour
         _overgrowRenderer.enabled = false;
     }
 
-    private void BecomeNormal()
+    private void BecomeHealthy()
     {
-        if(_healthState == TreeHealth.ROUGH)
-        {
-            //Debug.Log("Whew - Feeling Good!");
-            _healthState = TreeHealth.NORMAL;
-            _spriteRenderer.sprite = ForestManager.Instance.TreeGrowthData.HealthyImage;
-        }
+        _healthState = TreeHealth.NORMAL;
+        _spriteRenderer.sprite = ForestManager.Instance.TreeGrowthData.HealthyImage;
     }
 
 

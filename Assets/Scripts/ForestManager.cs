@@ -86,7 +86,7 @@ public class ForestManager : MonoBehaviour
 
         SpawnCritters();
 
-        InitialBranchOut();
+        //InitialBranchOut();
     }
 
     void Update()

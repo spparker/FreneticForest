@@ -15,6 +15,7 @@ public class CritterPod : MonoBehaviour
     
     public CritterTypeData CritterData;
     List<GameObject> MyCritter_List = new List<GameObject>();
+    public GameObject MashaMyc_Prefab;
 
     public TreeGrowth InTree {get; private set;}
 
@@ -33,6 +34,7 @@ public class CritterPod : MonoBehaviour
 
     private NavMeshAgent _agent;
     private CapsuleCollider _coll;
+    private ParticleSystem _mycFx;
 
     void Awake()
     {
@@ -56,6 +58,14 @@ public class CritterPod : MonoBehaviour
         }
 
         ScaleClickWithPodSize();
+
+        if(CritterData.type == CritterManager.CritterType.PATHER)
+        {
+            var fx = Instantiate(MashaMyc_Prefab, transform.position, Quaternion.identity);
+            fx.transform.SetParent(transform);
+            fx.transform.Rotate(new Vector3(90,0,0));
+            _mycFx = fx.GetComponent<ParticleSystem>();
+        }
     }
 
     void Update()
@@ -206,6 +216,7 @@ public class CritterPod : MonoBehaviour
         // Increase weight
         _curEdge?.Strengthen();
         //Debug.Log("Edge "+ _curEdge + " Strengthened to " + _curEdge.weight);
+        _mycFx.Play();
     }
 
     private void SetupForDig()

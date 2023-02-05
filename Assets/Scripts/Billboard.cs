@@ -6,7 +6,11 @@ public class Billboard : MonoBehaviour {
     public const float MAX_WALK_ROTATION = 12f;
     public const float TILT_WALK_RATE = 100f;
 
+    public const float MAX_STOMP_HEIGHT = 0.1f;
+    public const float STOMP_RATE = 1.0f;
+
     public bool LeftFacing;
+    public bool Stomp;
 
     private float _curTilt;
     private int _tiltingDir = 1;
@@ -24,6 +28,7 @@ public class Billboard : MonoBehaviour {
         _mainCamTransform = Camera.main.transform;
         _agent = GetComponentInParent<NavMeshAgent>();
         _sr = GetComponent<SpriteRenderer>();
+        _curTilt = Random.Range(0,MAX_STOMP_HEIGHT);
     }
 
     void LateUpdate()
@@ -44,7 +49,10 @@ public class Billboard : MonoBehaviour {
         else
             FlipToMultidirection();
 
-        AnimateWalk();
+        if(Stomp)
+            AnimateStomp();
+        else
+            AnimateWalk();
     }
 
     private void FlipToMoveDirection()
@@ -96,5 +104,17 @@ public class Billboard : MonoBehaviour {
         transform.Rotate(transform.forward, _curTilt);
         if(Mathf.Abs(_curTilt) >= MAX_WALK_ROTATION)
             _tiltingDir = -1 * _tiltingDir;
+    }
+
+    private void AnimateStomp()
+    {
+        _curTilt += _tiltingDir * Time.deltaTime * STOMP_RATE;
+
+        // Z rotation
+        transform.position = new Vector3(transform.position.x, _curTilt, transform.position.z);
+        if(_curTilt >= MAX_STOMP_HEIGHT)
+            _tiltingDir = -1;
+        else if(_curTilt <= 0)
+            _tiltingDir = 1;
     }
 }

@@ -46,11 +46,14 @@ public class TreeGrowth : MonoBehaviour
     public float Age => _currentAge;
     public Roots Roots { get; private set; }
 
-    void Start()
+    void Awake()
     {
         _overgrowRenderer.enabled = false;
         Roots = GetComponentInChildren<Roots>();
+    }
 
+    void Start()
+    {
         _currentAge = 0f;
         CanGrow = true;
         _growRate = ForestManager.Instance.ForestSettings.treeGrowthRate;
@@ -73,7 +76,7 @@ public class TreeGrowth : MonoBehaviour
             _spriteRenderer.sprite =  ForestManager.Instance.TreeGrowthData.BabyImage;
             _healthState = TreeHealth.BABY;
         }
-        _overgrownLevel = Random.Range(0.0f, 0.2f);
+        _overgrownLevel = Random.Range(0.0f, 0.4f);
     }
 
     // Update is called once per frame

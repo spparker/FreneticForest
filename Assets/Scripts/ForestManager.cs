@@ -12,10 +12,11 @@ public class ForestManager : MonoBehaviour
     public GameObject Node_Prefab;
     public GameObject Edge_Prefab;
 
-    public GameObject HomeTree{ get; private set; }
+    public TreeGrowth HomeTree{ get; private set; }
     private SpriteRenderer _homeTreeRenderer;
     public TreeNetwork HomeNetwork{ get; private set;}
     private TreeNetwork.NetworkNode _homeNode;
+
 
     private List<GameObject> _trees;
 
@@ -68,16 +69,17 @@ public class ForestManager : MonoBehaviour
         JumperSurface.gameObject.transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
         max_pos = ArenaSize - ForestSettings.edgeBufferSize;
 
-        HomeTree = Instantiate(Tree_Prefab, Vector3.zero, Quaternion.identity);
-        HomeTree.GetComponent<TreeGrowth>().SetStartingSize(ForestSettings.homeTreeStartingSize);
+        var home = Instantiate(Tree_Prefab, Vector3.zero, Quaternion.identity);
+        HomeTree = home.GetComponent<TreeGrowth>();
+        HomeTree.SetStartingSize(ForestSettings.homeTreeStartingSize);
         
         MeshRenderer homeMiniRenderer = HomeTree.GetComponentInChildren<NavMeshObstacle>().gameObject.GetComponent<MeshRenderer>();
         //homeMiniRenderer.material.SetColor("_Color", Color.yellow);
         homeMiniRenderer.material.color = Color.yellow;
         var netObj = new GameObject("Network");
         HomeNetwork = netObj.AddComponent<TreeNetwork>();
-        _homeNode = HomeNetwork.CreateNode(HomeTree.GetComponentInChildren<Roots>());
-        _trees = new List<GameObject>{ HomeTree};
+        _homeNode = HomeNetwork.CreateNode(HomeTree.Roots);
+        _trees = new List<GameObject>{HomeTree.gameObject};
 
         SpawnTrees();
         RebuildNavMesh();
@@ -114,7 +116,7 @@ public class ForestManager : MonoBehaviour
     private void InitialBranchOut()
     {
         //var nearest_neighbor = FindNearestRootsPosition(HomeTree.transform.position);
-        var nearest_roots = FindNearestRoots(HomeTree.transform.position, HomeTree.GetComponentInChildren<Roots>());
+        var nearest_roots = FindNearestRoots(HomeTree.transform.position, HomeTree.Roots);
 
         //var nearest_neighbor.FindTreeById(1);
 
@@ -181,8 +183,16 @@ public class ForestManager : MonoBehaviour
 
         for(int i=1;i<ForestSettings.numberOfTrees;i++)
         {
-            Vector3 spawn_pos = new Vector3(Random.Range(-max_pos,max_pos),
-                                        0, Random.Range(-max_pos, max_pos));
+            
+            float x =Random.Range(-max_pos,max_pos);
+            if(Mathf.Abs(x) <= _homeNode.root.Tree.Radius * 2)
+                x *= 2;
+
+            float z =Random.Range(-max_pos,max_pos);
+            if(Mathf.Abs(z) <= _homeNode.root.Tree.Radius * 2)
+                z *= 2;
+
+            Vector3 spawn_pos = new Vector3(x, 0, z);
             var new_tree = Instantiate(Tree_Prefab, spawn_pos, Quaternion.identity);
             new_tree.transform.SetParent(TreeHolder);
             new_tree.transform.name = "Tree " + i;
@@ -194,9 +204,9 @@ public class ForestManager : MonoBehaviour
 
     private void SpawnCritters()
     {
-        CritterManager.Instance.SpawnCritterFromData(ForestSettings.critters.patherData, ForestSettings.numberOfPathers, max_pos);
-        CritterManager.Instance.SpawnCritterFromData(ForestSettings.critters.diggieData, ForestSettings.numberOfDiggies, max_pos);
-        CritterManager.Instance.SpawnCritterFromData(ForestSettings.critters.chopData, ForestSettings.numberOfChopChops, max_pos);
+        CritterManager.Instance.SpawnCritterAroundHomeTree(ForestSettings.critters.patherData, ForestSettings.numberOfPathers, _homeNode.root.Tree.Radius);
+        CritterManager.Instance.SpawnCritterAroundHomeTree(ForestSettings.critters.diggieData, ForestSettings.numberOfDiggies, _homeNode.root.Tree.Radius);
+        CritterManager.Instance.SpawnCritterAroundHomeTree(ForestSettings.critters.chopData, ForestSettings.numberOfChopChops, _homeNode.root.Tree.Radius);
     }
 
     private void SpawnEnemy()

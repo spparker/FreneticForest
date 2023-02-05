@@ -130,7 +130,40 @@ public class CritterManager : MonoBehaviour
             if(data.enemy)
                 SetupEnemy(new_critter);
             _critterTypeLists[(int)data.type].Add(new_critter.GetComponent<CritterCommandControl>());
+        }
+    }
 
+    public void SpawnCritterAroundHomeTree(CritterTypeData data, int num, float radius)
+    {
+        var Holder = new GameObject(data.critterName).transform;
+
+        for(int i=0;i<num;i++)
+        {
+            var x = Random.Range(radius, 3*radius);
+            var z = Random.Range(radius, 3*radius);
+            if(i % 2 == 0)
+                x =-x;
+            if(i%3 == 0)
+                z = -z;
+
+            Vector3 spawn_pos = new Vector3(x, 0, z);
+            var new_critter = Instantiate(Critter_Prefab, spawn_pos, Quaternion.identity);
+            
+            var pod = new_critter.GetComponent<CritterPod>();
+            pod.CritterData = data;
+
+            if(data.type == CritterType.DIGGIE)
+            {
+                new_critter.layer = DIGGIE_LAYER;
+                pod.SetAgentToType(DIGGIE_AGENT_STRING);
+            }
+            else if(data.type == CritterType.CHOPCHOP)
+                pod.SetAgentToType(CHOPCHOP_AGENT_STRING);
+            new_critter.transform.name = data.critterName + i;
+            new_critter.transform.SetParent(Holder);
+            if(data.enemy)
+                SetupEnemy(new_critter);
+            _critterTypeLists[(int)data.type].Add(new_critter.GetComponent<CritterCommandControl>());
         }
     }
 

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: BetaTrees
   m_EditorClassIdentifier: 
   OvergrowStress: 0.005
-  OvergrowRate: 0.008
-  OvergrowVisualThreshold: 0.6
+  OvergrowRate: 0.005
+  OvergrowVisualThreshold: 0.5
   StressPerInvader: 0.005
   StressRate: 0.00001
   TrimRate: -0.3

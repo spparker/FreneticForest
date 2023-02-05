@@ -47,8 +47,8 @@
     "m_Edges": [],
     "m_VertexContext": {
         "m_Position": {
-            "x": 0.0,
-            "y": 0.0
+            "x": 215.0,
+            "y": -104.0
         },
         "m_Blocks": [
             {
@@ -64,8 +64,8 @@
     },
     "m_FragmentContext": {
         "m_Position": {
-            "x": 0.0,
-            "y": 200.0
+            "x": 224.0,
+            "y": 150.0
         },
         "m_Blocks": [
             {
@@ -184,7 +184,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "Alpha",
     "m_StageCapability": 2,
-    "m_Value": 0.7099999785423279,
+    "m_Value": 0.3499999940395355,
     "m_DefaultValue": 1.0,
     "m_Labels": []
 }

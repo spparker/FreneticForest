@@ -31,6 +31,7 @@ public class CameraControl : MonoBehaviour
     private float _arenaMax;
 
 
+    public const float STARTING_ZOOM = 0.3f;
     public const float ZOOM_RATE = 7f;
     public const float MIN_ZOOM_DIST = 1.2f;
     private float _curZoom = 1;
@@ -191,7 +192,7 @@ public class CameraControl : MonoBehaviour
 
         //Isometric Position
         PositionMainCameraCardinalDirection(currentDir.Value);
-        _curZoom = 0.4f;
+        _curZoom = STARTING_ZOOM;
     }
 
     private void PositionMainCameraCardinalDirection(CardinalDir dir)

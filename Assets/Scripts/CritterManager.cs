@@ -33,6 +33,10 @@ public class CritterManager : MonoBehaviour
 
     private CritterInputManager _CritterInput;
 
+    public int PatherCount => _critterTypeLists[(int)CritterType.PATHER].Count;
+    public int DiggieCount => _critterTypeLists[(int)CritterType.DIGGIE].Count;
+    public int ChopChopCount => _critterTypeLists[(int)CritterType.CHOPCHOP].Count;
+
     void Awake()
     {
         if(Instance != null && Instance != this)

@@ -121,7 +121,7 @@ public class TreeNetwork : MonoBehaviour
         {
             if((e.a == a || e.b == a) && (e.a == b || e.b == b))
             {
-                Debug.Log("Found Edge:" + e.id);
+                //Debug.Log("Found Edge:" + e.id);
                 return e;
             }
         }
@@ -178,11 +178,11 @@ public class TreeNetwork : MonoBehaviour
     {
         Roots nearest = ForestManager.Instance.FindNearestRoots(p, excluded);
         Vector3 nearest_surface = new Vector3(nearest.transform.position.x, 0, nearest.transform.position.z);
-        Debug.Log("Found nearest Root: " + nearest.transform.parent.name + " @ " + Vector3.Magnitude(nearest_surface - p) );
+        //Debug.Log("Found nearest Root: " + nearest.transform.parent.name + " @ " + Vector3.Magnitude(nearest_surface - p) );
 
         if(Vector3.Magnitude(nearest_surface - p) <= NODE_JOIN_DIST + nearest.Radius)
         {
-            Debug.Log("Found Nearby Root: " + nearest.gameObject.name);
+            //Debug.Log("Found Nearby Root: " + nearest.gameObject.name);
             return CreateNode(nearest); // If it had one we would've found it on Step 1
         }
 

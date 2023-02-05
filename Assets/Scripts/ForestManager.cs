@@ -100,7 +100,7 @@ public class ForestManager : MonoBehaviour
         if( _timeTilNextEnemy <= 0 )
         {
             _timeTilNextEnemy = Random.Range(MIN_ENEMY_SPAWN_T, MAX_ENEMY_SPAWN_T);
-            //SpawnEnemy();
+            SpawnEnemy();
         }
 
         _commandTime += Time.deltaTime;

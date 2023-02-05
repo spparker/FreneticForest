@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OvergrowStress: 0.005
   OvergrowRate: 0.005
-  OvergrowVisualThreshold: 0.5
+  OvergrowVisualThreshold: 0.7
   StressPerInvader: 0.005
   StressRate: 0.00001
-  TrimRate: -0.3
+  TrimRate: -0.5
   CalmRate: -0.015
   HealthyImage: {fileID: 21300000, guid: a06d7eb99ff3f1246b821331f39dc283, type: 3}
   DiseasedImage: {fileID: 21300000, guid: ebda341769ba05e46b79c515e8938d16, type: 3}

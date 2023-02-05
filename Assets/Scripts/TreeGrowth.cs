@@ -142,8 +142,7 @@ public class TreeGrowth : MonoBehaviour
     private void UpdateTreeState()
     {
         //TODO: Change Sprite Color
-
-        if(StressLevel >= 1.0f)
+        if(StressLevel >= 0.98f)
             BecomeDiseased();
     }
 

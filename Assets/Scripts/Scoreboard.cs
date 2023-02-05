@@ -11,7 +11,7 @@ public class Scoreboard : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI _sizeValue;
     [SerializeField] private TextMeshProUGUI _wisdomValue;
-    [SerializeField] private TextMeshProUGUI _happinessValue;
+    [SerializeField] private TextMeshProUGUI _happinessValue; // Make this slider bettern 0 -1 = (TotalHappiness / TotalSize)
 
 
     // Update is called once per frame
@@ -21,8 +21,8 @@ public class Scoreboard : MonoBehaviour
         _pattaValue.text = CritterManager.Instance.DiggieCount.ToString();
         _mashaValue.text = CritterManager.Instance.PatherCount.ToString();
 
-        _sizeValue.text = "1";
-        _wisdomValue.text = "0";
-        _happinessValue.text= "0";
+        _sizeValue.text = ForestManager.Instance.HomeNetwork.TotalSize + " Trees";
+        _wisdomValue.text = Mathf.FloorToInt(ForestManager.Instance.HomeNetwork.TotalWisdom) + " Years";
+        _happinessValue.text= ForestManager.Instance.HomeNetwork.TotalHappiness.ToString();
     }
 }

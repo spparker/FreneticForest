@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class Roots : MonoBehaviour
 {
-    TreeGrowth treeObject;
+    public TreeGrowth Tree {get; private set;}
     Material rootsMaterial;
     GameObject rootMask;
 
-    public float Radius => treeObject.Radius;
-
     void Awake()
     {
-        treeObject = GetComponentInParent<TreeGrowth>();
+        Tree = GetComponentInParent<TreeGrowth>();
         rootMask = transform.Find("RootsMask").gameObject;
     }
 
@@ -25,12 +23,12 @@ public class Roots : MonoBehaviour
 
     void Update()
     {
-        if(treeObject.BurrowedCritters)
+        if(Tree.BurrowedCritters)
         {
             rootMask.SetActive(true);
-            var flat_to_cam = Vector3.ProjectOnPlane(Camera.main.transform.position - treeObject.transform.position, Vector3.up);
+            var flat_to_cam = Vector3.ProjectOnPlane(Camera.main.transform.position - Tree.transform.position, Vector3.up);
             flat_to_cam.Normalize();
-            rootMask.transform.position = new Vector3(transform.position.x, rootMask.transform.position.y, transform.position.z) + flat_to_cam * Radius;
+            rootMask.transform.position = new Vector3(transform.position.x, rootMask.transform.position.y, transform.position.z) + flat_to_cam * Tree.Radius;
         }
         else
             rootMask.SetActive(false);
@@ -39,7 +37,7 @@ public class Roots : MonoBehaviour
     // Stop growth when colliding with another trees roots
     public void OnTriggerEnter(Collider other)
     {
-        if(treeObject.CanGrow 
+        if(Tree.CanGrow 
         && other.GetComponent<Roots>() != null)
             StopGrowth();
     }
@@ -55,6 +53,6 @@ public class Roots : MonoBehaviour
 
     private void StopGrowth()
     {
-        treeObject.SignalStopGrowth();
+        Tree.SignalStopGrowth();
     }
 }

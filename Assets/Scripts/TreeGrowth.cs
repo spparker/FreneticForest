@@ -43,6 +43,7 @@ public class TreeGrowth : MonoBehaviour
     public float StressLevel { get; private set; }
     public float Top => _currentSize;
     public float Radius => _currentSize * INITIAL_RADIUS;
+    public float Age => _currentAge;
     public Roots Roots { get; private set; }
 
     void Start()

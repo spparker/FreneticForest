@@ -15,6 +15,7 @@ public class ForestManager : MonoBehaviour
     public GameObject HomeTree{ get; private set; }
     private SpriteRenderer _homeTreeRenderer;
     public TreeNetwork HomeNetwork{ get; private set;}
+    private TreeNetwork.NetworkNode _homeNode;
 
     private List<GameObject> _trees;
 
@@ -75,7 +76,7 @@ public class ForestManager : MonoBehaviour
         homeMiniRenderer.material.color = Color.yellow;
         var netObj = new GameObject("Network");
         HomeNetwork = netObj.AddComponent<TreeNetwork>();
-        HomeNetwork.CreateNode(HomeTree.GetComponentInChildren<Roots>());
+        _homeNode = HomeNetwork.CreateNode(HomeTree.GetComponentInChildren<Roots>());
         _trees = new List<GameObject>{ HomeTree};
 
         SpawnTrees();
@@ -113,12 +114,13 @@ public class ForestManager : MonoBehaviour
     private void InitialBranchOut()
     {
         //var nearest_neighbor = FindNearestRootsPosition(HomeTree.transform.position);
-        var nearest_roots = FindNearestRoots(HomeTree.transform.position);
+        var nearest_roots = FindNearestRoots(HomeTree.transform.position, HomeTree.GetComponentInChildren<Roots>());
 
         //var nearest_neighbor.FindTreeById(1);
 
-        HomeNetwork.CreateNode(nearest_roots);
-        HomeNetwork.AddEdge(0, 1, Vector3.Magnitude(HomeTree.transform.position - nearest_roots.transform.position));
+        var node_1 = HomeNetwork.CreateNode(nearest_roots);
+        //HomeNetwork.AddEdge(0, 1, Vector3.Magnitude(HomeTree.transform.position - nearest_roots.transform.position));
+        HomeNetwork.AddEdge(_homeNode, node_1);
 
         Debug.Log("Added Nearest Neighbor at: " + nearest_roots.transform.position);
     }

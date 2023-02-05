@@ -7,7 +7,7 @@ public class TreeNetwork : MonoBehaviour
     const float DECAY_RATE = 0.0044f;
     const float DEATH_POINT = -0.3f;
 
-    const float NODE_JOIN_DIST = 6f;
+    const float NODE_JOIN_DIST = 8f;
     const float DEFAULT_NODE_DEPTH = -1f;
     const float PASS_WEIGHT_INCREASE = 0.22f;
     const float MAX_EDGE_WEIGHT = 1.0f;
@@ -21,8 +21,19 @@ public class TreeNetwork : MonoBehaviour
     List<NetworkEdge> _edges;
     List<NetworkNode> _nodes;
 
+    // Always incrementing ID system, not actual count
     private int _edgeCount = 0;
     private int _nodeCount = 0;
+
+    private float _updateCounter;
+    private const float UPDATE_RATE = 1;
+
+    public int TotalSize {get; private set;} // Number of Rooted Nodes
+    public float TotalWisdom {get; private set;} // Combined Ages
+    public float TotalHappiness {get; private set;} // Something Minus Stress?
+
+    private List<int> EdgesThisPass; // Tracking traveled edges each iteration
+    private List<int> NodesThisPass;
 
 
     // Start is called before the first frame update
@@ -34,15 +45,7 @@ public class TreeNetwork : MonoBehaviour
 
     void Start()
     {
-        var home_root = ForestManager.Instance.HomeTree.GetComponentInChildren<Roots>();
-        _origin = new NetworkNode()
-        {
-            id = _nodeCount++,
-            numEdges = 0,
-            edges = new int[MAX_EDGES],
-            root = home_root,
-            position = home_root.transform.position
-        };
+        _origin = _nodes[0];
     }
 
     // Update is called once per frame
@@ -59,6 +62,55 @@ public class TreeNetwork : MonoBehaviour
 
         foreach(NetworkEdge del in delEdges)
             KillEdge(del);
+
+        _updateCounter += Time.deltaTime;
+        if(_updateCounter >= UPDATE_RATE)
+            UpdateStats();
+    }
+
+    private void UpdateStats()
+    {
+        _updateCounter = 0;
+        EdgesThisPass = new List<int>();
+        NodesThisPass = new List<int>();
+
+        TotalSize = 0;
+        TotalWisdom = 0;
+        TotalHappiness = 0;
+
+        TravelNodeRecursive(_origin);
+    }
+
+    private void TravelNodeRecursive(NetworkNode node)
+    {
+        //Debug.Log("At Node: " + node.id);
+        AddNodeScores(node);
+        foreach(NetworkEdge edge in node.edges)
+        {
+            //Debug.Log("(" + node.id + ")Checking Edge: " + edge.id);
+            if(EdgesThisPass.Contains(edge.id))
+                continue;
+            
+            EdgesThisPass.Add(edge.id);
+            NetworkNode next = edge.a;
+            if(next == node)
+                next = edge.b;
+            
+            if(!NodesThisPass.Contains(next.id))
+                TravelNodeRecursive(next);
+        }
+    }
+
+    private void AddNodeScores(NetworkNode node)
+    {
+        NodesThisPass.Add(node.id);
+        var node_root = node.root;
+        if(node_root)
+        {
+            TotalSize += 1;
+            TotalWisdom += node_root.Tree.Age;
+            TotalHappiness += 1 - node_root.Tree.StressLevel;
+        }
     }
 
     private void UpdateEdges(NetworkEdge ne)
@@ -101,7 +153,7 @@ public class TreeNetwork : MonoBehaviour
         RemoveEdgeFromNode(ne.a);
         Destroy(ne.objEdge);
         _edges.Remove(ne);
-        _edgeCount--;
+        //_edgeCount--;
     }
 
     // Assume points are flattened to surface here
@@ -115,13 +167,13 @@ public class TreeNetwork : MonoBehaviour
         return edge;
     }
 
-    private NetworkEdge FindEdge(NetworkNode a, NetworkNode b)
+    private NetworkEdge FindEdge(NetworkNode n1, NetworkNode n2)
     {
         foreach(var e in _edges)
         {
-            if((e.a == a || e.b == a) && (e.a == b || e.b == b))
+            if((e.a == n1 || e.b == n1) && (e.a == n2 || e.b == n2))
             {
-                //Debug.Log("Found Edge:" + e.id);
+                //Debug.Log("Found Existing Edge:" + e.id);
                 return e;
             }
         }
@@ -154,9 +206,8 @@ public class TreeNetwork : MonoBehaviour
         {
             if(n == excluded)
                 continue;
-
             Vector3 nearest_surface = new Vector3(n.position.x, 0, n.position.z);
-            var dist = Vector3.Magnitude(n.position - p1);
+            var dist = Vector3.Magnitude(nearest_surface - p1);
             if(dist <= NODE_JOIN_DIST
             && dist < min_dist)
             {
@@ -180,7 +231,7 @@ public class TreeNetwork : MonoBehaviour
         Vector3 nearest_surface = new Vector3(nearest.transform.position.x, 0, nearest.transform.position.z);
         //Debug.Log("Found nearest Root: " + nearest.transform.parent.name + " @ " + Vector3.Magnitude(nearest_surface - p) );
 
-        if(Vector3.Magnitude(nearest_surface - p) <= NODE_JOIN_DIST + nearest.Radius)
+        if(Vector3.Magnitude(nearest_surface - p) <= NODE_JOIN_DIST + nearest.Tree.Radius)
         {
             //Debug.Log("Found Nearby Root: " + nearest.gameObject.name);
             return CreateNode(nearest); // If it had one we would've found it on Step 1
@@ -202,7 +253,7 @@ public class TreeNetwork : MonoBehaviour
     {
         Destroy(nn.objNode);
         _nodes.Remove(nn);
-        _nodeCount--;
+        //_nodeCount--;
     }
 
     public NetworkNode CreateNode(Roots root)
@@ -211,7 +262,8 @@ public class TreeNetwork : MonoBehaviour
         {
             id = _nodeCount++,
             numEdges = 0,
-            edges = new int[MAX_EDGES],
+            //edges = new int[MAX_EDGES],
+            edges = new List<NetworkEdge>(),
             root = root,
             position = root.transform.position
         };
@@ -230,7 +282,7 @@ public class TreeNetwork : MonoBehaviour
         {
             id = _nodeCount++,
             numEdges = 0,
-            edges = new int[MAX_EDGES],
+            edges = new List<NetworkEdge>(),
             root = null,
             position = new Vector3(position.x, DEFAULT_NODE_DEPTH, position.z)
         };
@@ -239,7 +291,6 @@ public class TreeNetwork : MonoBehaviour
         _nodes.Add(new_node);
 
         //Debug.Log("Created Non-root node " + new_node.id);
-
         return new_node;
     }
 
@@ -250,36 +301,7 @@ public class TreeNetwork : MonoBehaviour
         return obj;
     }
 
-    public bool AddEdge(int src_id, int dst_id, float dist)
-    {
-        return AddEdge(_nodes[src_id],_nodes[dst_id], dist);
-    }
-
-    private bool AddEdge(NetworkNode src, NetworkNode dst, float distance)
-    {
-        if(src.numEdges >= MAX_EDGES
-        || dst.numEdges >= MAX_EDGES)
-            return false;
-
-        NetworkEdge new_edge = new NetworkEdge
-        {
-            distance = distance,
-            weight = 0,
-            a = src,
-            b = dst,
-            id = _edgeCount
-        };
-        
-        new_edge.objEdge = new_edge.objEdge = SpawnEdgeObject(new_edge.a.position, new_edge.b.position);
-        _edges.Add(new_edge);
-
-        _edgeCount++;
-        src.edges[src.numEdges++] = new_edge.id;
-        dst.edges[dst.numEdges++] = new_edge.id;
-        return true;
-    }
-
-    private NetworkEdge AddEdge(NetworkNode src, NetworkNode dst)
+    public NetworkEdge AddEdge(NetworkNode src, NetworkNode dst)
     {
         if(src.numEdges >= MAX_EDGES
         || dst.numEdges >= MAX_EDGES)
@@ -299,11 +321,13 @@ public class TreeNetwork : MonoBehaviour
         new_edge.objEdge = SpawnEdgeObject(new_edge.a.position, new_edge.b.position);
         _edges.Add(new_edge);
 
-        //Debug.Log("Created Edge " + new_edge.id);
+        //Debug.Log("Created Edge " + new_edge.id + " from " + src.id + " to " + dst.id);
 
         _edgeCount++;
-        src.edges[src.numEdges++] = new_edge.id;
-        dst.edges[dst.numEdges++] = new_edge.id;
+        src.numEdges++;
+        src.edges.Add(new_edge);
+        dst.numEdges++;
+        dst.edges.Add(new_edge);
         return new_edge;
     }
 
@@ -325,7 +349,8 @@ public class TreeNetwork : MonoBehaviour
     {
         public int id;
         public int numEdges;
-        public int[] edges;
+        //public int[] edges;
+        public List<NetworkEdge> edges;
         public Roots root;
         public Vector3 position;
         public GameObject objNode;

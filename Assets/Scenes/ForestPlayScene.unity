@@ -2829,7 +2829,6 @@ GameObject:
   - component: {fileID: 1483592492}
   - component: {fileID: 1483592495}
   - component: {fileID: 1483592494}
-  - component: {fileID: 1483592493}
   m_Layer: 5
   m_Name: CritterPanel
   m_TagString: Untagged
@@ -2861,19 +2860,6 @@ RectTransform:
   m_AnchoredPosition: {x: 199, y: -64.201416}
   m_SizeDelta: {x: 304.9281, y: 118.4029}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1483592493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1483592491}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a96989e854a3c940b741684c32547b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _baaValue: {fileID: 1859669089}
 --- !u!114 &1483592494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3530,7 +3516,6 @@ GameObject:
   - component: {fileID: 1859699881}
   - component: {fileID: 1859699884}
   - component: {fileID: 1859699883}
-  - component: {fileID: 1859699882}
   m_Layer: 5
   m_Name: NetworkPanel
   m_TagString: Untagged
@@ -3565,19 +3550,6 @@ RectTransform:
   m_AnchoredPosition: {x: -105, y: -64.201416}
   m_SizeDelta: {x: 304.9281, y: 118.4029}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1859699882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1859699880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a96989e854a3c940b741684c32547b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _baaValue: {fileID: 0}
 --- !u!114 &1859699883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3628,6 +3600,7 @@ GameObject:
   - component: {fileID: 1961388753}
   - component: {fileID: 1961388752}
   - component: {fileID: 1961388751}
+  - component: {fileID: 1961388755}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -3720,6 +3693,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1961388755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1961388750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a96989e854a3c940b741684c32547b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _baaValue: {fileID: 1859669089}
+  _pattaValue: {fileID: 100468901}
+  _mashaValue: {fileID: 1067743177}
+  _sizeValue: {fileID: 1762522538}
+  _wisdomValue: {fileID: 1291229599}
+  _happinessValue: {fileID: 1151484041}
 --- !u!1 &2008583950
 GameObject:
   m_ObjectHideFlags: 0
@@ -3909,7 +3900,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d453d04d19cb60648abb975b680c75b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ForestSettings: {fileID: 11400000, guid: 23155c9416230724aadbfb4fba8a3f0d, type: 2}
+  ForestSettings: {fileID: 11400000, guid: 171cf03aad20d754e8023b55d98d9ffe, type: 2}
   TreeGrowthData: {fileID: 11400000, guid: b407dbd49ee78fd4280ed3b738fc50b5, type: 2}
   Tree_Prefab: {fileID: 6892354846085866887, guid: d7843eb1c884f2348baa5cb35f5ef6af,
     type: 3}

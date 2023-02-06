@@ -17,7 +17,6 @@ public class CritterPod : MonoBehaviour
     
     public CritterTypeData CritterData;
     List<GameObject> MyCritter_List = new List<GameObject>();
-    public GameObject MashaMyc_Prefab;
 
     public TreeGrowth InTree {get; private set;}
 
@@ -26,6 +25,10 @@ public class CritterPod : MonoBehaviour
 
     public float Radius { get; private set;}
     public float ColliderRadius => Radius * TO_CAPSULE_RADIUS;
+
+
+    public const int HP_OVERFILL_AMOUNT = 1;
+    public bool NeedHealth => MyCritter_List.Count < CritterData.numberOfIndividuals + HP_OVERFILL_AMOUNT;
 
     public bool InPatrol {get; private set;}
     private TreeNetwork.NetworkEdge _curEdge;
@@ -65,7 +68,7 @@ public class CritterPod : MonoBehaviour
 
         if(CritterData.type == CritterManager.CritterType.PATHER)
         {
-            var fx = Instantiate(MashaMyc_Prefab, transform.position, Quaternion.identity);
+            var fx = Instantiate(CritterData.FX_Prefab, transform.position, Quaternion.identity);
             fx.transform.SetParent(transform);
             fx.transform.Rotate(new Vector3(90,0,0));
             _mycFx = fx.GetComponent<ParticleSystem>();
@@ -206,7 +209,11 @@ public class CritterPod : MonoBehaviour
 
     private void ScaleClickWithPodSize()
     {
-        _coll.radius = (BASE_RADIUS_SIZE + (POD_RADIUS_PER * MyCritter_List.Count)) * TO_CAPSULE_RADIUS;
+        Radius = BASE_RADIUS_SIZE + (POD_RADIUS_PER *  MyCritter_List.Count);
+        if(CritterData.type == CritterManager.CritterType.CHOPCHOP)
+            Radius += 1;
+
+        _coll.radius = Radius * TO_CAPSULE_RADIUS;
         //_agent.radius = _coll.radius;
     }
 
@@ -292,7 +299,6 @@ public class CritterPod : MonoBehaviour
         transform.Rotate(rot_dir);
     }
 
-
     public void EnterCombatWith(CritterPod target)
     {
         InCombat = target;
@@ -349,4 +355,25 @@ public class CritterPod : MonoBehaviour
         Destroy(first_critter);
         RemoveCritters(--number);
     }
+
+    public void HealMe()
+    {
+        CritterManager.Instance.Input.PlayCritterAudio(ForestManager.Instance.TreeGrowthData.FigSound);
+        var spawn_pos = GetRandomCircleSpawn(transform.position, Radius);
+                                    
+        var individual = Instantiate(CritterData.CritterSprite_Prefab, spawn_pos, Quaternion.identity);
+        individual.transform.parent = transform;
+
+        MyCritter_List.Add(individual);
+
+        ScaleClickWithPodSize();
+    }
+
+    /*void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("coll= " + collision);
+        var fig = collision.collider.transform.GetComponent<Fig>();
+        if(fig && NeedHealth)
+            fig.HealPod(this);
+    }*/
 }

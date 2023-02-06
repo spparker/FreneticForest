@@ -22,3 +22,5 @@ MonoBehaviour:
   CritterSprite_Prefab: {fileID: 2331022443658609414, guid: d72c92478db18874b9e0e0b9480dc8d9,
     type: 3}
   Sounds: {fileID: 11400000, guid: e573fe1037b76974d97406f2829c3882, type: 2}
+  FX_Prefab: {fileID: 6043937989730433688, guid: b5aed2a1b26d74748a39bbf7a160ef02,
+    type: 3}

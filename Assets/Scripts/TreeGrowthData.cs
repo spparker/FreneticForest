@@ -18,6 +18,11 @@ public class TreeGrowthData : ScriptableObject
     public float TrimRate = -0.2f;
     public float CalmRate = -0.001f;
 
+    // Figs
+    public GameObject Fig_Prefab;
+    public AudioClip FigSound;
+    public float FigSpawnChance = 0.01f; // Percentage possible each second
+
     // Add Images here 
     public Sprite HealthyImage;
     public Sprite DiseasedImage; // Not Used??

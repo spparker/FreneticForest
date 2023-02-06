@@ -20,6 +20,7 @@ public class TreeGrowth : MonoBehaviour
     float _stress_rate = 0.0001f;
     float _trim_rate = -0.2f;
     float _calm_rate = -0.001f;
+    float _fig_chance = 0.001f;
 
     private float _growRate;
     private float _currentAge;
@@ -30,6 +31,7 @@ public class TreeGrowth : MonoBehaviour
     public CritterCommandControl OccupyingCritters{get; private set;}
     public CritterCommandControl BurrowedCritters{get; private set;}
 
+    float _fig_spawn_timer;
 
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private SpriteRenderer _overgrowRenderer;
@@ -66,6 +68,7 @@ public class TreeGrowth : MonoBehaviour
         _stress_rate = ForestManager.Instance.TreeGrowthData.StressRate;
         _trim_rate = ForestManager.Instance.TreeGrowthData.TrimRate;
         _calm_rate = ForestManager.Instance.TreeGrowthData.CalmRate;
+        _fig_chance = ForestManager.Instance.TreeGrowthData.FigSpawnChance;
     }
 
     public void SetRandomSpawnValues(float max_initial_size)
@@ -95,6 +98,10 @@ public class TreeGrowth : MonoBehaviour
         AddStress(Time.deltaTime);
         UpdateTreeState();
 
+        _fig_spawn_timer += Time.deltaTime;
+        if(_fig_spawn_timer > 1.0f)
+            CheckForFigSpawn(Time.deltaTime);
+
         if(!CanGrow)
             return;
 
@@ -103,6 +110,19 @@ public class TreeGrowth : MonoBehaviour
 
         if(_healthState == TreeHealth.BABY)
             BecomeHealthy();
+    }
+
+    private void CheckForFigSpawn(float td)
+    {
+        _fig_spawn_timer = 0;
+        if( Invaded || _healthState != TreeHealth.NORMAL)
+            return;
+
+        if(Random.Range(0,1.0f) < _fig_chance)
+        {
+            var fig = Instantiate(ForestManager.Instance.TreeGrowthData.Fig_Prefab, transform.position + Vector3.up * Top + Vector3.right * Radius, Quaternion.identity);
+            fig.transform.Translate(Vector3.right * 2 * Radius);
+        }
     }
 
     public void EnterTree(CritterCommandControl ccc)
@@ -151,6 +171,8 @@ public class TreeGrowth : MonoBehaviour
         _healthState = TreeHealth.DISEASED;
         CanGrow = false;
         _spriteRenderer.sprite = ForestManager.Instance.TreeGrowthData.DiseasedImage;
+        _overgrownLevel = 0;
+        BecomeTrimmed();
         // Let the disease travel
         //Die();
     }

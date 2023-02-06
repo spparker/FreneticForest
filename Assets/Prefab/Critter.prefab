@@ -114,8 +114,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CritterData: {fileID: 11400000, guid: 21ce535a55b9f4846a793c3ec3e4442f, type: 2}
-  MashaMyc_Prefab: {fileID: 6043937989730433688, guid: b5aed2a1b26d74748a39bbf7a160ef02,
-    type: 3}
 --- !u!114 &7344961388483820057
 MonoBehaviour:
   m_ObjectHideFlags: 0

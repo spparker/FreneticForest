@@ -385,8 +385,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 0.16470589, g: 0.21176471, b: 0.8117647, a: 1}
-  m_Intensity: 0.5
+  m_Color: {r: 0.2742079, g: 0.30778176, b: 0.735849, a: 1}
+  m_Intensity: 3
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -3454,7 +3454,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You can stay in your forest as long as you like
+  m_text: You can stay in the forest as long as you like
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3b142d89a1e2a3445a5771b2f3e8a5b4, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 3b142d89a1e2a3445a5771b2f3e8a5b4, type: 2}

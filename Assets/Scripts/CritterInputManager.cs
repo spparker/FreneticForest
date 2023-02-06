@@ -97,6 +97,8 @@ public class CritterInputManager : MonoBehaviour
 
     public void HandleNewSelection(CritterCommandControl ccc)
     {
+        if(ccc == null)
+            return;
         curSelected?.SetSelected(false);
         ccc.SetSelected(true);
         curSelected = ccc;

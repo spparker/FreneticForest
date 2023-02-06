@@ -89,10 +89,10 @@ public class ForestManager : MonoBehaviour
 
     void Update()
     {
-        _timeSinceRebuild += Time.deltaTime;
+        //_timeSinceRebuild += Time.deltaTime;
 
-        if(_timeSinceRebuild >= SECONDS_BETWEEN_REBUILD)
-            RebuildNavMesh();
+        //if(_timeSinceRebuild >= SECONDS_BETWEEN_REBUILD)
+        //    RebuildNavMesh();
 
         if(_inTransition)
             UpdateSurfaceOpacity();
@@ -232,7 +232,6 @@ public class ForestManager : MonoBehaviour
     public void RebuildNavMesh()
     { // TODO: This is too slow now on big maps
         NavSurface.BuildNavMesh();
-        //BurrowSurface.navMeshData = NavSurface.navMeshData;
         BurrowSurface.BuildNavMesh(); // will need to rebuild for better burrow movement
         JumperSurface.BuildNavMesh();
         _timeSinceRebuild = 0;

@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 314ffdcb5b66ef944b096d00db4cb745, type: 3}
-  m_Name: LargeSettings
+  m_Name: ReleaseForestSmaller
   m_EditorClassIdentifier: 
-  numberOfTrees: 100
-  homeTreeStartingSize: 8
-  treeGrowthRate: 0.05
-  critters: {fileID: 11400000, guid: 4bb4b6ab4edb8d94084347250f4ea717, type: 2}
-  numberOfPathers: 10
-  numberOfDiggies: 4
-  numberOfChopChops: 3
-  forestScale: 10
-  edgeBufferSize: 4
-  minutesPerDay: 2
+  numberOfTrees: 22
+  homeTreeStartingSize: 10
+  treeGrowthRate: 0.01
+  critters: {fileID: 11400000, guid: ed3bb45b6fe7e884ca21501a3647b40c, type: 2}
+  numberOfPathers: 1
+  numberOfDiggies: 0
+  numberOfChopChops: 0
+  forestScale: 14
+  edgeBufferSize: 6
+  minutesPerDay: 1

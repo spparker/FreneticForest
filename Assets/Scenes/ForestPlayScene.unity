@@ -5822,7 +5822,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d453d04d19cb60648abb975b680c75b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ForestSettings: {fileID: 11400000, guid: 6dca1667654e50149bdfd9b089dce5dd, type: 2}
+  ForestSettings: {fileID: 11400000, guid: 26fd1d11eafc9b948b49784e24b3e4ef, type: 2}
   TreeGrowthData: {fileID: 11400000, guid: 6ac5669e7de87334c997454d7b6da0bf, type: 2}
   Tree_Prefab: {fileID: 6892354846085866887, guid: c856ae647c1dee642b33e0502ef132db,
     type: 3}

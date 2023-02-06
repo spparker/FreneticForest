@@ -70,6 +70,12 @@ public class CritterCommandControl : MonoBehaviour
         _commands.Enqueue(item: new CommandPatrol(start_positon, end_position, this));
     }
 
+    public void SendHome()
+    {
+        ClearCommands();
+        QueueMoveCommand(ForestManager.Instance.HomeTree.transform.position);
+    }
+
     // Occupy tree if empty
     public void OccupyTree(TreeGrowth tree)
     {

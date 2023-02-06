@@ -22,7 +22,7 @@ MonoBehaviour:
   Fig_Prefab: {fileID: 2331022443658609414, guid: 0d8ecb92aae8b73438d152a98cff8279,
     type: 3}
   FigSound: {fileID: 8300000, guid: 0fcfb6289e8a3db469bcf51524529c16, type: 3}
-  FigSpawnChance: 0.005
+  FigSpawnChance: 0.001
   HealthyImage: {fileID: 21300000, guid: a06d7eb99ff3f1246b821331f39dc283, type: 3}
   DiseasedImage: {fileID: 21300000, guid: ebda341769ba05e46b79c515e8938d16, type: 3}
   BabyImage: {fileID: 21300000, guid: cf5beac86c69cdd4c906a1c059481cf9, type: 3}

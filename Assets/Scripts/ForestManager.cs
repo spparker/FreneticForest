@@ -31,12 +31,9 @@ public class ForestManager : MonoBehaviour
     private float _timeSinceRebuild = 0;
     private float max_pos;
 
-    public const float MIN_ENEMY_SPAWN_T = 20f;
-    public const float MAX_ENEMY_SPAWN_T = 90f;
-    //public const float MIN_ENEMY_SPAWN_T = 1f;
-    //public const float MAX_ENEMY_SPAWN_T = 10f;
-
-    public const int MAX_ENEMIES = 4;
+    private float _minEnemySpawnTime = 999;
+    public float _maxEnemySpawnTime = 9999f;
+    public int _enemiesPerSpawn = 0;
 
     public const float MAX_TREE_SPAWN = 4f;
 
@@ -85,7 +82,7 @@ public class ForestManager : MonoBehaviour
         SpawnTrees();
         RebuildNavMesh();
 
-        SpawnCritters();
+        SpawnInitialCritters();
 
         //InitialBranchOut();
     }
@@ -103,7 +100,7 @@ public class ForestManager : MonoBehaviour
         _timeTilNextEnemy -= Time.deltaTime;
         if( _timeTilNextEnemy <= 0 )
         {
-            _timeTilNextEnemy = Random.Range(MIN_ENEMY_SPAWN_T, MAX_ENEMY_SPAWN_T);
+            _timeTilNextEnemy = Random.Range(_minEnemySpawnTime, _maxEnemySpawnTime);
             SpawnEnemy();
             CritterManager.Instance.Input.PlayCritterAudio(ForestSettings.critters.invaderData.Sounds.SoundCommand);
         }
@@ -204,7 +201,7 @@ public class ForestManager : MonoBehaviour
         }
     }
 
-    private void SpawnCritters()
+    private void SpawnInitialCritters()
     {
         CritterManager.Instance.SpawnCritterAroundHomeTree(ForestSettings.critters.patherData, ForestSettings.numberOfPathers, HomeNode.root.Tree.Radius);
         CritterManager.Instance.SpawnCritterAroundHomeTree(ForestSettings.critters.diggieData, ForestSettings.numberOfDiggies, HomeNode.root.Tree.Radius);
@@ -213,7 +210,23 @@ public class ForestManager : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        CritterManager.Instance.SpawnCritterFromData(ForestSettings.critters.invaderData, Random.Range(1, MAX_ENEMIES), max_pos);
+        CritterManager.Instance.SpawnCritterFromData(ForestSettings.critters.invaderData, _enemiesPerSpawn, max_pos);
+    }
+
+    public void SpawnRewardAtNewestNode(int baa, int patta, int masha)
+    {
+        var latest_tree = HomeNetwork.NewestNode.root.Tree;
+        CritterManager.Instance.SpawnCritterAroundLocation(ForestSettings.critters.patherData, baa, latest_tree.Radius, latest_tree.transform.position);
+        CritterManager.Instance.SpawnCritterAroundLocation(ForestSettings.critters.diggieData, patta, latest_tree.Radius, latest_tree.transform.position);
+        CritterManager.Instance.SpawnCritterAroundLocation(ForestSettings.critters.chopData, masha, latest_tree.Radius, latest_tree.transform.position);
+    }
+
+    public void SetEnemySpawnValues(float min_time, float max_time, int number)
+    {
+        _minEnemySpawnTime = min_time;
+        _maxEnemySpawnTime = max_time;
+        _enemiesPerSpawn = number;
+        _timeTilNextEnemy = Random.Range(_minEnemySpawnTime, _maxEnemySpawnTime);
     }
 
     public void RebuildNavMesh()

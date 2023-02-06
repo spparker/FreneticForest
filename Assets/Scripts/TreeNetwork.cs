@@ -22,6 +22,7 @@ public class TreeNetwork : MonoBehaviour
     List<NetworkNode> _nodes;
 
     public NetworkNode Origin => _nodes[0];
+    public NetworkNode NewestNode => _nodes[^1];
 
     // Always incrementing ID system, not actual count
     private int _edgeCount = 0;

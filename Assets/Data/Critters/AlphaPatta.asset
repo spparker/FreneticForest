@@ -17,7 +17,9 @@ MonoBehaviour:
   enemy: 0
   canEnterTrees: 1
   numberOfIndividuals: 4
-  moveSpeed: 5
+  moveSpeed: 6
   damageOutput: 2
   CritterSprite_Prefab: {fileID: 2331022443658609414, guid: 2c50869b3a1ce1b42b4d6566f82b3036,
     type: 3}
+  Sounds: {fileID: 0}
+  FX_Prefab: {fileID: 0}

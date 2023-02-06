@@ -134,7 +134,7 @@ public class CritterManager : MonoBehaviour
         }
     }
 
-    public void SpawnCritterAroundHomeTree(CritterTypeData data, int num, float radius)
+    public void SpawnCritterAroundLocation(CritterTypeData data, int num, float radius, Vector3 pos)
     {
         var Holder = new GameObject(data.critterName).transform;
 
@@ -147,7 +147,7 @@ public class CritterManager : MonoBehaviour
             if(i%3 == 0)
                 z = -z;
 
-            Vector3 spawn_pos = new Vector3(x, 0, z);
+            Vector3 spawn_pos = new Vector3(pos.x + x, 0, pos.z + z);
             var new_critter = Instantiate(Critter_Prefab, spawn_pos, Quaternion.identity);
             
             var pod = new_critter.GetComponent<CritterPod>();
@@ -166,6 +166,31 @@ public class CritterManager : MonoBehaviour
                 SetupEnemy(new_critter);
             _critterTypeLists[(int)data.type].Add(new_critter.GetComponent<CritterCommandControl>());
         }
+    }
+
+    public void SpawnCritterAroundHomeTree(CritterTypeData data, int num, float radius)
+    {
+        SpawnCritterAroundLocation(data,num, radius, Vector3.zero);
+    }
+
+    public void SendAllCrittersHome()
+    {
+        foreach(var c in _critterTypeLists[(int)CritterType.PATHER])
+            c.SendHome();
+
+        foreach(var c in _critterTypeLists[(int)CritterType.DIGGIE])
+            c.SendHome();
+
+        foreach(var c in _critterTypeLists[(int)CritterType.CHOPCHOP])
+            c.SendHome();
+
+        foreach(var c in _critterTypeLists[(int)CritterType.INVADER])
+        {
+            if(c.Pod.InTree)
+                c.Pod.InTree.LeaveTree(c.Pod);
+            Destroy(c.gameObject);
+        }
+        _critterTypeLists[(int)CritterType.INVADER] = new List<CritterCommandControl>();
     }
 
     private void SetupEnemy(GameObject enemy_critter)
@@ -204,6 +229,9 @@ public class CritterManager : MonoBehaviour
 
     public CritterCommandControl GetNextOfType(CritterType ct)
     {
+        if(_critterTypeLists[(int)ct].Count < 1)
+            return null;
+            
         if(ct == _curCycleList)
         {
             _curListPos++;

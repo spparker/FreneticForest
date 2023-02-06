@@ -6,8 +6,10 @@ public class Fig : MonoBehaviour
 {
 
     public const float DIRECTION_TIME = 0.5f;
+    public const float LIFE_TIME = 30f;
     Rigidbody rb;
     float _moveTime;
+    float _totalTime;
     Vector3 _curDir;
     void Awake()
     {
@@ -17,6 +19,10 @@ public class Fig : MonoBehaviour
 
     void Update()
     {
+        _totalTime += Time.deltaTime;
+        if(_totalTime > LIFE_TIME)
+            Destroy(gameObject);
+
         _moveTime += Time.deltaTime;
         if(_moveTime >= DIRECTION_TIME)
             ChangeDirection();

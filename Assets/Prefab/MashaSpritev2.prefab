@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 774ac6b5fd19be54e97afd3a238b35a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LeftFacing: 1
+  LeftFacing: 0
   Stomp: 1
   Forward: {fileID: 21300000, guid: 576560b797e251541998d1943e9da2ff, type: 3}
   ForwardSideways: {fileID: 21300000, guid: ad7e7a99df505b44babccfb195c8182a, type: 3}

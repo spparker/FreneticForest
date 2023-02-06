@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   numberOfTrees: 28
   homeTreeStartingSize: 10
-  treeGrowthRate: 0.02
+  treeGrowthRate: 0.015
   critters: {fileID: 11400000, guid: ed3bb45b6fe7e884ca21501a3647b40c, type: 2}
   numberOfPathers: 1
   numberOfDiggies: 0
   numberOfChopChops: 0
   forestScale: 20
   edgeBufferSize: 8
-  minutesPerDay: 0.8
+  minutesPerDay: 1

@@ -94,6 +94,26 @@ public class CameraControl : MonoBehaviour
             ForestManager.Instance.ToggleSurface();
     }
 
+    public void EnableSkybox()
+    {
+        if(Camera.main.clearFlags == CameraClearFlags.Skybox)
+            return;
+
+        if(ForestManager.Instance.ShownUnderGround ||
+            ForestManager.Instance.HidingUnderGround)
+            return;
+
+        Camera.main.clearFlags = CameraClearFlags.Skybox;
+    }
+
+    public void DisableSkybox()
+    {
+        if(Camera.main.clearFlags == CameraClearFlags.SolidColor)
+            return;
+
+        Camera.main.clearFlags = CameraClearFlags.SolidColor;
+    }
+
     public void LookAtPosition(Vector3 pos)
     {
         _curLookPos = pos;

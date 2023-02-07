@@ -8,8 +8,17 @@ public class TimeManager : MonoBehaviour
     private GameObject _moonLight;
     private float _rotationPerSecond;
 
+    public bool IsNightTime => _moonLight.activeSelf;
+
+    public static TimeManager Instance{ get; private set; }
+
     void Awake()
     {
+        if(Instance != null && Instance != this)
+            Destroy(this);
+        else
+            Instance = this;
+
         _directionalLight = GameObject.Find("Directional Light");
         _moonLight = GameObject.Find("Moon Light");
         _moonLight.SetActive(false);
@@ -28,9 +37,15 @@ public class TimeManager : MonoBehaviour
     {
         //Debug.Log("x: " + _directionalLight.transform.rotation.eulerAngles.x);
         if(_directionalLight.transform.rotation.eulerAngles.x > 280)
+        {
             _moonLight.SetActive(true);
+            CameraControl.Instance.DisableSkybox();
+        }
         else
+        {
             _moonLight.SetActive(false);
+            CameraControl.Instance.EnableSkybox();
+        }
 
         // Day / Night Cycle
         _directionalLight.transform.Rotate(Vector3.up, -_rotationPerSecond * Time.deltaTime);

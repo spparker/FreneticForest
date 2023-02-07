@@ -21,6 +21,10 @@ public class ForestManager : MonoBehaviour
 
     public float ArenaSize => ForestSettings.forestScale * 5f;
 
+    //public bool IsUnderGround => _meshRenderer.material.color.a < 0.9f;
+    public bool ShownUnderGround => _meshRenderer.material.color.a < 0.8f;
+    public bool HidingUnderGround => _transDir < 0;
+
     public static ForestManager Instance{ get; private set; }
 
     public NavMeshSurface NavSurface;
@@ -149,9 +153,10 @@ public class ForestManager : MonoBehaviour
 
     public void ToggleSurface()
     {
-        //_meshRenderer.enabled = !_meshRenderer.enabled;
         _transDir = -_transDir;
         _inTransition = true;
+        if(HidingUnderGround)
+            CameraControl.Instance.DisableSkybox();
     }
 
     private void UpdateSurfaceOpacity()

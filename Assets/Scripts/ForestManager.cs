@@ -184,11 +184,11 @@ public class ForestManager : MonoBehaviour
         {
             
             float x =Random.Range(-max_pos,max_pos);
-            while(Mathf.Abs(x) <= HomeNode.root.Tree.Radius * 2)
+            while(Mathf.Abs(x) <= HomeNode.root.Tree.Radius * 1.2)
                 x = Random.Range(-max_pos,max_pos);
 
             float z =Random.Range(-max_pos,max_pos);
-            while(Mathf.Abs(z) <= HomeNode.root.Tree.Radius * 2)
+            while(Mathf.Abs(z) <= HomeNode.root.Tree.Radius * 1.2)
                 z = Random.Range(-max_pos,max_pos);
 
             Vector3 spawn_pos = new Vector3(x, 0, z);

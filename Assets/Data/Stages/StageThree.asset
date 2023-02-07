@@ -16,6 +16,6 @@ MonoBehaviour:
   RewardBaa: 10
   RewardPatta: 10
   RewardMasha: 0
-  MinEnemySpawnTime: 30
-  MaxEnemeySpawnTime: 60
-  EnemySpawnNumber: 4
+  MinEnemySpawnTime: 45
+  MaxEnemeySpawnTime: 90
+  EnemySpawnNumber: 3

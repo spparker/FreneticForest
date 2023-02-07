@@ -18,4 +18,4 @@ MonoBehaviour:
   RewardMasha: 5
   MinEnemySpawnTime: 30
   MaxEnemeySpawnTime: 60
-  EnemySpawnNumber: 3
+  EnemySpawnNumber: 2

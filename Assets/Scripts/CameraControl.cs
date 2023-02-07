@@ -35,6 +35,7 @@ public class CameraControl : MonoBehaviour
     public const float ZOOM_RATE = 7f;
     public const float MIN_ZOOM_DIST = 1.2f;
     private float _curZoom = 1;
+    public float Zoom => _curZoom;
 
     public const float PAN_RATE = 40f;
     private Vector3 _curLookPos; // Current spot on map that is targeted
@@ -68,7 +69,7 @@ public class CameraControl : MonoBehaviour
     void Update()
     {
         // Map Zoom
-        CheckForZoom();
+        ZoomIn(Input.mouseScrollDelta.y);
 
         // Map Rotation
         if(Input.GetKeyDown(KeyCode.Q))
@@ -122,13 +123,11 @@ public class CameraControl : MonoBehaviour
         }
     }
 
-    private void CheckForZoom()
+    public void ZoomIn(float amount)
     {
         var scroll_scale = Mathf.Clamp(_curZoom, 0.3f, 1f);
-        _curZoom = Mathf.Clamp(_curZoom - Input.mouseScrollDelta.y * (ZOOM_RATE * scroll_scale * Time.deltaTime)
+        _curZoom = Mathf.Clamp(_curZoom - amount * (ZOOM_RATE * scroll_scale * Time.deltaTime)
                         , (MIN_ZOOM_DIST/ _arenaMax ), 1.0f);
-        //_curZoom = Mathf.Clamp(_curZoom - Input.mouseScrollDelta.y * ZOOM_RATE * Time.deltaTime
-        //                        , (MIN_ZOOM_DIST/ _arenaMax ), 1.0f);
     }
 
     private void PanForward()

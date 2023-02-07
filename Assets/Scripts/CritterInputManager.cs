@@ -7,6 +7,17 @@ public class CritterInputManager : MonoBehaviour
 
     private CritterCommandControl curSelected;
 
+    private bool _inTutorial;
+    private bool _tutorialCommands;
+    private bool _postTutorial;
+    private float _postTutorialTime;
+    private float _tutorialTime;
+    private const float TUTORIAL_DELAY = 2f;
+    private const float TUTORIAL_ZOOM_RATE = 0.01f;
+    private const float TUTORIAL_MASHA_ZOOM = 0.08f;
+    private const float POST_TUTORIAL = 3f;
+    private const float POST_TUTORIAL_ZOOM = 0.4f;
+
     private int _curAudio;
     [SerializeField] private AudioSource _critterAudio0;
     [SerializeField] private AudioSource _critterAudio1;
@@ -21,12 +32,58 @@ public class CritterInputManager : MonoBehaviour
             curSelected = null;
     }
 
+    void Start()
+    {
+        _inTutorial = true;
+    }
 
     // Update is called once per frame
     void Update()
     {
-        ListenForKeys();
-        ListenForClick();
+        if(_inTutorial)
+        {
+            _tutorialTime += Time.deltaTime;
+            if(_tutorialTime > TUTORIAL_DELAY && !_tutorialCommands)
+            {
+                HandleNewSelection(CritterManager.Instance.GetNextOfType(CritterManager.CritterType.PATHER));
+                CameraControl.Instance.LookAtPosition(curSelected.transform.position);
+                curSelected.QueueMoveCommand(Vector3.zero);
+                _tutorialCommands = true;
+            }
+            
+            if(_tutorialCommands && !_postTutorial)
+            {
+                CameraControl.Instance.LookAtPosition(curSelected.transform.position);
+                if(CameraControl.Instance.Zoom > TUTORIAL_MASHA_ZOOM)
+                    CameraControl.Instance.ZoomIn(TUTORIAL_ZOOM_RATE);
+                if(Vector3.Magnitude(curSelected.transform.position - Vector3.zero) < 4f)
+                {
+                    var closest = ForestManager.Instance.FindNearestRoots(Vector3.zero, ForestManager.Instance.HomeTree.Roots);
+                    curSelected.QueuePatrolCommand(closest.transform.position);
+                    ForestManager.Instance.ToggleSurface();
+                    _postTutorialTime = _tutorialTime;
+                    _postTutorial = true;
+                }
+            }
+
+            if(_postTutorial)
+            {   
+                CameraControl.Instance.LookAtPosition(curSelected.transform.position);
+                if(CameraControl.Instance.Zoom < POST_TUTORIAL_ZOOM)
+                    CameraControl.Instance.ZoomIn(-TUTORIAL_ZOOM_RATE * 2);
+
+                if(_tutorialTime - _postTutorialTime > POST_TUTORIAL)
+                {
+                    ForestManager.Instance.ToggleSurface();
+                    _inTutorial = false;
+                }
+            }
+        }
+        else
+        {
+            ListenForKeys();
+            ListenForClick();
+        }
 
         if(curSelected)
             ForestManager.Instance.UpdateSelectedShader(curSelected.transform.position.x, curSelected.transform.position.z, curSelected.Pod.Radius);

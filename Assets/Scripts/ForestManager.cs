@@ -184,12 +184,12 @@ public class ForestManager : MonoBehaviour
         {
             
             float x =Random.Range(-max_pos,max_pos);
-            if(Mathf.Abs(x) <= HomeNode.root.Tree.Radius * 2)
-                x *= 2;
+            while(Mathf.Abs(x) <= HomeNode.root.Tree.Radius * 2)
+                x = Random.Range(-max_pos,max_pos);
 
             float z =Random.Range(-max_pos,max_pos);
-            if(Mathf.Abs(z) <= HomeNode.root.Tree.Radius * 2)
-                z *= 2;
+            while(Mathf.Abs(z) <= HomeNode.root.Tree.Radius * 2)
+                z = Random.Range(-max_pos,max_pos);
 
             Vector3 spawn_pos = new Vector3(x, 0, z);
             var new_tree = Instantiate(Tree_Prefab, spawn_pos, Quaternion.identity);

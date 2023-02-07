@@ -114,7 +114,7 @@ public class CritterInputManager : MonoBehaviour
         if(Physics.Raycast(ray, out var hitInfo))
         {
             PlayCritterAudio(curSelected.Pod.CritterData.Sounds.SoundCommand);
-            if(Input.GetKey(KeyCode.LeftControl))
+            if(Input.GetKey(KeyCode.LeftShift))
             {
                 //curSelected.ClearCommands(); // Clear otherwise Location will be wrong (could change to drag and release)
                 curSelected.QueuePatrolCommand(hitInfo.point);
@@ -122,7 +122,7 @@ public class CritterInputManager : MonoBehaviour
             else
             {
                 // Left Shift maintains a command queue
-                if(!Input.GetKey(KeyCode.LeftShift))
+                if(!Input.GetKey(KeyCode.LeftAlt))
                 {
                     curSelected.ClearCommands();
                 }
